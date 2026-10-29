@@ -5,24 +5,36 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
-    "build": "vite build",
+    "docs:dev": "npm --prefix docs run dev",
+    "build:site": "vite build",
+    "build:docs": "npm --prefix docs run build",
+    "build": "npm run build:site && npm run build:docs && node scripts/merge-dist.js",
     "preview": "vite preview",
-    "clean": "rm -rf dist server.js",
-    "lint": "tsc --noEmit"
+    "test": "tsx --test src/data/brandConfig.test.ts",
+    "clean": "rm -rf dist docs/out docs/.next",
+    "lint": "tsc --noEmit && npm --prefix docs run types:check"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
+    "@gsap/react": "^2.1.2",
+    "@remixicon/react": "^4.9.0",
     "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-react": "^6.1.1",
-    "lucide-react": "^0.546.0",
-    "react": "^19.0.1",
-    "react-dom": "^19.0.1",
-    "vite": "^8.3.0",
-    "express": "^4.21.2",
+    "clsx": "^2.1.1",
     "dotenv": "^17.2.3",
-    "motion": "^12.23.24"
+    "express": "^4.21.2",
+    "gsap": "^3.15.0",
+    "lucide-react": "^0.546.0",
+    "motion": "^12.23.24",
+    "react": "^19.0.1",
+    "react-aria-components": "^1.22.1",
+    "react-dom": "^19.0.1",
+    "reicon-react": "^1.2.6",
+    "tailwind-merge": "^3.7.0",
+    "vite": "^8.3.0"
   },
   "devDependencies": {
+    "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
@@ -30,7 +42,6 @@
     "esbuild": "^0.25.0",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.21.0",
-    "typescript": "^7.0.2",
-    "@types/express": "^4.17.21"
+    "typescript": "^7.0.2"
   }
 }

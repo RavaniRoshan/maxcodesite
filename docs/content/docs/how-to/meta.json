@@ -1,0 +1,12 @@
+{
+  "title": "How-To Guides",
+  "pages": [
+    "index",
+    "configure-providers",
+    "custom-checks",
+    "protected-paths",
+    "steer-live-runs",
+    "restore-checkpoints",
+    "run-benchmarks"
+  ]
+}

@@ -1,0 +1,35 @@
+---
+title: Exit Codes & Error Types
+description: Deterministic CLI exit codes and error classifications.
+---
+
+`maxcode` communicates process completion and failure reasons using deterministic UNIX exit codes defined in PRD Section 22.
+
+---
+
+## Exit Code Specification
+
+| Code | Meaning | Occurs When |
+|---|---|---|
+| **`0`** | **Success** | The task passed all step checks, and all steps are verified. |
+| **`1`** | **Check Failure / Limit Reached** | A check failed after exhausting retries, diff exceeded limit, or cost cap was hit. |
+| **`2`** | **Configuration / CLI Error** | The config file is missing, invalid TOML, bad keys, or repo is not a git repository. |
+| **`3`** | **Provider / Engine Failure** | Provider returned an HTTP 500, network timed out, or Codex CLI crashed. |
+| **`4`** | **Unverified Steps** | The task finished, but one or more steps had zero configured checks. |
+| **`130`** | **User Abort** | The user pressed `Ctrl-C` or rejected the plan during interactive review. |
+
+---
+
+## Error Message Standard (PRD Section 19)
+
+Every error message emitted by `maxcode` follows a strict three-part format:
+1. **What failed**
+2. **Why it failed**
+3. **What to do next**
+
+Example:
+```
+Error: Failed to load config from maxcode.toml
+Reason: Key [limits].max_retries_per_step must be an integer >= 1
+Next: Open maxcode.toml and set max_retries_per_step = 3
+```

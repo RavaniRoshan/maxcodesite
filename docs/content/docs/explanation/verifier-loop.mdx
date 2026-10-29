@@ -1,0 +1,53 @@
+---
+title: The Verifier Loop
+description: Why models cannot judge their own output and how deterministic state transitions prevent silent errors.
+---
+
+A fundamental paradox of contemporary generative AI is that **large language models are confident even when their output fails compilation or breaks tests**.
+
+When an agent is asked to verify its own code, it frequently generates plausible justifications rather than finding subtle logical bugs.
+
+---
+
+## The Verifier Loop State Machine
+
+In `maxcode`, verification is strictly isolated from model generation. The verifier calls **no AI model**; it executes deterministic shell commands.
+
+```
+[INIT] ──► [PLAN] ──► [REVIEW] ──► [STEP_START]
+                                        │
+                         ┌──────────────┘
+                         ▼
+                     [WORK] (Worker model edits files)
+                         │
+                         ▼
+                    [VERIFY] (Runs pytest/cargo/npm)
+                         │
+        ┌────────────────┴────────────────┐
+        ▼                                 ▼
+   [STEP_DONE]                         [RETRY]
+ (Checks Passed)                    (Check Failed)
+        │                                 │
+  [More Steps?]                     [< 3 tries?]
+  ├── Yes ──► [STEP_START]          ├── Yes ──► [WORK]
+  └── No  ──► [TASK_DONE] (Exit 0)   └── No  ──► [STOPPED] (Exit 1)
+```
+
+---
+
+## Interactive Simulation
+
+Experience the verifier loop live below: test how `maxcode` runs deterministic verification checks against worktree sandboxes, commits atomic git checkpoints on success, and performs instant hard rollbacks if an invariant fails.
+
+<DocVerifierSimulator />
+
+---
+
+## Core Invariants (PRD Section 11)
+
+1. **Rule 1:** A step is done only when every check passes.
+2. **Rule 2:** A task is done only when every step is done.
+3. **Rule 3:** The verifier rejects any step that edits a protected path or exceeds line limits.
+4. **Rule 4:** The tool halts when spend reaches the cost cap.
+5. **Rule 5:** The tool halts when a step exceeds the retry limit (default: 3 attempts).
+6. **Rule 6:** Every stop condition is logged with an auditable reason.

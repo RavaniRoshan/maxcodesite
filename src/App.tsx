@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   BRAND_IDENTITY,
   HERO_TRANSCRIPT,
@@ -18,14 +18,19 @@ import {
   TrainingAtmosphericBackdrop,
 } from './components/AtmosphericBackdrops';
 import { Header } from './components/Header';
+import { HeroAnnouncement } from './components/HeroAnnouncement';
 import { AgentTerminal } from './components/AgentTerminal';
+import { LiveVerifierPlayground } from './components/LiveVerifierPlayground';
+import { TelemetryStatsSection } from './components/TelemetryStatsSection';
 import { CostShowcase } from './components/CostShowcase';
 import { FaqSection } from './components/FaqSection';
 import { FinalCtaAndFooter } from './components/FinalCtaAndFooter';
 import { InteractiveModals } from './components/InteractiveModals';
 import InkOrbitFeatures from './components/ui/ink-orbit-features';
+import { gsap, useGSAP } from './lib/gsap';
 
 export default function App() {
+  const mainRef = useRef<HTMLDivElement>(null);
   const [modalMode, setModalMode] = useState<'try' | 'talk' | 'login' | null>(null);
   const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
     if (typeof window !== 'undefined') {
@@ -35,11 +40,105 @@ export default function App() {
     return 'light';
   });
 
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        // 1. Hero Entrance Timeline
+        const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+        heroTl
+          .from('.hero-motif', { y: -16, autoAlpha: 0, duration: 0.6 })
+          .from('.hero-announcement', { y: -12, autoAlpha: 0, duration: 0.5 }, '-=0.35')
+          .from('.hero-kicker', { y: -8, autoAlpha: 0, duration: 0.4 }, '-=0.25')
+          .from(
+            '.hero-heading-chunk',
+            { y: 28, autoAlpha: 0, stagger: 0.12, duration: 0.8 },
+            '-=0.2'
+          )
+          .from(
+            '.hero-mascot-hop',
+            { scale: 0.5, rotation: -12, autoAlpha: 0, duration: 0.7, ease: 'back.out(2.2)' },
+            '-=0.6'
+          )
+          .from('.hero-subheading', { y: 18, autoAlpha: 0, duration: 0.6 }, '-=0.35')
+          .from('.hero-cta-btn', { y: 16, autoAlpha: 0, stagger: 0.1, duration: 0.5 }, '-=0.3')
+          .from(
+            '.hero-terminal-container',
+            { y: 35, scale: 0.97, autoAlpha: 0, duration: 1, ease: 'power3.out' },
+            '-=0.4'
+          );
+
+        // Continuous subtle mascot idle float
+        gsap.to('.hero-mascot-idle', {
+          y: -5,
+          rotation: 1.5,
+          duration: 2.2,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true,
+        });
+
+        // 2. Section 2: Long Horizon
+        gsap.from('.long-horizon-header', {
+          scrollTrigger: {
+            trigger: '#long-horizon',
+            start: 'top 85%',
+          },
+          y: 28,
+          autoAlpha: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+        });
+
+        gsap.from('.long-horizon-card', {
+          scrollTrigger: {
+            trigger: '#long-horizon',
+            start: 'top 80%',
+          },
+          y: 40,
+          autoAlpha: 0,
+          duration: 0.85,
+          stagger: 0.15,
+          ease: 'power3.out',
+        });
+
+        // 3. Section 2.5: Orchestration & InkOrbit
+        gsap.from('.orchestration-section', {
+          scrollTrigger: {
+            trigger: '#orchestration',
+            start: 'top 82%',
+          },
+          y: 35,
+          autoAlpha: 0,
+          duration: 0.85,
+          ease: 'power3.out',
+        });
+
+        // 4. Section 4: Training Dark Card
+        gsap.from('.training-dark-card', {
+          scrollTrigger: {
+            trigger: '.training-dark-card',
+            start: 'top 85%',
+          },
+          scale: 0.97,
+          y: 30,
+          autoAlpha: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+        });
+      });
+    },
+    { scope: mainRef }
+  );
+
   // Apply the warm red-orange ('maxcode-amber') brand CSS variables and Light/Dark mode across the entire design system
   useEffect(() => {
     applyBrandCssVariables('maxcode-amber', undefined, themeMode);
     if (typeof window !== 'undefined') {
       window.localStorage.setItem('maxcode-theme', themeMode);
+      document.documentElement.classList.toggle('dark', themeMode === 'dark');
     }
   }, [themeMode]);
 
@@ -48,7 +147,7 @@ export default function App() {
   };
 
   return (
-    <div id="top" className="min-h-screen bg-sf text-tx antialiased transition-colors duration-300">
+    <div id="top" ref={mainRef} className="min-h-screen bg-sf text-tx antialiased transition-colors duration-300">
       {/* Fixed Site Header with Mega-Menus & Dark Mode Toggle */}
       <Header
         onOpenModal={(mode) => setModalMode(mode)}
@@ -62,11 +161,15 @@ export default function App() {
         <section className="relative overflow-hidden">
           <div className="mx-auto w-[88%] md:w-10/12 max-w-width-mx">
             <div className="flex flex-col items-center mx-auto max-w-[920px] text-center">
-              <div className="flex justify-center mb-3">
+              <div className="hero-motif flex justify-center mb-3">
                 <MotifSvg className="w-auto h-7" />
               </div>
 
-              <span className="inline-block mb-4 font-mono font-normal text-tx-tertiary text-xs uppercase tracking-[1.5px]">
+              <div className="hero-announcement">
+                <HeroAnnouncement />
+              </div>
+
+              <span className="hero-kicker inline-block mb-4 font-mono font-normal text-tx-tertiary text-xs uppercase tracking-[1.5px]">
                 {BRAND_IDENTITY.heroKicker}
               </span>
 
@@ -74,17 +177,19 @@ export default function App() {
                 aria-label={BRAND_IDENTITY.heroHeading}
                 className="inline-flex flex-wrap justify-center items-center gap-x-3 md:gap-x-3.5 gap-y-2 font-season text-tx text-4xl md:text-[52px] leading-[120%] tracking-[-1px]"
               >
-                <span>Longer sessions</span>
+                <span className="hero-heading-chunk">Longer sessions</span>
                 <span
-                  className="inline-flex items-center self-center shrink-0 -translate-y-1 md:-translate-y-1.5"
+                  className="hero-mascot-hop inline-flex items-center self-center shrink-0 -translate-y-1 md:-translate-y-1.5"
                   title="Max — your maxcode coding buddy"
                 >
-                  <MaxMascotSvg className="w-11 h-12 md:w-14 md:h-[60px] drop-shadow-[0_6px_14px_rgba(226,106,44,0.20)]" />
+                  <span className="hero-mascot-idle inline-block">
+                    <MaxMascotSvg className="w-11 h-12 md:w-14 md:h-[60px] drop-shadow-[0_6px_14px_rgba(226,106,44,0.20)]" />
+                  </span>
                 </span>
-                <span>with better code</span>
+                <span className="hero-heading-chunk">with better code</span>
               </h1>
 
-              <p className="mt-5 max-w-[600px] font-normal text-tx-secondary text-base md:text-lg leading-relaxed">
+              <p className="hero-subheading mt-5 max-w-[600px] font-normal text-tx-secondary text-base md:text-lg leading-relaxed">
                 {BRAND_IDENTITY.heroSubheading}
               </p>
 
@@ -93,7 +198,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setModalMode('try')}
-                  className="group inline-flex relative justify-center items-center gap-1 bg-sf-invert hover:bg-sf-invert/90 active:bg-sf-invert/80 px-5 py-3 rounded-full overflow-hidden font-semibold text-tx-invert text-base tracking-tight transition-all duration-300 cursor-pointer select-none"
+                  className="hero-cta-btn group inline-flex relative justify-center items-center gap-1 bg-sf-invert hover:bg-sf-invert/90 active:bg-sf-invert/80 px-5 py-3 rounded-full overflow-hidden font-semibold text-tx-invert text-base tracking-tight transition-all duration-300 cursor-pointer select-none"
                   style={{
                     boxShadow:
                       '0 6px 12px 0 rgba(0, 0, 0, 0.10), 0 2px 6px 0 rgba(255, 255, 255, 0.40) inset, 0 -2px 6px 0 rgba(255, 255, 255, 0.40) inset',
@@ -113,7 +218,7 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setModalMode('talk')}
-                  className="group inline-flex relative justify-center items-center gap-1 bg-sf-secondary hover:bg-sf-tertiary active:bg-sf-tertiary/80 px-5 py-3 rounded-full overflow-hidden font-semibold text-tx text-base tracking-tight transition-all duration-300 cursor-pointer select-none"
+                  className="hero-cta-btn group inline-flex relative justify-center items-center gap-1 bg-sf-secondary hover:bg-sf-tertiary active:bg-sf-tertiary/80 px-5 py-3 rounded-full overflow-hidden font-semibold text-tx text-base tracking-tight transition-all duration-300 cursor-pointer select-none"
                   style={{
                     boxShadow:
                       '0 6px 12px 0 rgba(0, 0, 0, 0.01), 0 2px 6px 0 rgba(255, 255, 255, 0.60) inset, 0 -2px 6px 0 rgba(255, 255, 255, 0.60) inset',
@@ -133,7 +238,7 @@ export default function App() {
             </div>
 
             {/* Hero Visual Container with Live Looping Agent Terminal */}
-            <div className="mt-10 md:mt-12">
+            <div className="hero-terminal-container mt-10 md:mt-12">
               <div className="group relative rounded-[28px] lg:rounded-[40px] w-full overflow-hidden">
                 <HeroAtmosphericBackdrop />
 
@@ -168,7 +273,7 @@ export default function App() {
         {/* SECTION 2: PILLAR 1 — LONG HORIZON */}
         <section id="long-horizon" className="scroll-mt-24">
           <div className="mx-auto w-[88%] md:w-10/12 max-w-width-mx">
-            <div className="items-end gap-6 lg:gap-10 grid grid-cols-1 lg:grid-cols-12 mb-10 md:mb-14">
+            <div className="long-horizon-header items-end gap-6 lg:gap-10 grid grid-cols-1 lg:grid-cols-12 mb-10 md:mb-14">
               <div className="lg:col-span-5">
                 <h2 className="font-season text-tx text-2xl md:text-4xl lg:text-[40px] leading-[120%] tracking-[-0.8px]">
                   A visible plan for work across the codebase.
@@ -183,7 +288,7 @@ export default function App() {
               {LONG_HORIZON_CARDS.map((card) => (
                 <div
                   key={card.id}
-                  className="flex flex-col bg-(--color-card-surface,white) border border-st-secondary rounded-[28px] md:rounded-4xl overflow-hidden transition-colors duration-300"
+                  className="long-horizon-card flex flex-col bg-(--color-card-surface,white) border border-st-secondary rounded-[28px] md:rounded-4xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
                 >
                   <div className="p-6 md:p-8 pb-5">
                     <h3 className="font-season text-tx text-xl md:text-2xl leading-[125%] tracking-[-0.4px]">
@@ -209,7 +314,7 @@ export default function App() {
 
         {/* SECTION 2.5: LIVE CHECKPOINT ORCHESTRATION, TOOLING HUB & CONVERGENCE TELEMETRY */}
         <section id="orchestration" className="scroll-mt-24">
-          <div className="mx-auto w-[88%] md:w-10/12 max-w-width-mx">
+          <div className="orchestration-section mx-auto w-[88%] md:w-10/12 max-w-width-mx">
             <InkOrbitFeatures
               theme={themeMode}
               brand="maxcode"
@@ -242,6 +347,9 @@ export default function App() {
           </div>
         </section>
 
+        {/* SECTION 2.75: INTERACTIVE LIVE VERIFIER & CHECKPOINT PLAYGROUND */}
+        <LiveVerifierPlayground />
+
         {/* SECTION 3: PILLAR 2 — COST & MODEL ROUTING */}
         <section id="cost" className="scroll-mt-24">
           <div className="mx-auto w-[88%] md:w-10/12 max-w-width-mx">
@@ -255,10 +363,13 @@ export default function App() {
           </div>
         </section>
 
+        {/* SECTION 3.5: RUNTIME TELEMETRY & CONVERGENCE KPI BENCHMARKS */}
+        <TelemetryStatsSection />
+
         {/* SECTION 4: SPECIALIZED MODEL TRAINING (DARK CARD) */}
         <section>
           <div className="mx-auto w-[88%] md:w-10/12 max-w-width-mx">
-            <div className="relative bg-sr-black border border-st-secondary rounded-[28px] md:rounded-[40px] overflow-hidden">
+            <div className="training-dark-card relative bg-sr-black border border-st-secondary rounded-[28px] md:rounded-[40px] overflow-hidden">
               <TrainingAtmosphericBackdrop />
 
               <div className="relative px-6 sm:px-10 md:px-16 pt-12 md:pt-20 pb-6 sm:pb-10 md:pb-14">

@@ -1,0 +1,39 @@
+---
+title: Three-Role Architecture & Engine Adapter
+description: Decomposition of responsibilities across Planner, Worker, and Verifier.
+---
+
+`maxcode` separates autonomous coding into three mutually checking roles.
+
+---
+
+## 1. Planner Role (`roles/planner.py`)
+
+- **Input:** User task prompt + repository file tree (depth 3, max 200 entries) + README excerpt (max 2000 chars).
+- **Output:** Validated JSON plan adhering to the pydantic schema.
+- **Constraints:**
+  - One step changes at most 100 lines.
+  - Total plan steps cannot exceed `max_steps`.
+  - For bug fixes, step 1 is required to add a failing regression test.
+
+---
+
+## 2. Worker Role (`roles/worker.py`)
+
+- **Input:** Exact goal of one step + target files + previous failure diagnostic tail (up to 4000 characters).
+- **Execution:** Calls the underlying Codex engine adapter in non-interactive mode.
+- **Rule:** The worker is given no authority to evaluate test results or mark tasks complete.
+
+---
+
+## 3. Verifier Role (`checks.py`)
+
+- **Input:** Modified working tree.
+- **Execution:** Runs real compilers, test suites, and linters.
+- **Output:** Binary `pass` or `fail` plus truncated terminal stdout/stderr.
+
+---
+
+## Engine Adapter (`engine/codex.py`)
+
+The engine adapter spawns the Codex CLI as a child process, translating OpenAI-compatible provider credentials and injecting non-interactive prompt arguments while capturing execution exit codes and transcripts.

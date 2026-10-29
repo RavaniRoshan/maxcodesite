@@ -1,0 +1,95 @@
+---
+title: Your First Real-World Task
+description: Learn how to steer a live run, inspect checkpoints, and use undo.
+---
+
+In this tutorial, you will explore advanced interactive controls in `maxcode`: inspecting plans, executing multi-step tasks, and rolling back bad edits using `undo`.
+
+---
+
+## Step 1: Generating a Plan Without Executing
+
+Before running edits across your codebase, you can inspect the planner's proposal using `maxcode plan`:
+
+```bash
+uv run maxcode plan "Refactor user authentication to support OAuth bearer tokens"
+```
+
+The planner outputs a structured JSON preview:
+
+```json
+{
+  "task": "Refactor user authentication to support OAuth bearer tokens",
+  "steps": [
+    {
+      "id": 1,
+      "goal": "Add OAuth bearer token validator in auth/tokens.py",
+      "files": ["auth/tokens.py"],
+      "checks": ["test", "lint"],
+      "edits_tests": false
+    },
+    {
+      "id": 2,
+      "goal": "Write unit tests for bearer token validation",
+      "files": ["tests/test_tokens.py"],
+      "checks": ["test", "cmd:pytest tests/test_tokens.py"],
+      "edits_tests": true
+    }
+  ]
+}
+```
+
+Notice:
+- `edits_tests: false` prohibits modifying files in test paths during step 1.
+- Every step has explicit verification commands.
+
+---
+
+## Step 2: Approving or Rejecting Plans
+
+When you run `maxcode run TASK`, `maxcode` pauses at the `REVIEW` state:
+
+```
+Proposed Plan (2 steps):
+  1. Add OAuth bearer token validator in auth/tokens.py [test, lint]
+  2. Write unit tests for bearer token validation [pytest tests/test_tokens.py]
+
+Approve plan and begin work? [y/N]:
+```
+
+- Pressing **`y`** starts step 1.
+- Pressing **`n`** aborts the run cleanly with exit code `130` and records `user_abort` in the JSONL run log.
+- Passing the `--yes` flag skips manual review for headless/CI workflows.
+
+---
+
+## Step 3: Rolling Back with Checkpoints
+
+Suppose a step produces unsatisfactory changes or an edge case breaks downstream code. Because `maxcode` isolates checkpoints in `refs/maxcode/<RUN_ID>/<STEP_ID>`, you can revert your working tree at any time:
+
+```bash
+uv run maxcode undo
+```
+
+`maxcode` immediately restores the working tree to the state prior to the last step, discarding unverified changes while preserving commits that previously passed verification.
+
+---
+
+## Step 4: Viewing Run Cost
+
+After completing a task, check token consumption and expenditures:
+
+```bash
+uv run maxcode cost
+```
+
+Output:
+```
+Run ID: 20261029-152000-a8b2
+Status: COMPLETED (exit 0)
+Steps completed: 2 / 2
+Tokens:
+  Input:  4,120 tokens
+  Output: 890 tokens
+Cost: $0.0084 USD
+```

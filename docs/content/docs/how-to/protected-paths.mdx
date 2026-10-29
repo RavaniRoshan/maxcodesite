@@ -1,0 +1,45 @@
+---
+title: How to Enforce Protected Paths
+description: Safeguard critical infrastructure, lockfiles, and test suites from unauthorized agent edits.
+---
+
+A common failure mode in autonomous coding tools is an agent modifying a test to make a failing assertion pass, or editing CI workflows and lockfiles to bypass compile errors.
+
+`maxcode` enforces strict filesystem guards defined in `maxcode.toml`.
+
+---
+
+## 1. Protected Paths Configuration
+
+```toml title="maxcode.toml"
+[protected]
+paths      = ["**/*.lock", ".github/**", "pyproject.toml", "package.json"]
+test_paths = ["tests/**", "**/test_*.py", "**/*.test.*", "src/**/*.spec.ts"]
+```
+
+---
+
+## 2. The `edits_tests` Gate
+
+Each step emitted by the planner contains an `edits_tests: boolean` flag:
+
+- **When `edits_tests: false` (Default):**
+  The worker is strictly prohibited from touching any file matching `paths` OR `test_paths`.
+  If the worker modifies any protected file, the verifier **instantly fails the step**, logs the violation, and triggers a retry with the error output:
+  `Step violated protected path policy: modified tests/test_payment.py with edits_tests=false`.
+
+- **When `edits_tests: true`:**
+  The worker may edit files matching `test_paths` (for example, when implementing a new feature or reproducing a bug by writing a test first). Files in `paths` (lockfiles, CI) remain strictly read-only.
+
+---
+
+## 3. Diff Size Limits
+
+To prevent runaway hallucinations and massive unwieldy diffs, the verifier measures total lines changed (added + deleted) since the step checkpoint:
+
+```toml title="maxcode.toml"
+[limits]
+max_diff_lines = 400
+```
+
+If the diff exceeds `max_diff_lines` (default: 400), the verifier marks the step as failed and forces the worker to produce a tighter, modular change.

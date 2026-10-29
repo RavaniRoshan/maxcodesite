@@ -1,0 +1,44 @@
+---
+title: How to Steer Live Runs
+description: Reorder plan steps, enforce cost limits, and control execution flow.
+---
+
+Unlike black-box agents that attempt entire tasks in a single hidden prompt, `maxcode` keeps its execution graph completely transparent.
+
+---
+
+## 1. Inspecting Plans Before Execution
+
+Generate the complete multi-step strategy with `maxcode plan`:
+
+```bash
+uv run maxcode plan "Migrate PostgreSQL schema to Prisma v6"
+```
+
+You can review every intended step, files to touch, and verification criteria.
+
+---
+
+## 2. Hard Cost Caps
+
+To ensure a run never exceeds your budget, define task limits in `maxcode.toml` or pass the `--max-cost` CLI flag:
+
+```bash
+uv run maxcode run "Upgrade dependency tree" --max-cost 2.50
+```
+
+### Transition Rule:
+When total calculated spend across planner calls, worker edits, and retries reaches `$2.50`, `maxcode` instantly stops the run with reason `cost_cap`, rolls back the current unverified step to its checkpoint, and exits with code `1`.
+Earlier steps that already passed verification remain committed and intact.
+
+---
+
+## 3. Graceful Abort (Ctrl-C)
+
+If you press `Ctrl-C` while `maxcode` is working:
+- `maxcode` intercepts the signal (`SIGINT`).
+- The running child process is terminated cleanly.
+- The state machine transitions to `STOPPED` with reason `user_abort`.
+- The CLI prints the exact checkpoint ref and suggests:
+  `To restore your repository to before this step: maxcode undo`
+- Exits with code `130`.

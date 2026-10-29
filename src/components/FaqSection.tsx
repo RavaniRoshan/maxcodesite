@@ -1,78 +1,86 @@
-import React, { useState } from 'react';
+'use client';
+
+import React, { useRef } from 'react';
+import { DetachableAccordion, type DetachableAccordionItem } from '@/components/spaceui/detachable-accordion';
+import { Component, Flash, Code, Shield, Cpu } from 'reicon-react';
 import { FAQ_ITEMS } from '../data/brandConfig';
+import { gsap, useGSAP } from '@/lib/gsap';
+
+const ICONS = [
+  <Component size={20} key="comp" />,
+  <Flash size={20} key="flash" />,
+  <Code size={20} key="code" />,
+  <Cpu size={20} key="cpu" />,
+  <Shield size={20} key="shield" />,
+  <Component size={20} key="start" />,
+];
 
 export const FaqSection: React.FC = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const containerRef = useRef<HTMLElement>(null);
 
-  const toggleIndex = (idx: number) => {
-    setOpenIndex((prev) => (prev === idx ? null : idx));
-  };
+  const items: DetachableAccordionItem[] = FAQ_ITEMS.map((faq, idx) => ({
+    value: `faq-${idx}`,
+    title: faq.question,
+    icon: ICONS[idx % ICONS.length],
+    content: faq.answer,
+  }));
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.from('.faq-header', {
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 85%',
+          },
+          y: 25,
+          autoAlpha: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+        });
+
+        gsap.from('.faq-accordion-wrap', {
+          scrollTrigger: {
+            trigger: '.faq-accordion-wrap',
+            start: 'top 85%',
+          },
+          y: 35,
+          autoAlpha: 0,
+          duration: 0.8,
+          delay: 0.1,
+          ease: 'power3.out',
+        });
+      });
+    },
+    { scope: containerRef }
+  );
 
   return (
     <section
       id="faq"
-      className="flex flex-col items-center gap-12 mx-auto w-[88%] md:w-10/12 max-w-width-mx"
+      ref={containerRef}
+      className="flex flex-col items-center gap-10 mx-auto w-[88%] md:w-10/12 max-w-width-mx py-12 scroll-mt-24"
     >
       <div className="w-full">
-        <div className="flex flex-col items-center mx-auto max-w-xl text-center">
+        <div className="faq-header flex flex-col items-center mx-auto max-w-xl text-center">
+          <p className="font-mono text-tx-tertiary text-xs uppercase tracking-widest mb-2">
+            Questions &amp; Answers
+          </p>
           <h2 className="font-season font-normal text-tx text-3xl md:text-4xl lg:text-[44px] leading-[120%] tracking-[-1px]">
             Frequently Asked Questions
           </h2>
+          <p className="mt-3 text-tx-secondary text-sm md:text-base max-w-md">
+            Everything you need to know about the verifier loop, checkpoints, sovereign deployments, and completed-work pricing.
+          </p>
         </div>
       </div>
 
-      <div className="w-full max-w-4xl">
-        {FAQ_ITEMS.map((item, idx) => {
-          const isOpen = openIndex === idx;
-          return (
-            <div
-              key={item.question}
-              className="border-st border-b transition-colors duration-200"
-            >
-              <button
-                type="button"
-                aria-expanded={isOpen}
-                onClick={() => toggleIndex(idx)}
-                className="group flex justify-between items-center gap-4 py-6 w-full text-left cursor-pointer"
-              >
-                <span className="font-normal text-tx group-hover:text-tx/80 text-xl leading-[130%] tracking-[-0.4px] transition-colors">
-                  {item.question}
-                </span>
-                <div className="relative flex justify-center items-center w-6 h-6 text-tx-secondary shrink-0">
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    className={`transition-transform duration-300 ease-out ${
-                      isOpen ? 'rotate-180' : 'rotate-0'
-                    }`}
-                  >
-                    <path
-                      d="M5 7.5L10 12.5L15 7.5"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </div>
-              </button>
-              <div
-                style={{
-                  height: isOpen ? 'auto' : 0,
-                  opacity: isOpen ? 1 : 0,
-                }}
-                className="overflow-hidden transition-all duration-300"
-              >
-                <p className="pb-6 max-w-3xl text-tx-secondary text-base leading-normal">
-                  {item.answer}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+      <div className="faq-accordion-wrap w-full max-w-3xl flex justify-center">
+        <DetachableAccordion items={items} defaultValue="faq-0" />
       </div>
     </section>
   );
 };
+
+export default FaqSection;

@@ -1,0 +1,39 @@
+---
+title: Cost Accounting & Completed Work
+description: How maxcode calculates token usage and aligns costs with successful outcomes.
+---
+
+Traditional cloud coding tools bill developers purely on raw token throughput: every failed thought loop, syntax hallucination, and broken retry accrues charges against the user's account.
+
+`maxcode` changes this paradigm through transparent cost reporting and outcome-focused economics.
+
+---
+
+## 1. Local Token Accounting (`cost.py`)
+
+For every model request, `maxcode` captures:
+- Exact prompt token counts (`input_tokens`)
+- Exact completion token counts (`output_tokens`)
+- Elapsed call duration in seconds
+
+If the selected model has declared pricing rates in `maxcode.toml`, the cost meter evaluates:
+
+```
+Total Cost = Sum( (Tokens_in / 1,000,000) * Price_in + (Tokens_out / 1,000,000) * Price_out )
+```
+
+---
+
+## Interactive Cost & Token Estimator
+
+Adjust codebase lines of code and required verification checkpoints to visualize the cost reduction of maxcode's small-model verifier routing compared to monolithic frontier agent calls:
+
+<DocCostCalculator />
+
+---
+
+## 2. Failed Retries & Dead Ends
+
+When a step fails a check and triggers a retry, the token cost of that attempt is logged and tracked toward your task cost cap.
+
+However, in managed enterprise deployments, `maxcode` adopts the principle of **paying for completed work**: retries and dead ends are absorbing buffers, ensuring engineers pay for working, verified features rather than intermediate noise.

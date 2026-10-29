@@ -1,0 +1,35 @@
+---
+title: Checkpoints & Git Architecture
+description: Specification of git ref isolation and zero-loss state recovery.
+---
+
+`maxcode` uses native git internals to maintain complete historical isolation without polluting the user's active branch or working tree history.
+
+---
+
+## Ref Naming Convention
+
+Checkpoints are written to dedicated namespace refs:
+
+```
+refs/maxcode/<RUN_ID>/<STEP_NUMBER>
+```
+
+Example:
+```
+refs/maxcode/20261029-152000-a8b2/1
+refs/maxcode/20261029-152000-a8b2/2
+```
+
+---
+
+## Index Isolation (Temporary Index File)
+
+To ensure that the user's staged changes (`git diff --cached`) are never lost or modified during a run:
+1. `maxcode` sets `GIT_INDEX_FILE` to a temporary index file in a private directory.
+2. It stages all tracked files and unignored untracked files into this private index.
+3. It creates a commit object using `git write-tree` and `git commit-tree`.
+4. It updates the `refs/maxcode/...` pointer to this commit.
+5. The temporary index is removed.
+
+As a result, your primary index and active branch remain 100% clean and unaltered until a step is verified and explicitly accepted.

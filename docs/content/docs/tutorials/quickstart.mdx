@@ -1,0 +1,119 @@
+---
+title: 5-Minute Quickstart
+description: Install maxcode, configure a provider, and watch the verifier catch and fix a failing test.
+---
+
+In this tutorial, you will set up a minimal Python project with a deliberate bug, configure `maxcode`, and run the agent to watch the verifier gate in action.
+
+---
+
+## Prerequisites
+
+- **Python 3.12+**
+- **[uv](https://docs.astral.sh/uv/)** package manager installed
+- **git** configured
+- An API key for any OpenAI-compatible provider (e.g. OpenRouter, DeepSeek, or an OpenAI key)
+
+---
+
+## Step 1: Install maxcode
+
+Clone the repository and install dependencies using `uv`:
+
+```bash
+git clone https://github.com/RavaniRoshan/maxcode.git
+cd maxcode
+uv sync
+uv run maxcode --help
+```
+
+You should see the command list: `run`, `plan`, `undo`, `cost`, and `bench`.
+
+---
+
+## Step 2: Create a Sandbox Project
+
+Open a new terminal window and create a temporary project directory:
+
+```bash
+mkdir -p /tmp/maxcode-demo && cd /tmp/maxcode-demo
+git init -b main
+mkdir -p tests
+```
+
+Create a Python module with an obvious subtraction bug in an `add` function:
+
+```python title="app.py"
+def add(a: int, b: int) -> int:
+    # Deliberate bug: subtracts instead of adding
+    return a - b
+```
+
+Create a test file verifying the correct addition behavior:
+
+```python title="tests/test_app.py"
+from app import add
+
+def test_add():
+    assert add(2, 3) == 5
+```
+
+Commit the baseline repository:
+
+```bash
+git add .
+git commit -m "chore: initial commit with failing test"
+```
+
+---
+
+## Step 3: Configure maxcode.toml
+
+Create `maxcode.toml` in your project root:
+
+```toml title="maxcode.toml"
+[provider.main]
+base_url    = "https://openrouter.ai/api/v1"
+api_key_env = "OPENROUTER_API_KEY"
+
+[planner]
+provider = "main"
+model    = "qwen/qwen3-coder-next"
+
+[worker]
+provider = "main"
+model    = "deepseek/deepseek-v3.2"
+
+[limits]
+max_retries_per_step  = 3
+max_cost_usd_per_task = 1.00
+max_diff_lines        = 400
+max_steps             = 10
+```
+
+Export your provider API key:
+
+```bash
+export OPENROUTER_API_KEY="sk-or-v1-..."
+```
+
+---
+
+## Step 4: Run the Task
+
+Ask `maxcode` to resolve the bug:
+
+```bash
+uv run --directory /path/to/maxcode maxcode run "Fix the add function so tests pass"
+```
+
+### What Happens Behind the Scenes:
+1. **Repository Summary:** `maxcode` scans repository files and detects `pytest` as the test runner.
+2. **Plan Generation:** The planner outputs a JSON plan with Step 1: `Fix app.py` and check `pytest tests/test_app.py`.
+3. **Plan Approval:** `maxcode` displays the plan and asks for confirmation (`[Y/n]`).
+4. **Checkpoint Created:** A git ref is saved under `refs/maxcode/<RUN_ID>/1`.
+5. **Worker Edits:** The worker changes `a - b` to `a + b`.
+6. **Verifier Execution:** The verifier runs `pytest`. The test passes!
+7. **Task Done:** Exit code `0` is returned. A full run log is flushed to `.maxcode/runs/<RUN_ID>/log.jsonl`.
+
+Congratulations! You have completed your first verified `maxcode` run.

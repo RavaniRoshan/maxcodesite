@@ -1,0 +1,54 @@
+---
+title: How to Configure Checks and Verifiers
+description: Customize test runners, build pipelines, and lint commands for Python, Node, Rust, and Go.
+---
+
+The core differentiator of `maxcode` is that **a step is never marked as done until automated checks pass**.
+
+---
+
+## 1. Automatic Check Detection
+
+When `[checks]` fields are left blank (`""`), `maxcode` automatically inspects your repository and detects standard project setups:
+
+| Ecosystem | Detected Test Command | Detected Lint / Build Command |
+|---|---|---|
+| **Python** | `pytest` | `ruff check .` / `mypy` |
+| **Node.js** | `npm test` (or `pnpm`/`yarn`) | `npm run build`, `npm run lint` |
+| **Rust** | `cargo test` | `cargo check`, `cargo clippy` |
+| **Go** | `go test ./...` | `go build ./...`, `go vet ./...` |
+
+---
+
+## 2. Explicit Check Overrides
+
+To override auto-detection or supply custom flags, configure `[checks]` in `maxcode.toml`:
+
+```toml title="maxcode.toml"
+[checks]
+test  = "pytest -m 'not slow' --tb=short"
+build = "python -m build"
+lint  = "ruff check . && mypy src"
+```
+
+---
+
+## 3. Step-Specific Checks (`cmd:`)
+
+In addition to global repository checks, the planner or human reviewer can assign step-specific checks:
+
+```json
+{
+  "id": 1,
+  "goal": "Implement payment retry handler",
+  "files": ["payments/retry.py"],
+  "checks": [
+    "test",
+    "cmd:pytest tests/test_retry.py -k test_exponential_backoff"
+  ],
+  "edits_tests": false
+}
+```
+
+### Safety Rule for `cmd:` Checks:
+Per PRD Section 21: Any `cmd:` check requires explicit human review and approval during the `REVIEW` state unless `--yes` is specified.

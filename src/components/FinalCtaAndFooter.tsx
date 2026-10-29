@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import RidgelineDitherFooter from './ui/ridgeline-dither-footer';
 import { MaxMascotSvg } from './BrandSvgs';
 import { ThemeMode } from '../data/brandConfig';
+import { gsap, useGSAP } from '@/lib/gsap';
 
 interface FinalCtaAndFooterProps {
   onOpenModal: (mode: 'try' | 'talk' | 'login') => void;
@@ -284,11 +285,41 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
   onOpenModal,
   themeMode = 'light',
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const isDark = themeMode === 'dark';
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.from('.final-cta-section', {
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 85%',
+          },
+          y: 40,
+          autoAlpha: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+        });
+
+        // Floating prism idle
+        gsap.to('.final-prism-core', {
+          y: -8,
+          duration: 2.8,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true,
+        });
+      });
+    },
+    { scope: containerRef }
+  );
+
   return (
-    <>
+    <div ref={containerRef}>
       {/* Section 5: Final CTA Card with Bespoke Maxcode Checkpoint Astrolabe & Prism Core */}
-      <section className="rounded-2xl md:rounded-[24px] outline outline-2 outline-st outline-offset-2 md:outline-offset-4 mx-auto w-[88%] md:w-10/12 max-w-width-mx overflow-hidden">
+      <section className="final-cta-section rounded-2xl md:rounded-[24px] outline outline-2 outline-st outline-offset-2 md:outline-offset-4 mx-auto w-[88%] md:w-10/12 max-w-width-mx overflow-hidden">
         <div
           className="relative flex flex-col justify-center items-center rounded-xl md:rounded-[24px] w-full min-h-[450px] overflow-hidden"
           style={{
@@ -309,7 +340,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
 
           {/* Center Isometric Checkpoint Prism Core & CTA */}
           <div className="bottom-12 md:bottom-16 left-1/2 z-10 absolute flex flex-col items-center gap-10 -translate-x-1/2">
-            <div className="relative flex justify-center items-center">
+            <div className="final-prism-core relative flex justify-center items-center">
               <div className="bg-amber-300/40 blur-[22px] rounded-full w-20 h-20" />
               <div className="absolute inset-0 flex justify-center items-center">
                 <MaxcodeCheckpointCoreSvg />
@@ -347,7 +378,6 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
         name="maxcode"
         logo={<MaxMascotSvg className="w-7 h-[30px] shrink-0 -translate-y-0.5" />}
         brandHref="#top"
-        theme={themeMode}
         preset="terracotta"
         palette={
           isDark
@@ -357,7 +387,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
                 muted: '#a8998c',
                 line: 'rgba(247, 242, 236, 0.13)',
                 heart: '#fb923c',
-                ridges: ['#29130a', '#451d0d', '#6b2a11', '#943a16', '#bd4d1d', '#e26a2c', '#fb923c'],
+                tones: ['#29130a', '#451d0d', '#6b2a11', '#943a16', '#bd4d1d', '#e26a2c', '#fb923c'],
               }
             : undefined
         }
@@ -390,56 +420,54 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
         foregroundLogo={<GiantForegroundMaxcodeLogo isDark={isDark} />}
         columns={[
           {
-            title: 'Products',
+            title: 'Features & Architecture',
             links: [
-              { label: 'maxcode', href: '#top', badge: 'maxm1' },
-              { label: 'Conversational Agents', href: '#long-horizon' },
-              { label: 'maxcode for Stubs', href: '#cost' },
-              { label: 'Kaze', href: '#faq' },
-              { label: 'Indus', href: '#faq' },
+              { label: 'maxcode CLI', href: '#top', badge: 'v0.1.0' },
+              { label: 'The Verifier Loop', href: '#orchestration' },
+              { label: 'Git Checkpoints & Undo', href: '#long-horizon' },
+              { label: 'Multi-Model Routing', href: '#cost' },
+              { label: '20-Task Benchmark', href: '/docs/reference/benchmarks' },
             ],
           },
           {
-            title: 'APIs & Platform',
+            title: 'Documentation',
             links: [
-              { label: 'Text & Chat (maxm1)', href: '#cost' },
-              { label: 'Text to Speech', href: '#cost' },
-              { label: 'Speech to Text', href: '#cost' },
-              { label: 'Document Intelligence', href: '#cost' },
-              { label: 'API Pricing', href: '#cost' },
-              { label: 'Studio Sandbox', href: '#cost' },
+              { label: '5-Minute Quickstart', href: '/docs/tutorials/quickstart', badge: '5 min' },
+              { label: 'CLI Commands Reference', href: '/docs/reference/cli' },
+              { label: 'maxcode.toml Schema', href: '/docs/reference/config' },
+              { label: 'Verifier State Machine', href: '/docs/explanation/verifier-loop' },
+              { label: 'All Documentation', href: '/docs' },
             ],
           },
           {
-            title: 'Resources',
+            title: 'Open Source',
             links: [
-              { label: 'Blogs', href: '#faq' },
-              { label: 'Research', href: '#faq' },
-              { label: 'Cookbooks', href: '#faq' },
-              { label: 'Documentation', href: '#faq' },
+              { label: 'GitHub Repository', href: 'https://github.com/RavaniRoshan/maxcode' },
+              { label: 'Contributing Guide', href: '/docs/reference/contributing' },
+              { label: 'Security Policy', href: '/docs/reference/security' },
+              { label: 'Apache-2.0 License', href: '/docs/reference/legal' },
+              { label: 'Changelog', href: '/docs/reference/changelog' },
             ],
           },
           {
-            title: 'Company & Legal',
+            title: 'Resources & Legal',
             links: [
-              { label: 'About Us', href: '#footer' },
-              { label: 'Careers', href: '#footer', badge: 'Hiring' },
-              { label: 'Terms of Service', href: '#footer' },
-              { label: 'Privacy Policy', href: '#footer' },
-              { label: 'Security', href: '#footer' },
+              { label: 'Frequently Asked Questions', href: '#faq' },
+              { label: 'Diátaxis How-To Guides', href: '/docs/how-to' },
+              { label: 'Open Codex Attribution', href: '/docs/reference/legal' },
+              { label: 'Trademark & Brand Policy', href: '/docs/reference/legal' },
             ],
           },
         ]}
         socials={[
-          { icon: 'linkedin', href: '#footer' },
-          { icon: 'x', href: '#footer' },
-          { icon: 'github', href: '#footer' },
-          { icon: 'youtube', href: '#footer' },
-          { icon: 'instagram', href: '#footer' },
+          { icon: 'github', href: 'https://github.com/RavaniRoshan/maxcode' },
+          { icon: 'x', href: 'https://x.com' },
+          { icon: 'linkedin', href: 'https://linkedin.com' },
+          { icon: 'youtube', href: 'https://youtube.com' },
         ]}
-        copyright="© 2026 maxcode AI. All rights reserved · Powered by maxm1 · Bengaluru, India"
-        credit={{ label: 'maxcode & maxm1 Studio', href: '#top' }}
+        copyright="© 2026 maxcode contributors. Open source under Apache-2.0 · Forked from Codex CLI"
+        credit={{ label: 'maxcode Docs & Studio', href: '/docs' }}
       />
-    </>
+    </div>
   );
 };

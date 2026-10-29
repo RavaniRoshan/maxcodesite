@@ -1,12 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { COST_TABS, calculateTabProgress } from '../data/brandConfig';
 import { AgentTerminal } from './AgentTerminal';
 import { HeroAtmosphericBackdrop } from './AtmosphericBackdrops';
+import { gsap, useGSAP } from '@/lib/gsap';
 
 export const CostShowcase: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [elapsedMs, setElapsedMs] = useState<number>(0);
   const DURATION_MS = 10000;
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.from('.cost-tabs-wrap', {
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 85%',
+          },
+          y: 25,
+          autoAlpha: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+        });
+
+        gsap.from('.cost-terminal-wrap', {
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: 'top 80%',
+          },
+          y: 35,
+          autoAlpha: 0,
+          duration: 0.9,
+          delay: 0.1,
+          ease: 'power3.out',
+        });
+      });
+    },
+    { scope: containerRef }
+  );
 
   useEffect(() => {
     const interval = window.setInterval(() => {
@@ -30,12 +63,12 @@ export const CostShowcase: React.FC = () => {
   const progressPct = calculateTabProgress(elapsedMs, DURATION_MS);
 
   return (
-    <div id="cost-showcase">
+    <div id="cost-showcase" ref={containerRef}>
       {/* Two-Column Tab Selector with Progress Bars */}
       <div
         role="tablist"
         aria-label="Cost items"
-        className="gap-6 md:gap-10 grid grid-cols-2 mx-auto mb-8 md:mb-10 max-w-[760px]"
+        className="cost-tabs-wrap gap-6 md:gap-10 grid grid-cols-2 mx-auto mb-8 md:mb-10 max-w-[760px]"
       >
         {COST_TABS.map((tab, idx) => {
           const isSelected = activeIndex === idx;
@@ -84,7 +117,7 @@ export const CostShowcase: React.FC = () => {
       </p>
 
       {/* Atmospheric Backdrop with Dual Overlapping Terminals */}
-      <div className="relative rounded-[28px] lg:rounded-[40px] w-full overflow-hidden">
+      <div className="cost-terminal-wrap relative rounded-[28px] lg:rounded-[40px] w-full overflow-hidden">
         <HeroAtmosphericBackdrop />
         <div className="relative flex justify-center items-center p-4 sm:p-8 md:p-12 lg:p-16">
           <div className="grid grid-cols-1 w-full max-w-[880px]">

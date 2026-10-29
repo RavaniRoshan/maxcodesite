@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
-import { BRAND_PALETTES } from '../data/brandConfig';
+import React, { useState, useEffect } from 'react';
+import { RiSunLine, RiMoonLine } from '@remixicon/react';
+import { ThemeMode } from '../data/brandConfig';
 import { MaxMascotSvg } from './BrandSvgs';
+import { cx } from '@/utils/cx';
 
 interface HeaderProps {
   onOpenModal: (mode: 'try' | 'talk' | 'login') => void;
+  themeMode?: ThemeMode;
+  onToggleTheme?: () => void;
 }
 
 type NavMenuKey = 'products' | 'developers' | 'resources' | 'company' | null;
 
 export const MaxcodeWordmark: React.FC<{ className?: string }> = ({ className = '' }) => (
   <span
-    className={`inline-flex items-center gap-2.5 select-none ${className}`}
+    className={cx('inline-flex items-center gap-2.5 select-none', className)}
     aria-label="maxcode"
   >
     <MaxMascotSvg className="w-7 h-[30px] shrink-0 -translate-y-0.5" />
     <span
-      className="font-semibold text-[23px] text-current leading-none tracking-[-0.035em]"
+      className="font-semibold text-[22px] text-current leading-none tracking-[-0.035em]"
       style={{ fontFamily: 'var(--font-sans)' }}
     >
       maxcode
@@ -25,20 +29,21 @@ export const MaxcodeWordmark: React.FC<{ className?: string }> = ({ className = 
 
 const NavChevron: React.FC<{ isOpen: boolean }> = ({ isOpen }) => (
   <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
+    width="12"
+    height="12"
+    viewBox="0 0 24 24"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={`transition-transform duration-300 ease-out ${isOpen ? '-rotate-180' : 'rotate-0'}`}
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={cx(
+      'size-3 opacity-60 transition-transform duration-200 shrink-0',
+      isOpen ? 'rotate-180' : 'rotate-0'
+    )}
+    aria-hidden="true"
   >
-    <path
-      d="M4 6L8 10L12 6"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+    <path d="m6 9 6 6 6-6" />
   </svg>
 );
 
@@ -87,86 +92,72 @@ export const Header: React.FC<HeaderProps> = ({
   const [openMenu, setOpenMenu] = useState<NavMenuKey>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileAccordion, setMobileAccordion] = useState<NavMenuKey>('products');
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  // Keep reference to default amber palette so unused export doesn't warn
-  void BRAND_PALETTES;
+  // Track window scroll to morph the floating island navbar (micro.so pattern)
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 40);
+    };
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close menus on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpenMenu(null);
+        setMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const toggleMenu = (key: Exclude<NavMenuKey, null>) => {
     setOpenMenu((prev) => (prev === key ? null : key));
   };
 
+  const navItems = [
+    { id: 'products', label: 'Products' },
+    { id: 'developers', label: 'Developers' },
+    { id: 'resources', label: 'Resources' },
+    { id: 'company', label: 'Company' },
+  ] as const;
+
   return (
-    <header
-      data-site-header="true"
-      className="top-0 left-0 z-100 fixed bg-sf/95 backdrop-blur-md border-st/50 border-b w-full transition-colors duration-300"
-      onMouseLeave={() => setOpenMenu(null)}
-    >
-      {/* Desktop Navigation */}
-      <nav className="hidden lg:block relative mx-auto py-3.5 w-10/12 2xl:max-w-width-mx">
-        <div className="flex justify-between items-center text-tx">
+    <header data-site-header="true" className="w-full">
+      {/* -------------------------------------------------------------
+        1. DESKTOP TOP STATIC HEADER (Visible at top of page)
+        Matches micro.so: Full wordmark on left, Log In & Sign Up on right
+      -------------------------------------------------------------- */}
+      <div className="hidden lg:block relative z-30 mx-auto w-[88%] md:w-10/12 max-w-width-mx py-5">
+        <div className="flex items-center justify-between">
+          {/* Left: Full Wordmark */}
           <a
             href="#top"
-            aria-label="Go to maxcode home page"
-            className="hover:opacity-80 transition-opacity text-tx"
+            aria-label="maxcode home"
+            className="hover:opacity-85 transition-opacity text-tx"
           >
             <MaxcodeWordmark />
           </a>
 
-          <ul className="top-1/2 left-1/2 absolute flex items-center gap-2 -translate-x-1/2 -translate-y-1/2">
-            {(
-              [
-                { id: 'products', label: 'Products' },
-                { id: 'developers', label: 'Developers' },
-                { id: 'resources', label: 'Resources' },
-                { id: 'company', label: 'Company' },
-              ] as const
-            ).map((item) => {
-              const isOpen = openMenu === item.id;
-              return (
-                <li key={item.id} className="inline-block relative font-medium text-base">
-                  <button
-                    type="button"
-                    aria-expanded={isOpen}
-                    onClick={() => toggleMenu(item.id)}
-                    onMouseEnter={() => setOpenMenu(item.id)}
-                    className={`flex items-center gap-1.5 px-4 py-2 rounded-full font-medium text-sm tracking-wide transition-all duration-200 cursor-pointer select-none ${
-                      isOpen
-                        ? 'bg-sf-secondary text-tx font-semibold'
-                        : 'text-tx hover:bg-sf-secondary/60'
-                    }`}
-                  >
-                    <span>{item.label}</span>
-                    <NavChevron isOpen={isOpen} />
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-
-          <div className="flex items-center gap-2.5">
+          {/* Right: Actions (Theme Toggle, Log In, Try maxcode) */}
+          <div className="flex items-center gap-3">
             {onToggleTheme && (
               <button
                 type="button"
                 onClick={onToggleTheme}
                 aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
                 title={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-                className="inline-flex justify-center items-center gap-1.5 bg-sf-secondary hover:bg-sf-tertiary px-3 py-2 border border-st-secondary rounded-full font-mono text-tx text-xs transition-all duration-200 cursor-pointer select-none"
+                className="size-8 rounded-lg flex items-center justify-center text-tx-secondary hover:text-tx hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer select-none"
               >
                 {themeMode === 'dark' ? (
-                  <>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400">
-                      <circle cx="12" cy="12" r="4" />
-                      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
-                    </svg>
-                    <span>Light</span>
-                  </>
+                  <RiSunLine className="size-4 text-amber-400" />
                 ) : (
-                  <>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-tx-secondary">
-                      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
-                    </svg>
-                    <span>Dark</span>
-                  </>
+                  <RiMoonLine className="size-4" />
                 )}
               </button>
             )}
@@ -174,546 +165,619 @@ export const Header: React.FC<HeaderProps> = ({
             <button
               type="button"
               onClick={() => onOpenModal('login')}
-              className="group inline-flex relative justify-center items-center gap-1 bg-sf-invert hover:bg-sf-invert/90 active:bg-sf-invert/80 px-5 py-2.5 rounded-full overflow-hidden font-semibold text-tx-invert text-sm tracking-tight transition-all duration-300 cursor-pointer select-none"
-              style={{
-                boxShadow:
-                  '0 6px 12px 0 rgba(0, 0, 0, 0.10), 0 2px 6px 0 rgba(255, 255, 255, 0.40) inset, 0 -2px 6px 0 rgba(255, 255, 255, 0.40) inset',
-              }}
+              className="h-8 px-3 text-sm font-medium text-tx/85 hover:text-tx hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-colors cursor-pointer select-none"
             >
-              <span
-                className="inline-block top-1/2 left-1/2 absolute opacity-0 group-hover:opacity-80 rounded-full w-3/4 aspect-square transition-all -translate-x-1/2 -translate-y-1/2 duration-500 ease-out pointer-events-none"
-                style={{
-                  background:
-                    'radial-gradient(50% 50% at 50% 50%, #ffedd5 0%, var(--sc-blue) 48.08%, rgba(220, 38, 38, 0.60) 100%)',
-                  filter: 'blur(15px)',
-                }}
-              />
-              <span className="z-10 flex items-center gap-2">Log In</span>
+              Log in
             </button>
 
             <button
               type="button"
-              onClick={() => onOpenModal('talk')}
-              className="group inline-flex relative justify-center items-center gap-1 bg-sf-secondary hover:bg-sf-tertiary active:bg-sf-tertiary/80 px-5 py-2.5 rounded-full overflow-hidden font-semibold text-tx text-sm tracking-tight transition-all duration-300 cursor-pointer select-none"
-              style={{
-                boxShadow:
-                  '0 6px 12px 0 rgba(0, 0, 0, 0.01), 0 2px 6px 0 rgba(255, 255, 255, 0.60) inset, 0 -2px 6px 0 rgba(255, 255, 255, 0.60) inset',
-              }}
+              onClick={() => onOpenModal('try')}
+              className="inline-flex cursor-pointer items-center justify-center whitespace-nowrap font-medium transition-all active:scale-[0.98] bg-sf-invert text-tx-invert shadow-[inset_0_-2px_0_0_rgba(0,0,0,0.2)] hover:bg-sf-invert/90 h-8 px-3.5 text-xs sm:text-sm gap-1.5 rounded-[8px]"
             >
-              <span
-                className="inline-block top-1/2 left-1/2 absolute opacity-0 group-hover:opacity-60 rounded-full w-3/4 aspect-square transition-all -translate-x-1/2 -translate-y-1/2 duration-500 ease-out pointer-events-none"
-                style={{
-                  background:
-                    'radial-gradient(50% 50% at 50% 50%, #ffedd5 0%, var(--sc-blue) 48.08%, rgba(220, 38, 38, 0.60) 100%)',
-                  filter: 'blur(25px)',
-                }}
-              />
-              <span className="z-10 flex items-center gap-2">Contact Us</span>
+              <span>Try maxcode</span>
             </button>
           </div>
         </div>
-      </nav>
+      </div>
 
-      {/* Mobile Navigation */}
-      <nav className="lg:hidden relative flex justify-between items-center mx-auto py-3 w-[88%]">
-        <a href="#top" aria-label="Go to maxcode home page" className="text-tx">
+      {/* -------------------------------------------------------------
+        2. DESKTOP FLOATING ISLAND PILL (Micro.so Signature Component)
+        Floating fixed island anchored top-3, morphing as the user scrolls
+      -------------------------------------------------------------- */}
+      <div className="hidden lg:block fixed inset-x-0 top-3 z-50 mx-auto w-fit max-w-xl pointer-events-auto">
+        <div
+          className={cx(
+            'flex items-center rounded-xl py-1.5 px-2 shadow-md ring-1 backdrop-blur-xl transition-all duration-300',
+            'bg-white/80 dark:bg-[#16110e]/85 ring-black/[0.08] dark:ring-white/10 shadow-black/5 dark:shadow-black/40'
+          )}
+        >
+          {/* Morphing Mini Mascot Mark (smoothly slides out when scrolled) */}
+          <div
+            className={cx(
+              'relative flex items-center transition-all duration-300 ease-out overflow-hidden',
+              isScrolled
+                ? 'w-11 opacity-100 pr-2 mr-1 before:absolute before:inset-y-1.5 before:right-1 before:w-[1px] before:bg-st-secondary dark:before:bg-white/15'
+                : 'w-0 opacity-0 pointer-events-none'
+            )}
+          >
+            <a
+              href="#top"
+              aria-label="maxcode home"
+              className="flex items-center justify-center size-7 rounded-md hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+            >
+              <MaxMascotSvg className="size-5 shrink-0" />
+            </a>
+          </div>
+
+          {/* Navigation Links inside Island Pill */}
+          <ul className="flex items-center gap-1 list-none m-0 p-0">
+            {navItems.map((item) => {
+              const isOpen = openMenu === item.id;
+              return (
+                <li key={item.id} className="relative">
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    onClick={() => toggleMenu(item.id)}
+                    onMouseEnter={() => setOpenMenu(item.id)}
+                    className={cx(
+                      'h-7 px-3 text-sm font-medium rounded-md transition-colors flex items-center gap-1 cursor-pointer select-none',
+                      isOpen
+                        ? 'bg-black/5 dark:bg-white/10 text-tx font-semibold'
+                        : 'text-tx/80 hover:text-tx hover:bg-black/5 dark:hover:bg-white/5'
+                    )}
+                  >
+                    <span>{item.label}</span>
+                    <NavChevron isOpen={isOpen} />
+                  </button>
+                </li>
+              );
+            })}
+
+            {/* Direct Link to Documentation */}
+            <li>
+              <a
+                href="/docs"
+                className="h-7 px-3 text-sm font-medium text-tx/80 hover:text-tx hover:bg-black/5 dark:hover:bg-white/5 rounded-md transition-colors flex items-center cursor-pointer"
+              >
+                Docs
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* -------------------------------------------------------------
+        3. MEGA-MENU DROPDOWN PANEL (Preserving all rich Diátaxis items)
+        Anchored cleanly right below the floating island pill
+      -------------------------------------------------------------- */}
+      {openMenu && (
+        <>
+          {/* Backdrop Overlay */}
+          <div
+            onClick={() => setOpenMenu(null)}
+            className="hidden lg:block fixed inset-0 z-40 bg-black/25 dark:bg-black/50 backdrop-blur-[2px] transition-opacity duration-200"
+          />
+
+          {/* Floating Dropdown Island Panel */}
+          <div
+            className="hidden lg:block fixed left-1/2 top-14 -translate-x-1/2 z-50 w-[92vw] max-w-5xl rounded-3xl bg-sf/95 dark:bg-[#16110e]/95 border border-st-secondary dark:border-white/10 p-6 md:p-8 shadow-2xl backdrop-blur-2xl transition-all duration-200 animate-in fade-in zoom-in-95"
+            onMouseLeave={() => setOpenMenu(null)}
+          >
+            {/* TAB 1: PRODUCTS */}
+            {openMenu === 'products' && (
+              <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
+                <div className="flex flex-col gap-6">
+                  <div>
+                    <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                      Core Architecture
+                    </p>
+                    <div className="flex flex-col -mx-3">
+                      <a
+                        href="#top"
+                        onClick={() => setOpenMenu(null)}
+                        className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-tx text-base leading-normal">
+                            maxcode CLI
+                          </span>
+                          <CardArrowIcon />
+                        </div>
+                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                          Open-source terminal coding agent that verifies work with real checks
+                        </p>
+                      </a>
+                      <a
+                        href="#orchestration"
+                        onClick={() => setOpenMenu(null)}
+                        className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-tx text-base leading-normal">
+                            The Verifier Loop
+                          </span>
+                          <CardArrowIcon />
+                        </div>
+                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                          Automated test, build, and lint gates with a 3-try retry loop
+                        </p>
+                      </a>
+                      <a
+                        href="#long-horizon"
+                        onClick={() => setOpenMenu(null)}
+                        className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-tx text-base leading-normal">
+                            Git Checkpoints &amp; Undo
+                          </span>
+                          <CardArrowIcon />
+                        </div>
+                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                          Isolated refs under refs/maxcode/ for zero-risk rollback on failure
+                        </p>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                      Cost &amp; Multi-Model Routing
+                    </p>
+                    <div className="flex flex-col -mx-3">
+                      <a
+                        href="#cost"
+                        onClick={() => setOpenMenu(null)}
+                        className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-tx text-base leading-normal">
+                            Model Routing &amp; Transparent Cost
+                          </span>
+                          <CardArrowIcon />
+                        </div>
+                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                          Route scaffolding to fast models and reasoning to maxm1; retries are never billed
+                        </p>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                      Empirical Evidence
+                    </p>
+                    <div className="flex flex-col -mx-3">
+                      <a
+                        href="/docs/reference/benchmarks"
+                        onClick={() => setOpenMenu(null)}
+                        className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-tx text-base leading-normal">
+                            20-Task Benchmark Suite
+                          </span>
+                          <CardArrowIcon />
+                        </div>
+                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                          Public reproducible benchmark measuring verifier-on vs verifier-off pass rates
+                        </p>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Preview Card */}
+                <div className="flex flex-col bg-sf-secondary border border-st-secondary p-6 rounded-2xl">
+                  <p className="mb-4 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                    Featured Architecture · maxcode v0.8.2
+                  </p>
+                  <div className="relative flex flex-col justify-between bg-neutral-950 dark:bg-[#140f0c] border border-neutral-800 dark:border-white/10 p-6 rounded-xl overflow-hidden text-white min-h-[240px] shadow-md">
+                    <div
+                      className="absolute inset-0 opacity-40 pointer-events-none"
+                      style={{
+                        background:
+                          'radial-gradient(80% 80% at 80% 20%, var(--sc-blue) 0%, transparent 70%)',
+                      }}
+                    />
+                    <div className="relative z-10">
+                      <span className="inline-block bg-white/10 border border-white/15 px-2.5 py-1 rounded font-mono text-[11px] text-white/90">
+                        &gt;_ maxcode (Apache-2.0)
+                      </span>
+                      <h4 className="mt-4 font-season text-2xl leading-snug text-white font-medium">
+                        Mark a task done only after checks pass.
+                      </h4>
+                      <p className="mt-2 text-white/80 text-sm leading-relaxed">
+                        Autonomous terminal coding agent with planner, worker, and an uncompromising verifier loop.
+                      </p>
+                    </div>
+                    <div className="relative z-10 mt-6">
+                      <a
+                        href="/docs"
+                        onClick={() => setOpenMenu(null)}
+                        className="inline-flex items-center gap-2 bg-white text-neutral-900 hover:bg-white/90 dark:bg-accent-500 dark:text-white dark:hover:bg-accent-600 px-4 py-2 rounded-full font-semibold text-xs cursor-pointer transition-colors shadow-xs"
+                      >
+                        Explore Documentation ↗
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 2: DEVELOPERS */}
+            {openMenu === 'developers' && (
+              <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
+                <div>
+                  <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                    Diátaxis Documentation
+                  </p>
+                  <div className="gap-x-6 gap-y-2 grid grid-cols-2 -mx-3">
+                    {[
+                      {
+                        title: '5-Minute Quickstart',
+                        desc: 'Install, configure maxcode.toml, and run your first task',
+                        href: '/docs/tutorials/quickstart',
+                      },
+                      {
+                        title: 'CLI Reference',
+                        desc: 'Specification for run, plan, undo, cost, and bench',
+                        href: '/docs/reference/cli',
+                      },
+                      {
+                        title: 'Config (maxcode.toml)',
+                        desc: 'Provider URLs, keys, limits, and protected paths',
+                        href: '/docs/reference/config',
+                      },
+                      {
+                        title: 'The Verifier Loop',
+                        desc: 'State machine, retry policies, and check detection',
+                        href: '/docs/explanation/verifier-loop',
+                      },
+                      {
+                        title: 'OpenAI-Compatible Providers',
+                        desc: 'Setup OpenRouter, DeepSeek, Qwen, or local Ollama',
+                        href: '/docs/how-to/configure-providers',
+                      },
+                      {
+                        title: 'Checkpoints & Git Refs',
+                        desc: 'Isolated git ref mechanism and instant rollback',
+                        href: '/docs/reference/checkpoints',
+                      },
+                    ].map((item) => (
+                      <a
+                        key={item.title}
+                        href={item.href}
+                        onClick={() => setOpenMenu(null)}
+                        className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-tx text-base leading-normal">
+                            {item.title}
+                          </span>
+                          <CardArrowIcon />
+                        </div>
+                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                          {item.desc}
+                        </p>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex flex-col justify-between bg-sf-secondary border border-st-secondary p-6 rounded-2xl">
+                  <div>
+                    <p className="mb-2 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                      Developer Quickstart
+                    </p>
+                    <div className="bg-sf p-4 border border-st-secondary rounded-xl font-mono text-xs text-tx space-y-1">
+                      <div className="text-tx-tertiary">$ git clone https://github.com/RavaniRoshan/maxcode.git</div>
+                      <div className="text-tx-tertiary">$ cd maxcode &amp;&amp; uv sync</div>
+                      <div className="mt-1 text-tx">
+                        <span className="text-emerald-500 font-semibold">user@maxcode</span>:~/repo$ uv run maxcode run "Fix failing tests"
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center mt-4 pt-3 border-st-secondary border-t">
+                    <span className="text-tx-tertiary text-xs">Fumadocs Documentation</span>
+                    <a
+                      href="/docs"
+                      onClick={() => setOpenMenu(null)}
+                      className="font-medium text-tx text-xs hover:underline cursor-pointer"
+                    >
+                      Explore All Docs →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 3: RESOURCES */}
+            {openMenu === 'resources' && (
+              <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
+                <div>
+                  <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                    Documentation &amp; Community
+                  </p>
+                  <div className="flex flex-col -mx-3">
+                    {[
+                      {
+                        title: 'How-To Guides',
+                        desc: 'Problem-oriented recipes for custom checks, steering runs, and cost caps',
+                        href: '/docs/how-to',
+                      },
+                      {
+                        title: 'Benchmark Results & Logs',
+                        desc: 'Transparent CSV logs and pass-rate deltas across 20 tasks',
+                        href: '/docs/reference/benchmarks',
+                      },
+                      {
+                        title: 'Frequently Asked Questions',
+                        desc: 'Answers on pricing, checkpoints, models, and security boundaries',
+                        href: '#faq',
+                      },
+                    ].map((res) => (
+                      <a
+                        key={res.title}
+                        href={res.href}
+                        onClick={() => setOpenMenu(null)}
+                        className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-tx text-base leading-normal">
+                            {res.title}
+                          </span>
+                          <CardArrowIcon />
+                        </div>
+                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                          {res.desc}
+                        </p>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-sf-secondary border border-st-secondary p-6 rounded-2xl">
+                  <p className="mb-2 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                    Core Thesis
+                  </p>
+                  <h4 className="font-season text-tx text-2xl">
+                    Why models cannot verify their own output
+                  </h4>
+                  <p className="mt-2 text-tx-secondary text-sm leading-relaxed">
+                    LLM coding assistants frequently claim tasks are complete when unit tests fail. maxcode treats the model as an unverified contributor and makes the compiler, linter, and test runner the sole arbiters of truth.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 4: COMPANY */}
+            {openMenu === 'company' && (
+              <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
+                <div>
+                  <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                    Open Source &amp; Governance
+                  </p>
+                  <div className="flex flex-col -mx-3">
+                    {[
+                      {
+                        title: 'GitHub Repository',
+                        desc: 'Source code, PRD, issue tracker, and discussions',
+                        href: 'https://github.com/RavaniRoshan/maxcode',
+                      },
+                      {
+                        title: 'Apache-2.0 License & Notices',
+                        desc: 'Permissive license preserving OpenAI Codex attribution',
+                        href: '/docs/reference/legal',
+                      },
+                      {
+                        title: 'Contributing Guide',
+                        desc: 'TDD workflow, ruff/mypy rules, and PR submission checklist',
+                        href: '/docs/reference/contributing',
+                      },
+                      {
+                        title: 'Security Policy',
+                        desc: 'Private vulnerability reporting and strict API key isolation',
+                        href: '/docs/reference/security',
+                      },
+                    ].map((item) => (
+                      <a
+                        key={item.title}
+                        href={item.href}
+                        target={item.href.startsWith('http') ? '_blank' : undefined}
+                        rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
+                        onClick={() => setOpenMenu(null)}
+                        className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium text-tx text-base leading-normal">
+                            {item.title}
+                          </span>
+                          <CardArrowIcon />
+                        </div>
+                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                          {item.desc}
+                        </p>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-sf-secondary border border-st-secondary p-6 rounded-2xl">
+                  <p className="mb-2 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                    Privacy &amp; Keys
+                  </p>
+                  <h4 className="font-season text-tx text-2xl">
+                    Bring your own keys. Zero telemetry leaks.
+                  </h4>
+                  <p className="mt-2 text-tx-secondary text-sm leading-relaxed">
+                    maxcode never hardcodes or transmits API keys. All keys are loaded dynamically from environment variables and excluded from run logs and git commits.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </>
+      )}
+
+      {/* -------------------------------------------------------------
+        4. MOBILE NAVIGATION (Exact Micro.so Mobile Bar & Drawer)
+        Fixed bar at top-0, animated 2-bar burger button, full drawer
+      -------------------------------------------------------------- */}
+      <nav className="lg:hidden fixed top-0 left-0 z-50 w-full h-16 px-5 flex items-center justify-between border-b border-st-secondary/40 bg-sf/90 backdrop-blur-xl">
+        <a href="#top" aria-label="maxcode home" className="text-tx">
           <MaxcodeWordmark />
         </a>
+
         <div className="flex items-center gap-2">
           {onToggleTheme && (
             <button
               type="button"
               onClick={onToggleTheme}
               aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="inline-flex justify-center items-center bg-sf-secondary px-2.5 py-1.5 border border-st-secondary rounded-full font-mono text-tx text-xs cursor-pointer"
+              className="size-9 flex items-center justify-center rounded-lg bg-sf-secondary border border-st-secondary text-tx cursor-pointer"
             >
-              {themeMode === 'dark' ? '☀' : '☾'}
+              {themeMode === 'dark' ? (
+                <RiSunLine className="size-4 text-amber-400" />
+              ) : (
+                <RiMoonLine className="size-4" />
+              )}
             </button>
           )}
+
+          {/* Micro.so animated 2-bar burger button */}
           <button
             type="button"
-            onClick={() => onOpenModal('login')}
-            className="inline-flex justify-center items-center bg-sf-invert px-4 py-1.5 rounded-full font-semibold text-tx-invert text-xs tracking-tight"
-          >
-            Log In
-          </button>
-          <button
-            type="button"
-            aria-label="Open menu"
+            aria-label="Toggle menu"
             aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="flex flex-col justify-center items-center gap-1.5 rounded-lg w-10 h-10 text-tx cursor-pointer"
+            className="relative size-9 flex items-center justify-center rounded-lg bg-sf-secondary border border-st-secondary text-tx cursor-pointer"
           >
             <span
-              className={`bg-current rounded-full w-5 h-0.5 transition-all duration-300 ${
-                mobileMenuOpen ? 'translate-y-2 rotate-45' : ''
-              }`}
+              className={cx(
+                'absolute h-0.5 w-4 bg-current rounded-full transition-all duration-300',
+                mobileMenuOpen ? 'rotate-45' : '-translate-y-1.5'
+              )}
             />
             <span
-              className={`bg-current rounded-full w-5 h-0.5 transition-all duration-300 ${
-                mobileMenuOpen ? 'opacity-0' : ''
-              }`}
-            />
-            <span
-              className={`bg-current rounded-full w-5 h-0.5 transition-all duration-300 ${
-                mobileMenuOpen ? '-translate-y-2 -rotate-45' : ''
-              }`}
+              className={cx(
+                'absolute h-0.5 w-4 bg-current rounded-full transition-all duration-300',
+                mobileMenuOpen ? '-rotate-45' : 'translate-y-1.5'
+              )}
             />
           </button>
         </div>
       </nav>
 
-      {/* Desktop Mega-Menu Backdrop & Panel */}
-      {openMenu && (
-        <>
-          <div
-            onClick={() => setOpenMenu(null)}
-            className="hidden lg:block top-full left-0 z-40 fixed bg-black/20 backdrop-blur-[2px] w-full h-screen transition-opacity duration-200"
-          />
-          <div className="hidden lg:block top-full left-0 z-50 absolute bg-sf border-st border-t border-b rounded-b-3xl w-full transition-all duration-200 ease-out">
-            <div className="mx-auto py-10 w-10/12 2xl:max-w-width-mx">
-              {openMenu === 'products' && (
-                <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
-                  <div className="flex flex-col gap-6">
-                    <div>
-                      <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
-                        Enterprise Solutions
-                      </p>
-                      <div className="flex flex-col -mx-3">
-                        <a
-                          href="#long-horizon"
-                          onClick={() => setOpenMenu(null)}
-                          className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
-                        >
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-tx text-base leading-normal">
-                              Conversational Agents
-                            </span>
-                            <CardArrowIcon />
-                          </div>
-                          <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
-                            Multilingual voice agents at population scale
-                          </p>
-                        </a>
-                        <a
-                          href="#top"
-                          onClick={() => setOpenMenu(null)}
-                          className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
-                        >
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-tx text-base leading-normal">
-                              maxcode
-                            </span>
-                            <CardArrowIcon />
-                          </div>
-                          <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
-                            Long-horizon coding agents powered by maxm1 for real codebases
-                          </p>
-                        </a>
-                        <a
-                          href="#cost"
-                          onClick={() => setOpenMenu(null)}
-                          className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
-                        >
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-tx text-base leading-normal">
-                              maxcode for Stubs
-                            </span>
-                            <CardArrowIcon />
-                          </div>
-                          <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
-                            Customer simulations that keep your evaluations honest
-                          </p>
-                        </a>
-                      </div>
-                    </div>
-
-                    <div>
-                      <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
-                        Consumer Hardware
-                      </p>
-                      <div className="flex flex-col -mx-3">
-                        <a
-                          href="#faq"
-                          onClick={() => setOpenMenu(null)}
-                          className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
-                        >
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-tx text-base leading-normal">
-                              Kaze
-                            </span>
-                            <CardArrowIcon />
-                          </div>
-                          <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
-                            Sovereign AI hardware for real-world intelligence
-                          </p>
-                        </a>
-                      </div>
-                    </div>
-
-                    <div>
-                      <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
-                        Consumer Applications
-                      </p>
-                      <div className="flex flex-col -mx-3">
-                        <a
-                          href="#faq"
-                          onClick={() => setOpenMenu(null)}
-                          className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
-                        >
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-tx text-base leading-normal">
-                              Indus
-                            </span>
-                            <CardArrowIcon />
-                          </div>
-                          <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
-                            Chat AI built for India across every language
-                          </p>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right preview card */}
-                  <div className="flex flex-col bg-sf-secondary p-6 rounded-2xl">
-                    <p className="mb-4 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
-                      Featured · maxcode &amp; maxm1
-                    </p>
-                    <div className="relative flex flex-col justify-between bg-sr-black p-6 rounded-xl overflow-hidden text-tx-invert min-h-[240px]">
-                      <div
-                        className="absolute inset-0 opacity-45 pointer-events-none"
-                        style={{
-                          background:
-                            'radial-gradient(80% 80% at 80% 20%, var(--sc-blue) 0%, transparent 70%)',
-                        }}
-                      />
-                      <div className="relative z-10">
-                        <span className="inline-block bg-white/10 px-2.5 py-1 rounded font-mono text-[11px] text-tx-invert">
-                          &gt;_ maxcode (v0.38.0) · maxm1
-                        </span>
-                        <h4 className="mt-4 font-season text-2xl leading-snug">
-                          Longer sessions with better code
-                        </h4>
-                        <p className="mt-2 text-tx-invert/75 text-sm leading-relaxed">
-                          Visible execution plans, checkpoint recovery, and dynamic routing to maxm1.
-                        </p>
-                      </div>
-                      <div className="relative z-10 mt-6">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setOpenMenu(null);
-                            onOpenModal('try');
-                          }}
-                          className="inline-flex items-center gap-2 bg-sf px-4 py-2 rounded-full font-semibold text-tx text-xs cursor-pointer"
-                        >
-                          Try maxcode ↗
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {openMenu === 'developers' && (
-                <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
-                  <div>
-                    <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
-                      Platform &amp; APIs
-                    </p>
-                    <div className="gap-x-6 gap-y-2 grid grid-cols-2 -mx-3">
-                      {[
-                        {
-                          title: 'Text & Chat (maxm1)',
-                          desc: 'Frontier reasoning & long-horizon synthesis',
-                        },
-                        {
-                          title: 'Text to Speech',
-                          desc: 'Natural, expressive voices in 11 languages',
-                        },
-                        {
-                          title: 'Speech to Text',
-                          desc: 'Accurate transcription with code-mixing support',
-                        },
-                        {
-                          title: 'Document Intelligence',
-                          desc: 'Extract structured data from complex documents',
-                        },
-                        {
-                          title: 'Studio Sandbox',
-                          desc: 'Experiment with maxcode and maxm1 APIs',
-                        },
-                        {
-                          title: 'API Pricing',
-                          desc: 'Pay for completed work and transparent token tiers',
-                        },
-                      ].map((api) => (
-                        <a
-                          key={api.title}
-                          href="#cost"
-                          onClick={() => setOpenMenu(null)}
-                          className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
-                        >
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-tx text-base leading-normal">
-                              {api.title}
-                            </span>
-                            <CardArrowIcon />
-                          </div>
-                          <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
-                            {api.desc}
-                          </p>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col justify-between bg-sf-secondary p-6 rounded-2xl">
-                    <div>
-                      <p className="mb-2 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
-                        Developer Quickstart
-                      </p>
-                      <div className="bg-sf p-4 border border-st-secondary rounded-xl font-mono text-xs text-tx">
-                        <div className="text-tx-tertiary">$ npm i -g @maxcode/cli</div>
-                        <div className="mt-1 text-tx">
-                          <span className="text-(--sc-green)">user@maxcode</span>:~/repo$ maxcode --model maxm1
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-center mt-4 pt-3 border-st border-t">
-                      <span className="text-tx-tertiary text-xs">Documentation &amp; SDKs</span>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setOpenMenu(null);
-                          onOpenModal('try');
-                        }}
-                        className="font-medium text-tx text-xs hover:underline cursor-pointer"
-                      >
-                        Explore Docs →
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {openMenu === 'resources' && (
-                <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
-                  <div>
-                    <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
-                      Learn &amp; Explore
-                    </p>
-                    <div className="flex flex-col -mx-3">
-                      {[
-                        {
-                          title: 'Blogs',
-                          desc: 'Read about our latest launches and updates',
-                        },
-                        {
-                          title: 'Research',
-                          desc: 'Deep dives into maxm1 architecture and training',
-                        },
-                        {
-                          title: 'Cookbooks',
-                          desc: 'Tutorials, guides and starter templates for maxcode',
-                        },
-                      ].map((res) => (
-                        <a
-                          key={res.title}
-                          href="#faq"
-                          onClick={() => setOpenMenu(null)}
-                          className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
-                        >
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-tx text-base leading-normal">
-                              {res.title}
-                            </span>
-                            <CardArrowIcon />
-                          </div>
-                          <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
-                            {res.desc}
-                          </p>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="bg-sf-secondary p-6 rounded-2xl">
-                    <p className="mb-2 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
-                      Latest Research
-                    </p>
-                    <h4 className="font-season text-tx text-2xl">
-                      Training task-specific maxm1 models during live agent runs
-                    </h4>
-                    <p className="mt-2 text-tx-secondary text-sm leading-relaxed">
-                      How maxcode prepares evaluation holdouts and adapts maxm1 to domain-specific risk parameters on the fly.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {openMenu === 'company' && (
-                <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
-                  <div>
-                    <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
-                      Company
-                    </p>
-                    <div className="flex flex-col -mx-3">
-                      {[
-                        {
-                          title: 'About Us',
-                          desc: 'Our mission, story, and leadership team',
-                        },
-                        {
-                          title: 'Careers',
-                          desc: 'Join us in building sovereign AI and maxcode',
-                        },
-                        {
-                          title: 'Terms of Service',
-                          desc: 'Platform terms and enterprise agreements',
-                        },
-                        {
-                          title: 'Privacy Policy',
-                          desc: 'How we protect your code, weights, and data',
-                        },
-                      ].map((item) => (
-                        <a
-                          key={item.title}
-                          href="#footer"
-                          onClick={() => setOpenMenu(null)}
-                          className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
-                        >
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-tx text-base leading-normal">
-                              {item.title}
-                            </span>
-                            <CardArrowIcon />
-                          </div>
-                          <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
-                            {item.desc}
-                          </p>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="bg-sf-secondary p-6 rounded-2xl">
-                    <p className="mb-2 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
-                      Security &amp; Compliance
-                    </p>
-                    <h4 className="font-season text-tx text-2xl">
-                      Sovereign deployment in your cloud or on-premises
-                    </h4>
-                    <p className="mt-2 text-tx-secondary text-sm leading-relaxed">
-                      AICPA SOC 2 Type II and ISO 27001 certified. Your code and maxm1 weights never leave your environment.
-                    </p>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </>
-      )}
-
-      {/* Mobile Dropdown Drawer */}
+      {/* Mobile Slide-down Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden top-full left-0 z-50 fixed bg-sf border-st border-t w-full h-[calc(100vh-60px)] overflow-y-auto">
-          <div className="mx-auto py-6 w-[88%]">
-            {(
-              [
+        <div className="lg:hidden fixed top-16 left-0 z-50 w-full h-[calc(100vh-64px)] bg-sf/98 backdrop-blur-2xl border-t border-st-secondary overflow-y-auto animate-in slide-in-from-top-2 duration-200">
+          <div className="mx-auto py-6 px-6 flex flex-col justify-between min-h-full">
+            <div className="space-y-4">
+              {[
                 {
                   id: 'products',
-                  label: 'Products',
+                  label: 'Features & Architecture',
                   links: [
-                    { name: 'maxcode (Powered by maxm1)', href: '#top' },
-                    { name: 'Conversational Agents', href: '#long-horizon' },
-                    { name: 'maxcode for Stubs', href: '#cost' },
-                    { name: 'Kaze', href: '#faq' },
-                    { name: 'Indus', href: '#faq' },
+                    { name: 'maxcode CLI (Terminal Agent)', href: '#top' },
+                    { name: 'The Verifier Loop', href: '#orchestration' },
+                    { name: 'Git Checkpoints & Undo', href: '#long-horizon' },
+                    { name: 'Multi-Model Routing & Cost', href: '#cost' },
+                    { name: '20-Task Benchmark Suite', href: '/docs/reference/benchmarks' },
                   ],
                 },
                 {
                   id: 'developers',
-                  label: 'Developers',
+                  label: 'Documentation (Diátaxis)',
                   links: [
-                    { name: 'maxm1 Reasoning API', href: '#cost' },
-                    { name: 'Text to Speech', href: '#cost' },
-                    { name: 'Speech to Text', href: '#cost' },
-                    { name: 'Document Intelligence', href: '#cost' },
+                    { name: '5-Minute Quickstart', href: '/docs/tutorials/quickstart' },
+                    { name: 'CLI Commands Reference', href: '/docs/reference/cli' },
+                    { name: 'Configuration (maxcode.toml)', href: '/docs/reference/config' },
+                    { name: 'Verifier State Machine', href: '/docs/explanation/verifier-loop' },
+                    { name: 'OpenAI-Compatible Providers', href: '/docs/how-to/configure-providers' },
+                    { name: 'All Documentation →', href: '/docs' },
                   ],
                 },
                 {
                   id: 'resources',
-                  label: 'Resources',
+                  label: 'Resources & Guides',
                   links: [
-                    { name: 'Blogs', href: '#faq' },
-                    { name: 'Research', href: '#faq' },
-                    { name: 'Cookbooks', href: '#faq' },
+                    { name: 'How-To Guides', href: '/docs/how-to' },
+                    { name: 'Benchmark Results & Logs', href: '/docs/reference/benchmarks' },
+                    { name: 'Frequently Asked Questions', href: '#faq' },
                   ],
                 },
                 {
                   id: 'company',
-                  label: 'Company',
+                  label: 'Open Source',
                   links: [
-                    { name: 'About Us', href: '#footer' },
-                    { name: 'Careers', href: '#footer' },
-                    { name: 'Security & Privacy', href: '#footer' },
+                    { name: 'GitHub Repository', href: 'https://github.com/RavaniRoshan/maxcode' },
+                    { name: 'Contributing Guide', href: '/docs/reference/contributing' },
+                    { name: 'Security Policy', href: '/docs/reference/security' },
+                    { name: 'Apache-2.0 License', href: '/docs/reference/legal' },
                   ],
                 },
-              ] as const
-            ).map((group) => {
-              const isExpanded = mobileAccordion === group.id;
-              return (
-                <div key={group.id} className="border-st border-b">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setMobileAccordion((prev) => (prev === group.id ? null : group.id))
-                    }
-                    className="flex justify-between items-center py-4 w-full font-medium text-tx text-base text-left"
+              ].map((section) => {
+                const isExpanded = mobileAccordion === section.id;
+                return (
+                  <div
+                    key={section.id}
+                    className="border-b border-st-secondary/60 pb-3"
                   >
-                    <span>{group.label}</span>
-                    <NavChevron isOpen={isExpanded} />
-                  </button>
-                  {isExpanded && (
-                    <div className="flex flex-col gap-2.5 pb-4 pl-2">
-                      {group.links.map((l) => (
-                        <a
-                          key={l.name}
-                          href={l.href}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="py-1 text-tx-secondary text-sm"
-                        >
-                          {l.name}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setMobileAccordion((prev) =>
+                          prev === section.id ? null : (section.id as NavMenuKey)
+                        )
+                      }
+                      className="flex justify-between items-center w-full py-2 font-medium text-base text-tx cursor-pointer"
+                    >
+                      <span>{section.label}</span>
+                      <NavChevron isOpen={isExpanded} />
+                    </button>
+                    {isExpanded && (
+                      <div className="flex flex-col gap-2 pt-2 pb-1 pl-3">
+                        {section.links.map((link) => (
+                          <a
+                            key={link.name}
+                            href={link.href}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="text-sm text-tx-secondary hover:text-tx py-1 transition-colors"
+                          >
+                            {link.name}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
 
-            <div className="flex flex-col gap-3 mt-6">
+            {/* Mobile Bottom Action Buttons */}
+            <div className="pt-8 pb-4 space-y-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenModal('login');
+                }}
+                className="w-full h-11 rounded-xl bg-sf-secondary border border-st-secondary text-tx font-medium text-sm flex items-center justify-center cursor-pointer"
+              >
+                Log In
+              </button>
               <button
                 type="button"
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onOpenModal('try');
                 }}
-                className="bg-sf-invert py-3 rounded-full w-full font-semibold text-tx-invert text-sm"
+                className="w-full h-11 rounded-xl bg-sf-invert text-tx-invert font-semibold text-sm flex items-center justify-center shadow-[inset_0_-2px_0_0_rgba(0,0,0,0.2)] active:scale-[0.98] transition-all cursor-pointer"
               >
                 Try maxcode
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenModal('talk');
-                }}
-                className="bg-sf-secondary py-3 rounded-full w-full font-semibold text-tx text-sm"
-              >
-                Contact Us
               </button>
             </div>
           </div>

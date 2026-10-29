@@ -1,0 +1,68 @@
+---
+title: CLI Command Reference
+description: Complete command-line syntax and option reference for maxcode.
+---
+
+`maxcode` is executed through the Typer CLI framework in Python 3.12.
+
+---
+
+## Commands
+
+### `maxcode run TASK`
+Plans, edits, and iteratively verifies a task until all checks pass or limits are reached.
+
+```bash
+maxcode run "Implement JWT validation" [OPTIONS]
+```
+
+**Options:**
+- `--yes`: Skip interactive plan approval and begin execution immediately.
+- `--config PATH`: Path to a custom config file (default search order: `./maxcode.toml`, then `~/.config/maxcode/config.toml`).
+- `--max-cost FLOAT`: Task cost cap in USD. Halts the run if spend exceeds this amount.
+
+---
+
+### `maxcode plan TASK`
+Constructs and displays the structured step plan, then terminates without modifying files.
+
+```bash
+maxcode plan "Add rate limiting middleware" [OPTIONS]
+```
+
+**Options:**
+- `--config PATH`: Path to configuration file.
+
+---
+
+### `maxcode undo`
+Restores the working tree and index to the last passing checkpoint snapshot.
+
+```bash
+maxcode undo
+```
+
+**Options:** None.
+
+---
+
+### `maxcode cost [RUN_ID]`
+Displays token metrics and financial cost for a run. If `RUN_ID` is omitted, displays metrics for the most recent run.
+
+```bash
+maxcode cost
+maxcode cost 20261029-152000-a8b2
+```
+
+---
+
+### `maxcode bench`
+Runs the automated 20-task benchmark evaluation suite.
+
+```bash
+maxcode bench [OPTIONS]
+```
+
+**Options:**
+- `--verifier [on|off]`: Toggle the verifier loop. When `off`, skips check gating.
+- `--suite PATH`: Path to custom benchmark task suite JSON files.

@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
+import {
+  RiCloseLine,
+  RiFileCopyLine,
+  RiCheckLine,
+  RiShieldCheckFill,
+  RiTerminalBoxFill,
+} from '@remixicon/react';
 import { validatePilotForm } from '../data/brandConfig';
+import { Badge } from '@/components/base/badges/badge';
+import { Kbd } from '@/components/base/kbd/kbd';
+import { Button } from '@/components/base/buttons/button';
 
 interface InteractiveModalsProps {
   modalMode: 'try' | 'talk' | 'login' | null;
@@ -19,7 +29,7 @@ export const InteractiveModals: React.FC<InteractiveModalsProps> = ({
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
   const [useCase, setUseCase] = useState(
-    'Migrate legacy ORM across payments-service with maxm1 checkpoints'
+    'Migrate legacy ORM across payments-service with maxcode verifier checkpoints'
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -52,20 +62,23 @@ export const InteractiveModals: React.FC<InteractiveModalsProps> = ({
 
   return (
     <>
-      {/* Floating Cookie Consent Banner (Exact Bottom-Right Match) */}
+      {/* Floating Cookie Consent Banner */}
       {!cookieDismissed && (
         <div
           role="region"
           aria-label="Cookie consent"
-          className="right-6 bottom-6 z-50 fixed bg-sf-secondary shadow-xl p-6 border border-st rounded-2xl w-[calc(100%-3rem)] max-w-[380px] transition-all duration-300"
+          className="right-6 bottom-6 z-50 fixed bg-sf-secondary shadow-xl p-5 border border-st rounded-2xl w-[calc(100%-3rem)] max-w-[380px] transition-all duration-300 backdrop-blur-md"
         >
-          <p className="mb-1.5 font-semibold text-tx text-sm tracking-tight">
-            We value your privacy
-          </p>
+          <div className="flex items-center gap-2 mb-1.5">
+            <RiShieldCheckFill className="size-4 text-accent-600 dark:text-accent-400" />
+            <p className="font-semibold text-tx text-sm tracking-tight">
+              Privacy &amp; Telemetry
+            </p>
+          </div>
           <p className="mb-4 text-tx-secondary text-xs leading-relaxed">
-            We use cookies to improve your browsing experience and analyze site traffic.{' '}
+            maxcode collects anonymized benchmark convergence telemetry only when opted in.{' '}
             <a
-              href="#footer"
+              href="/docs/reference/legal#privacy"
               className="text-tx underline hover:text-tx-tertiary transition-colors"
             >
               Privacy Policy
@@ -73,66 +86,73 @@ export const InteractiveModals: React.FC<InteractiveModalsProps> = ({
           </p>
 
           {cookieManageOpen && (
-            <div className="bg-sf mb-4 p-3 border border-st-secondary rounded-xl text-xs">
+            <div className="bg-sf mb-4 p-3 border border-st-secondary rounded-xl text-xs space-y-2">
               <div className="flex justify-between items-center py-1">
-                <span className="font-medium text-tx">Essential Session Cookies</span>
+                <span className="font-medium text-tx">Session Storage</span>
                 <span className="font-mono text-[11px] text-tx-tertiary">Always Active</span>
               </div>
-              <label className="flex justify-between items-center py-1 mt-1 cursor-pointer">
-                <span className="text-tx-secondary">Telemetry &amp; Performance</span>
+              <label className="flex justify-between items-center py-1 cursor-pointer">
+                <span className="text-tx-secondary">Anonymized Checkpoint Benchmarks</span>
                 <input
                   type="checkbox"
                   checked={analyticsEnabled}
                   onChange={(e) => setAnalyticsEnabled(e.target.checked)}
-                  className="accent-(--sc-blue)"
+                  className="accent-accent-600"
                 />
               </label>
             </div>
           )}
 
           <div className="flex items-center gap-2">
-            <button
-              type="button"
+            <Button
+              variant="secondary"
+              size="small"
               onClick={() => setCookieManageOpen((prev) => !prev)}
-              className="flex-1 bg-sf hover:bg-sf-tertiary px-4 py-2 border border-st rounded-full font-medium text-tx text-xs transition-colors cursor-pointer"
+              className="flex-1 justify-center"
             >
               {cookieManageOpen ? 'Hide options' : 'Manage'}
-            </button>
-            <button
-              type="button"
+            </Button>
+            <Button
+              variant="primary"
+              size="small"
               onClick={() => setCookieDismissed(true)}
-              className="flex-1 bg-sf-invert hover:bg-sf-invert/90 px-4 py-2 rounded-full font-medium text-tx-invert text-xs transition-colors cursor-pointer"
+              className="flex-1 justify-center"
             >
-              Accept all
-            </button>
+              Accept All
+            </Button>
           </div>
         </div>
       )}
 
-      {/* Interactive Modal for Try maxcode / Talk to us / Log In */}
+      {/* Interactive Modal Dialog */}
       {modalMode && (
         <div
           role="dialog"
           aria-modal="true"
           aria-label="maxcode interactive dialog"
-          className="z-200 fixed inset-0 flex justify-center items-center bg-black/45 backdrop-blur-xs p-4"
+          className="z-200 fixed inset-0 flex justify-center items-center bg-black/60 backdrop-blur-xs p-4 animate-in fade-in duration-200"
           onClick={resetAndClose}
         >
           <div
-            className="relative bg-sf shadow-2xl p-6 md:p-8 border border-st rounded-3xl w-full max-w-lg text-tx"
+            className="relative bg-sf shadow-2xl p-6 md:p-8 border border-st-secondary rounded-3xl w-full max-w-lg text-tx transform transition-all duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               type="button"
               aria-label="Close modal"
               onClick={resetAndClose}
-              className="top-5 right-5 absolute flex justify-center items-center hover:bg-sf-secondary rounded-full w-8 h-8 text-tx-tertiary hover:text-tx cursor-pointer"
+              className="top-5 right-5 absolute flex justify-center items-center hover:bg-sf-secondary rounded-full size-8 text-tx-tertiary hover:text-tx cursor-pointer transition-colors"
             >
-              ✕
+              <RiCloseLine className="size-5" />
             </button>
 
-            <div className="mb-2 font-mono text-[11px] text-(--sc-blue) uppercase tracking-widest">
-              &gt;_ maxcode (v0.38.0) · powered by maxm1
+            <div className="flex items-center gap-2 mb-3">
+              <Badge color="primary" className="font-mono text-[10px] uppercase">
+                v0.8.2
+              </Badge>
+              <span className="font-mono text-[11px] text-tx-tertiary tracking-wide flex items-center gap-1">
+                <RiTerminalBoxFill className="size-3.5 text-accent-500" /> maxcode · maxm1 engine
+              </span>
             </div>
 
             <h3 className="font-season text-2xl md:text-3xl leading-tight">
@@ -143,50 +163,53 @@ export const InteractiveModals: React.FC<InteractiveModalsProps> = ({
 
             <p className="mt-2 text-tx-secondary text-sm leading-relaxed">
               {modalMode === 'try' &&
-                'Run maxcode locally or in your cloud tenancy with dynamic task routing to maxm1.'}
+                'Run maxcode locally in your terminal or cloud CI with strict verifier checkpoints.'}
               {modalMode === 'talk' &&
-                'Work with our engineering team to pick a migration, refactor, or task-specific maxm1 training workflow.'}
+                'Partner with our systems engineers to test maxcode against your codebase benchmarks and custom test runners.'}
               {modalMode === 'login' &&
-                'Access your live checkpoints, model routing telemetry, and domain-trained maxm1 weights.'}
+                'Access your team checkpoint logs, benchmark telemetry, and shared verification hooks.'}
             </p>
 
-            {/* CLI Quick-run box for Try mode */}
+            {/* CLI Quick-run box */}
             {modalMode === 'try' && (
-              <div className="bg-sf-secondary mt-4 p-3.5 border border-st-tertiary/80 rounded-xl font-mono text-xs">
+              <div className="bg-sf-secondary mt-5 p-3.5 border border-st-secondary rounded-2xl font-mono text-xs">
                 <div className="flex justify-between items-center gap-2">
-                  <span className="truncate">
-                    <span className="text-(--sc-green)">$</span> npx maxcode init --model maxm1
+                  <span className="truncate text-tx">
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold">$</span> npx maxcode init --model maxm1
                   </span>
-                  <button
-                    type="button"
+                  <Button
+                    variant={copiedCli ? 'primary' : 'secondary'}
+                    size="small"
+                    leadingIcon={copiedCli ? RiCheckLine : RiFileCopyLine}
                     onClick={handleCopyCli}
-                    className="bg-sf hover:bg-sf-tertiary px-2.5 py-1 border border-st rounded font-sans font-medium text-[11px] text-tx cursor-pointer shrink-0"
+                    className="shrink-0"
                   >
-                    {copiedCli ? 'Copied' : 'Copy CLI'}
-                  </button>
+                    {copiedCli ? 'Copied' : 'Copy'}
+                  </Button>
                 </div>
               </div>
             )}
 
             {submitted ? (
-              <div className="bg-sf-secondary mt-6 p-5 border border-st rounded-2xl text-center">
+              <div className="bg-sf-secondary mt-6 p-6 border border-st-secondary rounded-2xl text-center space-y-3">
+                <div className="size-12 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
+                  <RiCheckLine className="size-6" />
+                </div>
                 <p className="font-season text-tx text-xl">
-                  Request registered for {company || 'your team'}
+                  Pilot Registered for {company || 'your team'}
                 </p>
-                <p className="mt-1.5 text-tx-secondary text-xs leading-relaxed">
-                  We have provisioned a dedicated maxcode + maxm1 pilot slot and sent onboarding instructions to{' '}
+                <p className="text-tx-secondary text-xs leading-relaxed max-w-sm mx-auto">
+                  We provisioned a sandbox workspace and sent verification instructions to{' '}
                   <span className="font-medium text-tx">{email}</span>.
                 </p>
-                <button
-                  type="button"
-                  onClick={resetAndClose}
-                  className="bg-sf-invert mt-4 px-5 py-2 rounded-full font-semibold text-tx-invert text-xs cursor-pointer"
-                >
-                  Done
-                </button>
+                <div className="pt-2">
+                  <Button variant="primary" size="medium" onClick={resetAndClose}>
+                    Done
+                  </Button>
+                </div>
               </div>
             ) : (
-              <form onSubmit={handleFormSubmit} className="space-y-3.5 mt-5">
+              <form onSubmit={handleFormSubmit} className="space-y-4 mt-5">
                 <div>
                   <label className="block mb-1 font-medium text-tx-secondary text-xs">
                     Full Name
@@ -196,10 +219,10 @@ export const InteractiveModals: React.FC<InteractiveModalsProps> = ({
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Aarav Sharma"
-                    className="bg-white px-3.5 py-2 border border-st-tertiary focus:border-(--sc-blue) rounded-xl outline-none w-full text-sm"
+                    className="bg-sf-secondary/50 px-3.5 py-2.5 border border-st-secondary focus:border-accent-500 rounded-xl outline-none w-full text-sm text-tx transition-colors"
                   />
                   {errors.name && (
-                    <p className="mt-1 text-sr-red-600 text-xs">{errors.name}</p>
+                    <p className="mt-1 text-rose-500 text-xs">{errors.name}</p>
                   )}
                 </div>
 
@@ -213,58 +236,56 @@ export const InteractiveModals: React.FC<InteractiveModalsProps> = ({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="aarav@acme.io"
-                      className="bg-white px-3.5 py-2 border border-st-tertiary focus:border-(--sc-blue) rounded-xl outline-none w-full text-sm"
+                      className="bg-sf-secondary/50 px-3.5 py-2.5 border border-st-secondary focus:border-accent-500 rounded-xl outline-none w-full text-sm text-tx transition-colors"
                     />
                     {errors.email && (
-                      <p className="mt-1 text-sr-red-600 text-xs">{errors.email}</p>
+                      <p className="mt-1 text-rose-500 text-xs">{errors.email}</p>
                     )}
                   </div>
                   <div>
                     <label className="block mb-1 font-medium text-tx-secondary text-xs">
-                      Company / Repository Org
+                      Company / Organization
                     </label>
                     <input
                       type="text"
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
                       placeholder="Acme Payments"
-                      className="bg-white px-3.5 py-2 border border-st-tertiary focus:border-(--sc-blue) rounded-xl outline-none w-full text-sm"
+                      className="bg-sf-secondary/50 px-3.5 py-2.5 border border-st-secondary focus:border-accent-500 rounded-xl outline-none w-full text-sm text-tx transition-colors"
                     />
                     {errors.company && (
-                      <p className="mt-1 text-sr-red-600 text-xs">{errors.company}</p>
+                      <p className="mt-1 text-rose-500 text-xs">{errors.company}</p>
                     )}
                   </div>
                 </div>
 
                 <div>
                   <label className="block mb-1 font-medium text-tx-secondary text-xs">
-                    Target Migration or Task for maxm1
+                    Target Codebase Task or Migration
                   </label>
                   <textarea
                     rows={2}
                     value={useCase}
                     onChange={(e) => setUseCase(e.target.value)}
-                    className="bg-white px-3.5 py-2 border border-st-tertiary focus:border-(--sc-blue) rounded-xl outline-none w-full text-sm"
+                    className="bg-sf-secondary/50 px-3.5 py-2.5 border border-st-secondary focus:border-accent-500 rounded-xl outline-none w-full text-sm text-tx transition-colors resize-none"
                   />
                   {errors.useCase && (
-                    <p className="mt-1 text-sr-red-600 text-xs">{errors.useCase}</p>
+                    <p className="mt-1 text-rose-500 text-xs">{errors.useCase}</p>
                   )}
                 </div>
 
-                <div className="flex justify-end items-center gap-3 pt-2">
-                  <button
-                    type="button"
-                    onClick={resetAndClose}
-                    className="bg-sf-secondary hover:bg-sf-tertiary px-4 py-2.5 rounded-full font-medium text-tx text-xs cursor-pointer"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="bg-sf-invert hover:bg-sf-invert/90 px-5 py-2.5 rounded-full font-semibold text-tx-invert text-xs cursor-pointer"
-                  >
-                    {modalMode === 'login' ? 'Continue with SSO' : 'Request maxcode Access'}
-                  </button>
+                <div className="flex justify-between items-center pt-3 border-t border-st-secondary">
+                  <div className="text-[11px] text-tx-tertiary flex items-center gap-1.5">
+                    <Kbd>Esc</Kbd> to cancel
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button variant="secondary" size="medium" onClick={resetAndClose}>
+                      Cancel
+                    </Button>
+                    <Button variant="primary" size="medium" type="submit">
+                      {modalMode === 'login' ? 'Continue with SSO' : 'Request Access'}
+                    </Button>
+                  </div>
                 </div>
               </form>
             )}

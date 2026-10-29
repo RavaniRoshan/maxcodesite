@@ -1,0 +1,41 @@
+---
+title: Benchmark Suite Specification
+description: Details of the 20-task benchmark evaluation suite.
+---
+
+The `maxcode` benchmark evaluates real-world coding capability across 20 curated tasks in public open-source repositories.
+
+---
+
+## Benchmark Design
+
+Each benchmark task is declared as a JSON file under `src/maxcode/bench/tasks/task-XXX.json` with the following schema:
+
+```json
+{
+  "id": "task-001",
+  "repo_url": "https://github.com/example/repo",
+  "commit": "a1b2c3d4e5f6...",
+  "task": "Add exponential backoff to request retries",
+  "score_command": "pytest tests/test_retry.py -v",
+  "timeout_seconds": 180
+}
+```
+
+---
+
+## Verifier-On vs Verifier-Off Protocol
+
+The benchmark runs each task under two conditions:
+1. **Verifier On:** Standard `maxcode` behavior where the verifier runs intermediate checks and triggers the 3-try retry loop on failure.
+2. **Verifier Off:** The planner creates the plan, the worker produces code in a single pass, and intermediate check validation is bypassed.
+
+At the conclusion of both runs, the independent `score_command` runs on the final working tree.
+
+---
+
+## Reporting Metrics
+
+- **Pass Rate:** Percentage of tasks where the final score command exits 0.
+- **Cost per Completed Task:** Aggregate token cost divided by number of passing tasks.
+- **Retry Distribution:** Number of attempts needed to achieve verification.

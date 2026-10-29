@@ -8,7 +8,7 @@ export default defineConfig(() => {
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(import.meta.dirname, 'src'),
       },
     },
     server: {
@@ -17,6 +17,26 @@ export default defineConfig(() => {
       hmr: process.env.DISABLE_HMR !== 'true',
       // Disable file watching when DISABLE_HMR is true to save CPU during agent edits.
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
+      proxy: {
+        '/docs': {
+          target: 'http://127.0.0.1:3001',
+          changeOrigin: true,
+          ws: true,
+        },
+        '/_next': {
+          target: 'http://127.0.0.1:3001',
+          changeOrigin: true,
+          ws: true,
+        },
+        '/api/search': {
+          target: 'http://127.0.0.1:3001',
+          changeOrigin: true,
+        },
+        '/og': {
+          target: 'http://127.0.0.1:3001',
+          changeOrigin: true,
+        },
+      },
     },
   };
 });

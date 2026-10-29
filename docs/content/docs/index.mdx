@@ -1,0 +1,58 @@
+---
+title: maxcode Documentation
+description: An open-source terminal coding agent that marks a task done only after checks pass.
+---
+
+Welcome to the **maxcode** technical documentation.
+
+`maxcode` is an open-source terminal coding tool for developers who demand verifiable software engineering. Built on an independent fork of the Codex CLI (Apache-2.0), `maxcode` introduces an **uncompromising verifier loop**: it splits user requests into small, testable steps, edits files, and marks each step complete **only when automated compilers, linters, and test suites pass**.
+
+---
+
+## Documentation Structure (Diátaxis Framework)
+
+This documentation is organized according to the **Diátaxis framework**, dividing knowledge into four distinct quadrants based on user needs:
+
+<Cards>
+  <Card 
+    title="Tutorials" 
+    description="Learning-oriented lessons to take you from a fresh clone to your first verified run in 5 minutes." 
+    href="/docs/tutorials" 
+  />
+  <Card 
+    title="How-To Guides" 
+    description="Problem-oriented step-by-step recipes for configuring custom providers, steering live runs, and setting checks." 
+    href="/docs/how-to" 
+  />
+  <Card 
+    title="Reference" 
+    description="Information-oriented technical specifications for CLI commands, maxcode.toml schema, run logs, and exit codes." 
+    href="/docs/reference" 
+  />
+  <Card 
+    title="Explanation" 
+    description="Understanding-oriented architectural deep dives exploring the verifier loop, git checkpoints, and cost models." 
+    href="/docs/explanation" 
+  />
+</Cards>
+
+---
+
+## Core Product Pillars
+
+1. **Planner / Worker / Verifier Role Decomposition:**
+   - **Planner:** Inspects the repository and constructs a structured JSON plan with discrete steps and required checks.
+   - **Worker:** Modifies files to implement a single step. The worker is never permitted to declare its own work complete.
+   - **Verifier:** An objective judge that runs repository commands (`pytest`, `npm test`, `cargo test`, `go test`, or custom commands) and evaluates diff limits. If checks fail, output feeds back into a retry loop (up to 3 attempts).
+
+2. **Isolated Git Checkpoints & One-Command Undo:**
+   - Before executing any step, `maxcode` records a git ref under `refs/maxcode/RUN_ID/STEP_NUMBER` using an isolated index that never modifies your working branch history.
+   - If a step fails repeatedly or you want to discard changes, `maxcode undo` instantly reverts your working tree to the last passing checkpoint.
+
+3. **Provider Flexibility & Bring-Your-Own-Key:**
+   - Connect any OpenAI-compatible API endpoint—including OpenRouter, DeepSeek, Qwen, or local models running in Ollama and LM Studio.
+   - API keys are read solely from environment variables and never written to logs or disk.
+
+4. **Transparent Cost & Pay for Completed Work:**
+   - Real-time token tracking per step.
+   - Costs from failed retries are factored into the telemetry, with configurable hard spend caps per task.

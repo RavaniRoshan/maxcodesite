@@ -1,0 +1,13 @@
+{
+  "title": "Reference",
+  "pages": [
+    "index",
+    "cli",
+    "config",
+    "runlog",
+    "checkpoints",
+    "exit-codes",
+    "benchmarks",
+    "legal"
+  ]
+}

@@ -1,0 +1,77 @@
+---
+title: maxcode.toml Configuration Schema
+description: Complete specification of configuration options, keys, and defaults.
+---
+
+`maxcode` discovers configuration by evaluating the following locations in order:
+1. File passed via `--config PATH`
+2. `./maxcode.toml` in the repository root
+3. `~/.config/maxcode/config.toml` in the user's home directory
+
+---
+
+## Complete Reference Example
+
+```toml title="maxcode.toml"
+[provider.main]
+base_url    = "https://openrouter.ai/api/v1"
+api_key_env = "MAXCODE_API_KEY"
+
+[planner]
+provider = "main"
+model    = "qwen/qwen3-coder-next"
+
+[worker]
+provider = "main"
+model    = "deepseek/deepseek-v3.2"
+
+[limits]
+max_retries_per_step  = 3
+max_cost_usd_per_task = 2.00
+max_diff_lines        = 400
+max_steps             = 12
+
+[checks]
+test  = ""   # Empty string enables auto-detection
+build = ""
+lint  = ""
+
+[protected]
+paths      = ["**/*.lock", ".github/**"]
+test_paths = ["tests/**", "**/test_*.py", "**/*.test.*"]
+
+[pricing."qwen/qwen3-coder-next"]
+input_per_mtok_usd  = 0.15
+output_per_mtok_usd = 0.60
+
+[pricing."deepseek/deepseek-v3.2"]
+input_per_mtok_usd  = 0.27
+output_per_mtok_usd = 1.10
+```
+
+---
+
+## Table & Field Specifications
+
+### `[provider.<name>]`
+- `base_url` *(string, required)*: OpenAI-compatible API base URL.
+- `api_key_env` *(string, required)*: Environment variable containing the secret API key.
+
+### `[planner]` & `[worker]`
+- `provider` *(string, required)*: Name of a declared provider table.
+- `model` *(string, required)*: Model identifier passed in the API request payload.
+
+### `[limits]`
+- `max_retries_per_step` *(integer, default: 3)*: Maximum verification attempts per step before stopping.
+- `max_cost_usd_per_task` *(float, default: 2.00)*: Hard budget ceiling in USD.
+- `max_diff_lines` *(integer, default: 400)*: Maximum allowed diff lines per step.
+- `max_steps` *(integer, default: 12)*: Maximum steps allowed in a single plan.
+
+### `[checks]`
+- `test` *(string)*: Test execution command.
+- `build` *(string)*: Build or compilation command.
+- `lint` *(string)*: Linting or static analysis command.
+
+### `[protected]`
+- `paths` *(list of glob strings)*: Read-only files that can never be modified.
+- `test_paths` *(list of glob strings)*: Test files that may only be edited when `edits_tests: true`.

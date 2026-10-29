@@ -1,0 +1,99 @@
+---
+title: How to Configure OpenAI-Compatible Providers
+description: Connect maxcode to any OpenAI-compatible API endpoint or local open-weight model.
+---
+
+`maxcode` supports any endpoint adhering to the OpenAI Chat Completions API format. This includes hosted providers (OpenRouter, DeepSeek, Together, Groq) and local inference servers (Ollama, vLLM, LM Studio).
+
+---
+
+## 1. Provider Configuration in `maxcode.toml`
+
+Every provider configuration is declared under the `[provider.<name>]` table:
+
+```toml title="maxcode.toml"
+[provider.main]
+base_url    = "https://openrouter.ai/api/v1"
+api_key_env = "OPENROUTER_API_KEY"
+
+[planner]
+provider = "main"
+model    = "qwen/qwen3-coder-next"
+
+[worker]
+provider = "main"
+model    = "deepseek/deepseek-v3.2"
+```
+
+### Key Parameters:
+- `base_url`: The root HTTP URL of the OpenAI-compatible endpoint.
+- `api_key_env`: The name of the environment variable containing the secret API key.
+- `[planner].model`: Model assigned to parse the task, analyze repository context, and generate the JSON step sequence.
+- `[worker].model`: Model assigned to write file edits for each individual step.
+
+---
+
+## 2. Using Local Open-Weight Models (Ollama)
+
+To run entirely offline with zero cloud API keys:
+
+1. Start your local Ollama server:
+   ```bash
+   ollama run qwen2.5-coder:32b
+   ```
+
+2. Point `maxcode.toml` to localhost:
+   ```toml title="maxcode.toml"
+   [provider.local]
+   base_url    = "http://localhost:11434/v1"
+   api_key_env = "LOCAL_NO_KEY"
+
+   [planner]
+   provider = "local"
+   model    = "qwen2.5-coder:32b"
+
+   [worker]
+   provider = "local"
+   model    = "qwen2.5-coder:32b"
+   ```
+
+3. Set a dummy environment variable:
+   ```bash
+   export LOCAL_NO_KEY="ollama"
+   ```
+
+---
+
+## 3. Asymmetric Model Routing (Scaffolding vs Reasoning)
+
+You can assign distinct models to the planner and worker to optimize speed and cost:
+
+```toml title="maxcode.toml"
+# Fast, low-cost model for repo planning
+[planner]
+provider = "main"
+model    = "qwen/qwen3-coder-next"
+
+# High-capability reasoning engine for editing complex code
+[worker]
+provider = "main"
+model    = "deepseek/deepseek-v3.2"
+```
+
+---
+
+## 4. Declaring Model Pricing for Cost Reports
+
+To see dollar amounts in `maxcode cost`, declare prices per million tokens:
+
+```toml title="maxcode.toml"
+[pricing."qwen/qwen3-coder-next"]
+input_per_mtok_usd  = 0.15
+output_per_mtok_usd = 0.60
+
+[pricing."deepseek/deepseek-v3.2"]
+input_per_mtok_usd  = 0.27
+output_per_mtok_usd = 1.10
+```
+
+If pricing is omitted, `maxcode` shows exact token counts without guessing monetary values.

@@ -1,0 +1,46 @@
+---
+title: Reference Overview
+description: Authoritative technical specifications, schemas, CLI commands, and exit codes for maxcode.
+---
+
+Reference documentation is **information-oriented**. It serves as an authoritative dictionary for all interfaces, formats, and contracts in `maxcode`.
+
+### Reference Specifications
+
+<Cards>
+  <Card 
+    title="CLI Command Reference" 
+    description="Full syntax, flags, and options for run, plan, undo, cost, and bench." 
+    href="/docs/reference/cli" 
+  />
+  <Card 
+    title="maxcode.toml Schema" 
+    description="Complete TOML configuration reference with table definitions and defaults." 
+    href="/docs/reference/config" 
+  />
+  <Card 
+    title="RunLog JSONL Schema" 
+    description="Event types and JSON payloads emitted to .maxcode/runs/<RUN_ID>/log.jsonl." 
+    href="/docs/reference/runlog" 
+  />
+  <Card 
+    title="Checkpoints & Git Architecture" 
+    description="Specification of isolated git refs, temporary index handling, and rollback." 
+    href="/docs/reference/checkpoints" 
+  />
+  <Card 
+    title="Exit Codes & Error Types" 
+    description="Deterministic process exit codes (0, 1, 2, 3, 4, 130) and error hierarchy." 
+    href="/docs/reference/exit-codes" 
+  />
+  <Card 
+    title="Benchmark Suite Specification" 
+    description="Task definitions, commit pinning, score commands, and verification criteria." 
+    href="/docs/reference/benchmarks" 
+  />
+  <Card 
+    title="Legal, Notices & Attribution" 
+    description="Apache-2.0 license, Codex CLI attribution, and trademark compliance." 
+    href="/docs/reference/legal" 
+  />
+</Cards>

@@ -194,6 +194,7 @@ export function applyBrandCssVariables(
   }
   if (typeof document !== 'undefined' && document.documentElement && target === undefined) {
     document.documentElement.setAttribute('data-theme', mode);
+    document.documentElement.classList.toggle('dark', mode === 'dark');
   }
   return vars;
 }

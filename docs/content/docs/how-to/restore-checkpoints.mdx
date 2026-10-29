@@ -1,0 +1,44 @@
+---
+title: How to Restore Git Checkpoints
+description: Use maxcode undo and inspect isolated refs under refs/maxcode/.
+---
+
+`maxcode` implements zero-risk rollback through an isolated git ref architecture.
+
+---
+
+## 1. How Checkpoints Are Created
+
+Before a worker receives a step, `maxcode` creates a git commit using a private, temporary index file (`GIT_INDEX_FILE`):
+- The ref is stored under `refs/maxcode/<RUN_ID>/<STEP_NUMBER>`.
+- The user's active branch index and commit history are **never modified or polluted**.
+- Untracked files that are not in `.gitignore` are captured safely.
+
+---
+
+## 2. Using `maxcode undo`
+
+If you are not satisfied with the latest step, or if an unexpected failure occurred:
+
+```bash
+uv run maxcode undo
+```
+
+### What Happens:
+1. `maxcode` looks up the most recent checkpoint ref for the active run.
+2. It restores the working tree and index to that exact commit snapshot.
+3. Your repository is returned to its clean state prior to that step.
+
+---
+
+## 3. Manually Inspecting Checkpoints
+
+Because checkpoints are standard git refs, you can inspect their diffs using standard git commands:
+
+```bash
+# List all maxcode checkpoints
+git show-ref | grep refs/maxcode
+
+# Inspect the diff captured at step 2 of a run
+git diff refs/maxcode/20261029-152000-a8b2/1 refs/maxcode/20261029-152000-a8b2/2
+```
