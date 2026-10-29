@@ -79,7 +79,11 @@ const CardArrowIcon: React.FC = () => (
   </span>
 );
 
-export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
+export const Header: React.FC<HeaderProps> = ({
+  onOpenModal,
+  themeMode = 'light',
+  onToggleTheme,
+}) => {
   const [openMenu, setOpenMenu] = useState<NavMenuKey>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileAccordion, setMobileAccordion] = useState<NavMenuKey>('products');
@@ -94,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
   return (
     <header
       data-site-header="true"
-      className="top-0 left-0 z-100 fixed bg-sf w-full"
+      className="top-0 left-0 z-100 fixed bg-sf/95 backdrop-blur-md border-st/50 border-b w-full transition-colors duration-300"
       onMouseLeave={() => setOpenMenu(null)}
     >
       {/* Desktop Navigation */}
@@ -139,7 +143,34 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
             })}
           </ul>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
+            {onToggleTheme && (
+              <button
+                type="button"
+                onClick={onToggleTheme}
+                aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                title={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                className="inline-flex justify-center items-center gap-1.5 bg-sf-secondary hover:bg-sf-tertiary px-3 py-2 border border-st-secondary rounded-full font-mono text-tx text-xs transition-all duration-200 cursor-pointer select-none"
+              >
+                {themeMode === 'dark' ? (
+                  <>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400">
+                      <circle cx="12" cy="12" r="4" />
+                      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+                    </svg>
+                    <span>Light</span>
+                  </>
+                ) : (
+                  <>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-tx-secondary">
+                      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+                    </svg>
+                    <span>Dark</span>
+                  </>
+                )}
+              </button>
+            )}
+
             <button
               type="button"
               onClick={() => onOpenModal('login')}
@@ -186,9 +217,19 @@ export const Header: React.FC<HeaderProps> = ({ onOpenModal }) => {
       {/* Mobile Navigation */}
       <nav className="lg:hidden relative flex justify-between items-center mx-auto py-3 w-[88%]">
         <a href="#top" aria-label="Go to maxcode home page" className="text-tx">
-          <MaxcodeWordmark className="w-[105px] h-[22px]" />
+          <MaxcodeWordmark />
         </a>
         <div className="flex items-center gap-2">
+          {onToggleTheme && (
+            <button
+              type="button"
+              onClick={onToggleTheme}
+              aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              className="inline-flex justify-center items-center bg-sf-secondary px-2.5 py-1.5 border border-st-secondary rounded-full font-mono text-tx text-xs cursor-pointer"
+            >
+              {themeMode === 'dark' ? '☀' : '☾'}
+            </button>
+          )}
           <button
             type="button"
             onClick={() => onOpenModal('login')}

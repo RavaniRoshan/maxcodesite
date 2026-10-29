@@ -126,16 +126,60 @@ export const BRAND_PALETTES: Record<BrandPaletteKey, BrandPalette> = {
   },
 };
 
-export function getBrandCssVariables(paletteKey: BrandPaletteKey = 'maxcode-amber'): Record<string, string> {
+export type ThemeMode = 'light' | 'dark';
+
+export const DARK_THEME_VARIABLES: Record<string, string> = {
+  '--color-tx': '#f7f2ec',
+  '--color-tx-secondary': '#c2b4a8',
+  '--color-tx-tertiary': '#8a7b6f',
+  '--color-tx-invert': '#14100d',
+  '--color-sf': '#0e0b09',
+  '--color-sf-secondary': '#181310',
+  '--color-sf-tertiary': '#241c17',
+  '--color-sf-invert': '#faf6f1',
+  '--color-st': '#2a211b',
+  '--color-st-secondary': '#342821',
+  '--color-st-tertiary': '#47372d',
+  '--color-card-surface': '#16110e',
+  '--color-sr-indigo-50': '#261710',
+  '--color-sr-indigo-100': '#3b2114',
+  '--color-sr-indigo-200': '#7c2d12',
+  '--color-sr-indigo-400': '#fb923c',
+  '--color-sr-indigo-600': '#f97316',
+  '--color-sr-indigo-800': '#fdba74',
+  '--color-sr-indigo-900': '#ffedd5',
+  '--sc-blue': '#fb923c',
+  '--sc-green': '#34d399',
+  '--sc-orange': '#f59e0b',
+  '--sc-purple': '#c084fc',
+  '--sc-highlight': '#241b15',
+  '--brand-glow-start': '#140f0c',
+  '--brand-glow-end': '#ea580c',
+};
+
+export function getBrandCssVariables(
+  paletteKey: BrandPaletteKey = 'maxcode-amber',
+  mode: ThemeMode = 'light'
+): Record<string, string> {
   const palette = BRAND_PALETTES[paletteKey] ?? BRAND_PALETTES['maxcode-amber'];
-  return { ...palette.variables };
+  if (mode === 'dark') {
+    return {
+      ...palette.variables,
+      ...DARK_THEME_VARIABLES,
+    };
+  }
+  return {
+    '--color-card-surface': '#ffffff',
+    ...palette.variables,
+  };
 }
 
 export function applyBrandCssVariables(
   paletteKey: BrandPaletteKey = 'maxcode-amber',
-  target?: { setProperty: (name: string, value: string) => void } | null
+  target?: { setProperty: (name: string, value: string) => void } | null,
+  mode: ThemeMode = 'light'
 ): Record<string, string> {
-  const vars = getBrandCssVariables(paletteKey);
+  const vars = getBrandCssVariables(paletteKey, mode);
   const styleTarget =
     target !== undefined
       ? target
@@ -147,6 +191,9 @@ export function applyBrandCssVariables(
     for (const [key, value] of Object.entries(vars)) {
       styleTarget.setProperty(key, value);
     }
+  }
+  if (typeof document !== 'undefined' && document.documentElement && target === undefined) {
+    document.documentElement.setAttribute('data-theme', mode);
   }
   return vars;
 }

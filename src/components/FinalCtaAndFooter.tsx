@@ -1,9 +1,11 @@
 import React from 'react';
 import RidgelineDitherFooter from './ui/ridgeline-dither-footer';
 import { MaxMascotSvg } from './BrandSvgs';
+import { ThemeMode } from '../data/brandConfig';
 
 interface FinalCtaAndFooterProps {
   onOpenModal: (mode: 'try' | 'talk' | 'login') => void;
+  themeMode?: ThemeMode;
 }
 
 /**
@@ -205,7 +207,7 @@ const MaxcodeExecutionHorizonSvg: React.FC<{ className?: string }> = ({
  * Giant foreground "maxcode" wordmark rendered in the foreground of the Ridgeline Dither scene
  * so both the interactive dithered mountain ridges and the giant maxcode logo are visible together.
  */
-const GiantForegroundMaxcodeLogo: React.FC = () => (
+const GiantForegroundMaxcodeLogo: React.FC<{ isDark?: boolean }> = ({ isDark = false }) => (
   <div className="relative w-full aspect-[1640/270] overflow-hidden pointer-events-none select-none">
     <svg
       viewBox="0 0 1640 270"
@@ -215,22 +217,32 @@ const GiantForegroundMaxcodeLogo: React.FC = () => (
     >
       <defs>
         <linearGradient id="maxcodeFgFill" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#181310" stopOpacity="0.22" />
-          <stop offset="45%" stopColor="#9a3412" stopOpacity="0.42" />
-          <stop offset="100%" stopColor="#181310" stopOpacity="0.72" />
+          {isDark ? (
+            <>
+              <stop offset="0%" stopColor="#fff7ed" stopOpacity="0.16" />
+              <stop offset="45%" stopColor="#fb923c" stopOpacity="0.32" />
+              <stop offset="100%" stopColor="#140f0c" stopOpacity="0.78" />
+            </>
+          ) : (
+            <>
+              <stop offset="0%" stopColor="#181310" stopOpacity="0.22" />
+              <stop offset="45%" stopColor="#9a3412" stopOpacity="0.42" />
+              <stop offset="100%" stopColor="#181310" stopOpacity="0.72" />
+            </>
+          )}
         </linearGradient>
         <linearGradient id="maxcodeFgStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#faf6f1" stopOpacity="0.65" />
-          <stop offset="50%" stopColor="#fed7aa" stopOpacity="0.85" />
-          <stop offset="100%" stopColor="#faf6f1" stopOpacity="0.65" />
+          <stop offset="0%" stopColor="#faf6f1" stopOpacity={isDark ? '0.45' : '0.65'} />
+          <stop offset="50%" stopColor="#fed7aa" stopOpacity={isDark ? '0.75' : '0.85'} />
+          <stop offset="100%" stopColor="#faf6f1" stopOpacity={isDark ? '0.45' : '0.65'} />
         </linearGradient>
       </defs>
       {/* Giant Foreground Mascot Emblem on the left of maxcode */}
       <g
         transform="translate(52, 24) scale(17.5)"
         shapeRendering="crispEdges"
-        style={{ mixBlendMode: 'multiply' }}
-        opacity="0.72"
+        style={{ mixBlendMode: isDark ? 'normal' : 'multiply' }}
+        opacity={isDark ? '0.82' : '0.72'}
       >
         <rect x="4" y="2" width="1" height="1" fill="#F59E0B" />
         <rect x="5" y="2" width="1" height="1" fill="#D97706" />
@@ -259,7 +271,7 @@ const GiantForegroundMaxcodeLogo: React.FC = () => (
           fontWeight: 800,
           fontSize: '305px',
           letterSpacing: '-0.045em',
-          mixBlendMode: 'multiply',
+          mixBlendMode: isDark ? 'normal' : 'multiply',
         }}
       >
         maxcode
@@ -268,7 +280,11 @@ const GiantForegroundMaxcodeLogo: React.FC = () => (
   </div>
 );
 
-export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({ onOpenModal }) => {
+export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
+  onOpenModal,
+  themeMode = 'light',
+}) => {
+  const isDark = themeMode === 'dark';
   return (
     <>
       {/* Section 5: Final CTA Card with Bespoke Maxcode Checkpoint Astrolabe & Prism Core */}
@@ -281,7 +297,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({ onOpenModa
           }}
         >
           <div className="top-12 md:top-20 z-10 absolute flex flex-col items-center gap-6 px-4 text-center">
-            <h2 className="max-w-2xl font-season font-semibold text-tx-invert text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight tracking-tight">
+            <h2 className="max-w-2xl font-season font-semibold text-[#faf6f1] text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight tracking-tight">
               Put maxcode to work on a real codebase.
             </h2>
           </div>
@@ -303,10 +319,10 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({ onOpenModa
             <button
               type="button"
               onClick={() => onOpenModal('talk')}
-              className="group inline-flex relative justify-center items-center gap-1 bg-sf-invert hover:bg-sf-invert/90 active:bg-sf-invert/80 px-5 py-3 rounded-full overflow-hidden font-semibold text-tx-invert text-base tracking-tight transition-all duration-300 cursor-pointer select-none"
+              className="group inline-flex relative justify-center items-center gap-1 bg-[#181310] hover:bg-[#181310]/90 active:bg-[#181310]/80 px-5 py-3 rounded-full overflow-hidden font-semibold text-[#faf6f1] text-base tracking-tight transition-all duration-300 cursor-pointer select-none"
               style={{
                 boxShadow:
-                  '0 6px 12px 0 rgba(0, 0, 0, 0.10), 0 2px 6px 0 rgba(255, 255, 255, 0.40) inset, 0 -2px 6px 0 rgba(255, 255, 255, 0.40) inset',
+                  '0 6px 12px 0 rgba(0, 0, 0, 0.18), 0 2px 6px 0 rgba(255, 255, 255, 0.35) inset, 0 -2px 6px 0 rgba(255, 255, 255, 0.35) inset',
               }}
             >
               <span
@@ -331,7 +347,20 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({ onOpenModa
         name="maxcode"
         logo={<MaxMascotSvg className="w-7 h-[30px] shrink-0 -translate-y-0.5" />}
         brandHref="#top"
+        theme={themeMode}
         preset="terracotta"
+        palette={
+          isDark
+            ? {
+                paper: '#0e0b09',
+                ink: '#f7f2ec',
+                muted: '#a8998c',
+                line: 'rgba(247, 242, 236, 0.13)',
+                heart: '#fb923c',
+                ridges: ['#29130a', '#451d0d', '#6b2a11', '#943a16', '#bd4d1d', '#e26a2c', '#fb923c'],
+              }
+            : undefined
+        }
         seed={23}
         ridges={7}
         height="760px"
@@ -358,7 +387,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({ onOpenModa
             </div>
           </div>
         }
-        foregroundLogo={<GiantForegroundMaxcodeLogo />}
+        foregroundLogo={<GiantForegroundMaxcodeLogo isDark={isDark} />}
         columns={[
           {
             title: 'Products',

@@ -6,10 +6,10 @@
 import React, { useEffect, useState } from 'react';
 import {
   BRAND_IDENTITY,
-  BrandPaletteKey,
   HERO_TRANSCRIPT,
   LONG_HORIZON_CARDS,
   TRAINING_TRANSCRIPT,
+  ThemeMode,
   applyBrandCssVariables,
 } from './data/brandConfig';
 import { MaxMascotSvg, MotifSvg } from './components/BrandSvgs';
@@ -23,19 +23,38 @@ import { CostShowcase } from './components/CostShowcase';
 import { FaqSection } from './components/FaqSection';
 import { FinalCtaAndFooter } from './components/FinalCtaAndFooter';
 import { InteractiveModals } from './components/InteractiveModals';
+import InkOrbitFeatures from './components/ui/ink-orbit-features';
 
 export default function App() {
   const [modalMode, setModalMode] = useState<'try' | 'talk' | 'login' | null>(null);
+  const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = window.localStorage.getItem('maxcode-theme');
+      if (saved === 'dark' || saved === 'light') return saved;
+    }
+    return 'light';
+  });
 
-  // Apply the warm red-orange ('maxcode-amber') brand CSS variables across the entire design system
+  // Apply the warm red-orange ('maxcode-amber') brand CSS variables and Light/Dark mode across the entire design system
   useEffect(() => {
-    applyBrandCssVariables('maxcode-amber');
-  }, []);
+    applyBrandCssVariables('maxcode-amber', undefined, themeMode);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('maxcode-theme', themeMode);
+    }
+  }, [themeMode]);
+
+  const handleToggleTheme = () => {
+    setThemeMode((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
 
   return (
-    <div id="top" className="min-h-screen bg-sf text-tx antialiased">
-      {/* Fixed Site Header with Mega-Menus */}
-      <Header onOpenModal={(mode) => setModalMode(mode)} />
+    <div id="top" className="min-h-screen bg-sf text-tx antialiased transition-colors duration-300">
+      {/* Fixed Site Header with Mega-Menus & Dark Mode Toggle */}
+      <Header
+        onOpenModal={(mode) => setModalMode(mode)}
+        themeMode={themeMode}
+        onToggleTheme={handleToggleTheme}
+      />
 
       {/* Main Content Container matching exact reference spacing */}
       <main className="flex flex-col gap-24 md:gap-32 pt-24 md:pt-32">
@@ -164,7 +183,7 @@ export default function App() {
               {LONG_HORIZON_CARDS.map((card) => (
                 <div
                   key={card.id}
-                  className="flex flex-col bg-white border border-st-secondary rounded-[28px] md:rounded-4xl overflow-hidden"
+                  className="flex flex-col bg-(--color-card-surface,white) border border-st-secondary rounded-[28px] md:rounded-4xl overflow-hidden transition-colors duration-300"
                 >
                   <div className="p-6 md:p-8 pb-5">
                     <h3 className="font-season text-tx text-xl md:text-2xl leading-[125%] tracking-[-0.4px]">
@@ -188,6 +207,41 @@ export default function App() {
           </div>
         </section>
 
+        {/* SECTION 2.5: LIVE CHECKPOINT ORCHESTRATION, TOOLING HUB & CONVERGENCE TELEMETRY */}
+        <section id="orchestration" className="scroll-mt-24">
+          <div className="mx-auto w-[88%] md:w-10/12 max-w-width-mx">
+            <InkOrbitFeatures
+              theme={themeMode}
+              brand="maxcode"
+              tag="MAXM1 ORCHESTRATION · LIVE TELEMETRY"
+              title={"Autonomous *Checkpoint*\n& Tooling Architecture"}
+              collaboration={{
+                title: 'Live Plan Steering & Sub-Agents',
+                description:
+                  'Engineers inspect, steer, and branch active maxcode runs in real time while maxm1 coordinates parallel sub-agents across services.',
+              }}
+              reports={{
+                title: 'Continuous Checkpoint Verification',
+                description:
+                  'Every completed step emits a reproducible verification artifact — contract test results, AST diff bounds, and rollback hashes.',
+              }}
+              integrations={{
+                title: 'Sandboxed Repo & Tooling Hub',
+                description:
+                  'Connect Git worktrees, test runners, LSP servers, and issue trackers into one unified maxm1 execution loop.',
+                tools: ['Git & PRs', 'Pytest / CI', 'LSP & AST', 'Linear / Jira'],
+              }}
+              insights={{
+                title: 'Long-Horizon Convergence Telemetry',
+                description:
+                  'Scrub multi-hour session telemetry to inspect how maxm1 compounds test pass rates and cuts retry overhead across checkpoints.',
+                values: [38, 44, 49, 56, 61, 68, 72, 79, 84, 89, 93, 97],
+                forecastFrom: 8,
+              }}
+            />
+          </div>
+        </section>
+
         {/* SECTION 3: PILLAR 2 — COST & MODEL ROUTING */}
         <section id="cost" className="scroll-mt-24">
           <div className="mx-auto w-[88%] md:w-10/12 max-w-width-mx">
@@ -204,15 +258,15 @@ export default function App() {
         {/* SECTION 4: SPECIALIZED MODEL TRAINING (DARK CARD) */}
         <section>
           <div className="mx-auto w-[88%] md:w-10/12 max-w-width-mx">
-            <div className="relative bg-sr-black rounded-[28px] md:rounded-[40px] overflow-hidden">
+            <div className="relative bg-sr-black border border-st-secondary rounded-[28px] md:rounded-[40px] overflow-hidden">
               <TrainingAtmosphericBackdrop />
 
               <div className="relative px-6 sm:px-10 md:px-16 pt-12 md:pt-20 pb-6 sm:pb-10 md:pb-14">
                 <div className="mx-auto max-w-[640px] text-center">
-                  <h2 className="font-season text-tx-invert text-2xl md:text-4xl lg:text-[40px] leading-[120%] tracking-[-0.8px]">
+                  <h2 className="font-season text-[#faf6f1] text-2xl md:text-4xl lg:text-[40px] leading-[120%] tracking-[-0.8px]">
                     Train a model for a specialised task.
                   </h2>
-                  <p className="mt-4 text-tx-invert/75 text-base md:text-lg leading-relaxed">
+                  <p className="mt-4 text-[#faf6f1]/75 text-base md:text-lg leading-relaxed">
                     maxcode can train a task-specific maxm1 model during the run using your data and requirements, then apply it to the job. For underwriting, that can mean training on your risk parameters.
                   </p>
                 </div>
@@ -232,7 +286,10 @@ export default function App() {
 
         {/* SECTION 5: FAQ & FINAL CTA */}
         <FaqSection />
-        <FinalCtaAndFooter onOpenModal={(mode) => setModalMode(mode)} />
+        <FinalCtaAndFooter
+          onOpenModal={(mode) => setModalMode(mode)}
+          themeMode={themeMode}
+        />
       </main>
 
       {/* Cookie Consent & Interactive Pilot/Try Modals */}

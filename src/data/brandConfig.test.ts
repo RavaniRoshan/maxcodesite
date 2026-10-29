@@ -121,4 +121,23 @@ describe('maxcode & maxm1 Brand Configuration & Pure Logic', () => {
     assert.equal(mod.rdfDither(1, 7, 0.5), 6);
     assert.ok(mod.rdfElevation(50, 100, 2, 6) > 420);
   });
+
+  it('verifies ink-orbit-features.tsx pure helpers and dark mode CSS variables', async () => {
+    const mod = await import('../components/ui/ink-orbit-features.tsx');
+    assert.equal(mod.clamp(15, 0, 10), 10);
+    const parsed = mod.parseTitle('Autonomous *Checkpoint*\n& Tooling Architecture');
+    assert.equal(parsed.length, 2);
+    assert.equal(parsed[0][1].muted, true);
+    assert.equal(parsed[0][1].text, 'Checkpoint');
+
+    const paths = mod.chartPaths([38, 56, 79, 97], 300, 130, 14);
+    assert.ok(paths.line.startsWith('M14.0,'));
+    assert.equal(paths.points.length, 4);
+    assert.equal(mod.nearestIndex([10, 50, 90], 48), 1);
+
+    const darkVars = getBrandCssVariables('maxcode-amber', 'dark');
+    assert.equal(darkVars['--color-sf'], '#0e0b09');
+    assert.equal(darkVars['--color-tx'], '#f7f2ec');
+  });
 });
+
