@@ -1,0 +1,6 @@
+{
+  "name": "maxcode — Coding Agents Powered by maxm1",
+  "description": "maxcode works across the codebase and saves checkpoints as it goes. Powered by the maxm1 model for long-running software engineering.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

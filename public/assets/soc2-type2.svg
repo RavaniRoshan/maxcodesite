@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <circle cx="32" cy="32" r="26" stroke="#13121e" stroke-width="1.5" stroke-opacity="0.35" />
+  <circle cx="32" cy="32" r="22" stroke="#13121e" stroke-width="1" stroke-opacity="0.45" />
+  <rect x="16" y="23" width="32" height="18" rx="4" fill="#f9f8f6" stroke="#13121e" stroke-width="1.2" />
+  <text x="32" y="31" text-anchor="middle" fill="#13121e" font-family="monospace" font-weight="700" font-size="6">AICPA</text>
+  <text x="32" y="38" text-anchor="middle" fill="#3b3746" font-family="monospace" font-weight="600" font-size="5.5">SOC 2</text>
+</svg>

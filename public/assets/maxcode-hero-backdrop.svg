@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" width="1600" height="1000">
+  <defs>
+    <linearGradient id="skyToHorizon" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f7b286" />
+      <stop offset="28%" stop-color="#f29461" />
+      <stop offset="56%" stop-color="#e8733c" />
+      <stop offset="80%" stop-color="#dc5624" />
+      <stop offset="100%" stop-color="#b83714" />
+    </linearGradient>
+
+    <radialGradient id="topAmberGlow" cx="50%" cy="8%" r="65%" fx="50%" fy="5%">
+      <stop offset="0%" stop-color="#fed7aa" stop-opacity="0.92" />
+      <stop offset="55%" stop-color="#fb923c" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#fb923c" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="bottomCrimsonOrangeGlow" cx="50%" cy="98%" r="75%" fx="50%" fy="98%">
+      <stop offset="0%" stop-color="#9a3412" stop-opacity="0.9" />
+      <stop offset="45%" stop-color="#c2410c" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#e26a2c" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="leftWarmBloom" cx="12%" cy="75%" r="55%">
+      <stop offset="0%" stop-color="#ea580c" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#ea580c" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="rightWarmBloom" cx="88%" cy="75%" r="55%">
+      <stop offset="0%" stop-color="#dc2626" stop-opacity="0.45" />
+      <stop offset="100%" stop-color="#dc2626" stop-opacity="0" />
+    </radialGradient>
+
+    <filter id="fineGrain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3" stitchTiles="stitch" result="noise" />
+      <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.045 0" in="noise" result="coloredNoise" />
+      <feComposite operator="in" in="coloredNoise" in2="SourceGraphic" result="compositeNoise" />
+      <feBlend mode="overlay" in="SourceGraphic" in2="compositeNoise" />
+    </filter>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#skyToHorizon)" />
+  <rect width="1600" height="1000" fill="url(#topAmberGlow)" />
+  <rect width="1600" height="1000" fill="url(#bottomCrimsonOrangeGlow)" />
+  <rect width="1600" height="1000" fill="url(#leftWarmBloom)" />
+  <rect width="1600" height="1000" fill="url(#rightWarmBloom)" />
+  <rect width="1600" height="1000" fill="#ffffff" fill-opacity="0.02" filter="url(#fineGrain)" />
+</svg>
