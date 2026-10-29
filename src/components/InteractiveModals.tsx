@@ -8,6 +8,7 @@ import {
 } from '@remixicon/react';
 import { validatePilotForm } from '../data/brandConfig';
 import { Badge } from '@/components/base/badges/badge';
+import { docUrl } from '@/lib/utils';
 import { Kbd } from '@/components/base/kbd/kbd';
 import { Button } from '@/components/base/buttons/button';
 
@@ -78,7 +79,7 @@ export const InteractiveModals: React.FC<InteractiveModalsProps> = ({
           <p className="mb-4 text-tx-secondary text-xs leading-relaxed">
             maxcode collects anonymized benchmark convergence telemetry only when opted in.{' '}
             <a
-              href="/docs/reference/legal#privacy"
+              href={docUrl('/docs/reference/legal#privacy')}
               className="text-tx underline hover:text-tx-tertiary transition-colors"
             >
               Privacy Policy

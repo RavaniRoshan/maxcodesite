@@ -81,28 +81,40 @@ export default function App() {
         });
 
         // 2. Section 2: Long Horizon
-        gsap.from('.long-horizon-header', {
-          scrollTrigger: {
-            trigger: '#long-horizon',
-            start: 'top 85%',
-          },
-          y: 28,
-          autoAlpha: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-        });
+        gsap.fromTo(
+          '.long-horizon-header',
+          { y: 25, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.7,
+            ease: 'power3.out',
+            clearProps: 'all',
+            scrollTrigger: {
+              trigger: '#long-horizon',
+              start: 'top 95%',
+              once: true,
+            },
+          }
+        );
 
-        gsap.from('.long-horizon-card', {
-          scrollTrigger: {
-            trigger: '#long-horizon',
-            start: 'top 80%',
-          },
-          y: 40,
-          autoAlpha: 0,
-          duration: 0.85,
-          stagger: 0.15,
-          ease: 'power3.out',
-        });
+        gsap.fromTo(
+          '.long-horizon-card',
+          { y: 35, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.75,
+            stagger: 0.12,
+            ease: 'power2.out',
+            clearProps: 'all',
+            scrollTrigger: {
+              trigger: '#long-horizon',
+              start: 'top 92%',
+              once: true,
+            },
+          }
+        );
 
         // 3. Section 2.5: Orchestration & InkOrbit
         gsap.from('.orchestration-section', {
@@ -288,7 +300,7 @@ export default function App() {
               {LONG_HORIZON_CARDS.map((card) => (
                 <div
                   key={card.id}
-                  className="long-horizon-card flex flex-col bg-(--color-card-surface,white) border border-st-secondary rounded-[28px] md:rounded-4xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                  className="long-horizon-card flex flex-col bg-(--color-card-surface,white) border border-st-secondary rounded-[28px] md:rounded-4xl overflow-hidden shadow-xs hover:shadow-xl transition-shadow duration-200"
                 >
                   <div className="p-6 md:p-8 pb-5">
                     <h3 className="font-season text-tx text-xl md:text-2xl leading-[125%] tracking-[-0.4px]">

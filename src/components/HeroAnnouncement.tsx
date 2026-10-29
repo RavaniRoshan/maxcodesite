@@ -1,11 +1,12 @@
 import React from 'react';
 import { RiSparkling2Fill, RiArrowRightLine } from '@remixicon/react';
 import { Badge } from '@/components/base/badges/badge';
+import { docUrl } from '@/lib/utils';
 
 export const HeroAnnouncement: React.FC = () => {
   return (
     <a
-      href="/docs/explanation/verifier-loop"
+      href={docUrl('/docs/explanation/verifier-loop')}
       className="group inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full border border-st-secondary bg-sf-secondary/80 hover:bg-sf-secondary transition-all duration-200 shadow-xs hover:shadow-sm backdrop-blur-md mb-6 max-w-full overflow-hidden text-xs sm:text-sm"
     >
       <span className="inline-flex items-center justify-center size-5 rounded-full bg-accent-500/15 text-accent-600 dark:text-accent-400">

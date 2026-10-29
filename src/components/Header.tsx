@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { RiSunLine, RiMoonLine } from '@remixicon/react';
 import { ThemeMode } from '../data/brandConfig';
 import { MaxMascotSvg } from './BrandSvgs';
 import { cx } from '@/utils/cx';
+import { docUrl } from '@/lib/utils';
 
 interface HeaderProps {
   onOpenModal: (mode: 'try' | 'talk' | 'login') => void;
@@ -222,12 +224,19 @@ export const Header: React.FC<HeaderProps> = ({
                     onClick={() => toggleMenu(item.id)}
                     onMouseEnter={() => setOpenMenu(item.id)}
                     className={cx(
-                      'h-7 px-3 text-sm font-medium rounded-md transition-colors flex items-center gap-1 cursor-pointer select-none',
+                      'relative z-10 h-7 px-3 text-sm font-medium rounded-md transition-colors flex items-center gap-1 cursor-pointer select-none',
                       isOpen
-                        ? 'bg-black/5 dark:bg-white/10 text-tx font-semibold'
+                        ? 'text-tx font-semibold'
                         : 'text-tx/80 hover:text-tx hover:bg-black/5 dark:hover:bg-white/5'
                     )}
                   >
+                    {isOpen && (
+                      <motion.span
+                        layoutId="active-nav-pill"
+                        className="absolute inset-0 bg-black/[0.08] dark:bg-white/10 rounded-md -z-10 shadow-xs"
+                        transition={{ type: 'spring', bounce: 0.18, duration: 0.35 }}
+                      />
+                    )}
                     <span>{item.label}</span>
                     <NavChevron isOpen={isOpen} />
                   </button>
@@ -238,7 +247,7 @@ export const Header: React.FC<HeaderProps> = ({
             {/* Direct Link to Documentation */}
             <li>
               <a
-                href="/docs"
+                href={docUrl('/docs')}
                 className="h-7 px-3 text-sm font-medium text-tx/80 hover:text-tx hover:bg-black/5 dark:hover:bg-white/5 rounded-md transition-colors flex items-center cursor-pointer"
               >
                 Docs
@@ -252,20 +261,38 @@ export const Header: React.FC<HeaderProps> = ({
         3. MEGA-MENU DROPDOWN PANEL (Preserving all rich Diátaxis items)
         Anchored cleanly right below the floating island pill
       -------------------------------------------------------------- */}
-      {openMenu && (
-        <>
-          {/* Backdrop Overlay */}
-          <div
-            onClick={() => setOpenMenu(null)}
-            className="hidden lg:block fixed inset-0 z-40 bg-black/25 dark:bg-black/50 backdrop-blur-[2px] transition-opacity duration-200"
-          />
+      <AnimatePresence>
+        {openMenu && (
+          <>
+            {/* Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setOpenMenu(null)}
+              className="hidden lg:block fixed inset-0 z-40 bg-black/25 dark:bg-black/50 backdrop-blur-[2px]"
+            />
 
-          {/* Floating Dropdown Island Panel */}
-          <div
-            className="hidden lg:block fixed left-1/2 top-14 -translate-x-1/2 z-50 w-[92vw] max-w-5xl rounded-3xl bg-sf/95 dark:bg-[#16110e]/95 border border-st-secondary dark:border-white/10 p-6 md:p-8 shadow-2xl backdrop-blur-2xl transition-all duration-200 animate-in fade-in zoom-in-95"
-            onMouseLeave={() => setOpenMenu(null)}
-          >
-            {/* TAB 1: PRODUCTS */}
+            {/* Floating Dropdown Island Panel */}
+            <motion.div
+              initial={{ opacity: 0, y: -12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.98 }}
+              transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+              className="hidden lg:block fixed left-1/2 top-14 -translate-x-1/2 z-50 w-[92vw] max-w-5xl rounded-3xl bg-sf/95 dark:bg-[#16110e]/95 border border-st-secondary dark:border-white/10 p-6 md:p-8 shadow-2xl backdrop-blur-2xl overflow-hidden"
+              onMouseLeave={() => setOpenMenu(null)}
+            >
+              {/* Animated Tab Switcher Container */}
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={openMenu}
+                  initial={{ opacity: 0, y: 8, filter: 'blur(3px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, y: -6, filter: 'blur(3px)' }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
+                >
+                  {/* TAB 1: PRODUCTS */}
             {openMenu === 'products' && (
               <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
                 <div className="flex flex-col gap-6">
@@ -351,7 +378,7 @@ export const Header: React.FC<HeaderProps> = ({
                     </p>
                     <div className="flex flex-col -mx-3">
                       <a
-                        href="/docs/reference/benchmarks"
+                        href={docUrl('/docs/reference/benchmarks')}
                         onClick={() => setOpenMenu(null)}
                         className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
                       >
@@ -395,7 +422,7 @@ export const Header: React.FC<HeaderProps> = ({
                     </div>
                     <div className="relative z-10 mt-6">
                       <a
-                        href="/docs"
+                        href={docUrl('/docs')}
                         onClick={() => setOpenMenu(null)}
                         className="inline-flex items-center gap-2 bg-white text-neutral-900 hover:bg-white/90 dark:bg-accent-500 dark:text-white dark:hover:bg-accent-600 px-4 py-2 rounded-full font-semibold text-xs cursor-pointer transition-colors shadow-xs"
                       >
@@ -449,7 +476,7 @@ export const Header: React.FC<HeaderProps> = ({
                     ].map((item) => (
                       <a
                         key={item.title}
-                        href={item.href}
+                        href={docUrl(item.href)}
                         onClick={() => setOpenMenu(null)}
                         className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
                       >
@@ -483,7 +510,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <div className="flex justify-between items-center mt-4 pt-3 border-st-secondary border-t">
                     <span className="text-tx-tertiary text-xs">Fumadocs Documentation</span>
                     <a
-                      href="/docs"
+                      href={docUrl('/docs')}
                       onClick={() => setOpenMenu(null)}
                       className="font-medium text-tx text-xs hover:underline cursor-pointer"
                     >
@@ -521,7 +548,7 @@ export const Header: React.FC<HeaderProps> = ({
                     ].map((res) => (
                       <a
                         key={res.title}
-                        href={res.href}
+                        href={docUrl(res.href)}
                         onClick={() => setOpenMenu(null)}
                         className="group/card hover:bg-sf-secondary/70 p-3 rounded-xl transition-all duration-200"
                       >
@@ -585,7 +612,7 @@ export const Header: React.FC<HeaderProps> = ({
                     ].map((item) => (
                       <a
                         key={item.title}
-                        href={item.href}
+                        href={docUrl(item.href)}
                         target={item.href.startsWith('http') ? '_blank' : undefined}
                         rel={item.href.startsWith('http') ? 'noreferrer' : undefined}
                         onClick={() => setOpenMenu(null)}
@@ -618,9 +645,12 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
               </div>
             )}
-          </div>
-        </>
-      )}
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* -------------------------------------------------------------
         4. MOBILE NAVIGATION (Exact Micro.so Mobile Bar & Drawer)
@@ -743,7 +773,7 @@ export const Header: React.FC<HeaderProps> = ({
                         {section.links.map((link) => (
                           <a
                             key={link.name}
-                            href={link.href}
+                            href={docUrl(link.href)}
                             onClick={() => setMobileMenuOpen(false)}
                             className="text-sm text-tx-secondary hover:text-tx py-1 transition-colors"
                           >

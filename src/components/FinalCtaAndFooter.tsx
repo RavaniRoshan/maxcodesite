@@ -3,6 +3,7 @@ import RidgelineDitherFooter from './ui/ridgeline-dither-footer';
 import { MaxMascotSvg } from './BrandSvgs';
 import { ThemeMode } from '../data/brandConfig';
 import { gsap, useGSAP } from '@/lib/gsap';
+import { docUrl } from '@/lib/utils';
 
 interface FinalCtaAndFooterProps {
   onOpenModal: (mode: 'try' | 'talk' | 'login') => void;
@@ -426,36 +427,36 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
               { label: 'The Verifier Loop', href: '#orchestration' },
               { label: 'Git Checkpoints & Undo', href: '#long-horizon' },
               { label: 'Multi-Model Routing', href: '#cost' },
-              { label: '20-Task Benchmark', href: '/docs/reference/benchmarks' },
+              { label: '20-Task Benchmark', href: docUrl('/docs/reference/benchmarks') },
             ],
           },
           {
             title: 'Documentation',
             links: [
-              { label: '5-Minute Quickstart', href: '/docs/tutorials/quickstart', badge: '5 min' },
-              { label: 'CLI Commands Reference', href: '/docs/reference/cli' },
-              { label: 'maxcode.toml Schema', href: '/docs/reference/config' },
-              { label: 'Verifier State Machine', href: '/docs/explanation/verifier-loop' },
-              { label: 'All Documentation', href: '/docs' },
+              { label: '5-Minute Quickstart', href: docUrl('/docs/tutorials/quickstart'), badge: '5 min' },
+              { label: 'CLI Commands Reference', href: docUrl('/docs/reference/cli') },
+              { label: 'maxcode.toml Schema', href: docUrl('/docs/reference/config') },
+              { label: 'Verifier State Machine', href: docUrl('/docs/explanation/verifier-loop') },
+              { label: 'All Documentation', href: docUrl('/docs') },
             ],
           },
           {
             title: 'Open Source',
             links: [
               { label: 'GitHub Repository', href: 'https://github.com/RavaniRoshan/maxcode' },
-              { label: 'Contributing Guide', href: '/docs/reference/contributing' },
-              { label: 'Security Policy', href: '/docs/reference/security' },
-              { label: 'Apache-2.0 License', href: '/docs/reference/legal' },
-              { label: 'Changelog', href: '/docs/reference/changelog' },
+              { label: 'Contributing Guide', href: docUrl('/docs/reference/contributing') },
+              { label: 'Security Policy', href: docUrl('/docs/reference/security') },
+              { label: 'Apache-2.0 License', href: docUrl('/docs/reference/legal') },
+              { label: 'Changelog', href: docUrl('/docs/reference/changelog') },
             ],
           },
           {
             title: 'Resources & Legal',
             links: [
               { label: 'Frequently Asked Questions', href: '#faq' },
-              { label: 'Diátaxis How-To Guides', href: '/docs/how-to' },
-              { label: 'Open Codex Attribution', href: '/docs/reference/legal' },
-              { label: 'Trademark & Brand Policy', href: '/docs/reference/legal' },
+              { label: 'Diátaxis How-To Guides', href: docUrl('/docs/how-to') },
+              { label: 'Open Codex Attribution', href: docUrl('/docs/reference/legal') },
+              { label: 'Trademark & Brand Policy', href: docUrl('/docs/reference/legal') },
             ],
           },
         ]}
@@ -466,7 +467,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
           { icon: 'youtube', href: 'https://youtube.com' },
         ]}
         copyright="© 2026 maxcode contributors. Open source under Apache-2.0 · Forked from Codex CLI"
-        credit={{ label: 'maxcode Docs & Studio', href: '/docs' }}
+        credit={{ label: 'maxcode Docs & Studio', href: docUrl('/docs') }}
       />
     </div>
   );

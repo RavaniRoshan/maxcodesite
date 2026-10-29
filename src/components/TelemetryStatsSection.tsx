@@ -8,6 +8,7 @@ import {
 } from '@remixicon/react';
 import { StatCards, type Stat } from '@/components/application/dashboard/stat-cards';
 import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
+import { docUrl } from '@/lib/utils';
 
 const BASE_BENCHMARK_STATS: Stat[] = [
   {
@@ -152,7 +153,7 @@ export const TelemetryStatsSection: React.FC = () => {
             </h2>
           </div>
           <a
-            href="/docs/reference/benchmarks"
+            href={docUrl('/docs/reference/benchmarks')}
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-accent-600 dark:text-accent-400 hover:text-accent-700 transition-colors shrink-0 group"
           >
             <span>Explore full benchmark methodology</span>

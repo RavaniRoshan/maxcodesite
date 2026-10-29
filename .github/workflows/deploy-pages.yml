@@ -37,13 +37,16 @@ jobs:
       - name: Install Docs Dependencies
         run: cd docs && npm ci
 
-      - name: Build Unified Site & Docs
-        run: npm run build
-
       - name: Setup Pages
+        id: pages
         uses: actions/configure-pages@v5
         with:
           enablement: true
+
+      - name: Build Unified Site & Docs
+        run: npm run build
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
