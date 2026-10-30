@@ -88,11 +88,11 @@ export const InteractiveModals: React.FC<InteractiveModalsProps> = ({
               Privacy &amp; Telemetry
             </p>
           </div>
-          <p className="mb-4 text-[#A9B4C4] text-xs leading-relaxed">
+          <p className="mb-4 text-tx-secondary text-xs leading-relaxed">
             maxcode collects anonymized benchmark convergence telemetry only when opted in.{' '}
             <a
               href={docUrl('/docs/reference/legal#privacy')}
-              className="text-[#F5F7FA] underline hover:text-[#FFFFFF] transition-colors"
+              className="text-tx underline hover:text-tx-secondary transition-colors"
             >
               Privacy Policy
             </a>
@@ -102,10 +102,10 @@ export const InteractiveModals: React.FC<InteractiveModalsProps> = ({
             <div className="bg-sf mb-4 p-3 border border-st-secondary rounded-xl text-xs space-y-2">
               <div className="flex justify-between items-center py-1">
                 <span className="font-medium text-tx">Session Storage</span>
-                <span className="font-mono text-[11px] text-[#A9B4C4]">Always Active</span>
+                <span className="font-mono text-[11px] text-tx-secondary">Always Active</span>
               </div>
               <label className="flex justify-between items-center py-1 cursor-pointer">
-                <span className="text-[#A9B4C4]">Anonymized Checkpoint Benchmarks</span>
+                <span className="text-tx-secondary">Anonymized Checkpoint Benchmarks</span>
                 <input
                   type="checkbox"
                   checked={analyticsEnabled}

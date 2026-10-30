@@ -101,14 +101,14 @@ export function DetachableAccordion({
               )}
             >
               <div className="flex items-center gap-3.5">
-                {item.icon ? <span className="shrink-0 text-[#D9DEE5]">{item.icon}</span> : null}
+                {item.icon ? <span className="shrink-0 text-tx-secondary">{item.icon}</span> : null}
                 <span className="text-base sm:text-lg font-medium tracking-tight text-tx leading-snug">{item.title}</span>
               </div>
               <motion.span
                 initial={false}
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={spring}
-                className="shrink-0 text-[#A9B4C4]"
+                className="shrink-0 text-tx-secondary"
               >
                 <ChevronDown className="size-5" />
               </motion.span>
@@ -123,7 +123,7 @@ export function DetachableAccordion({
               transition={spring}
               className="overflow-hidden"
             >
-              <div className="mt-4 text-sm sm:text-base leading-relaxed text-[#A9B4C4]">{item.content}</div>
+              <div className="mt-4 text-sm sm:text-base leading-relaxed text-tx-secondary">{item.content}</div>
             </motion.div>
           </motion.div>
         )

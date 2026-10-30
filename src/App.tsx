@@ -17,6 +17,7 @@ import {
   HeroAtmosphericBackdrop,
   TrainingAtmosphericBackdrop,
 } from './components/AtmosphericBackdrops';
+import { HeroHalftoneBackdrop } from './components/HeroHalftoneBackdrop';
 import { Header } from './components/Header';
 import { HeroAnnouncement } from './components/HeroAnnouncement';
 import { AgentTerminal } from './components/AgentTerminal';
@@ -173,7 +174,10 @@ export default function App() {
       <main className="flex flex-col gap-24 md:gap-32 pt-24 md:pt-32">
         {/* SECTION 1: HERO */}
         <section className="relative overflow-hidden">
-          <div className="mx-auto w-[88%] md:w-10/12 max-w-width-mx">
+          {/* Halftone CMYK Shader Backdrop with Progressive Bottom Fade */}
+          <HeroHalftoneBackdrop themeMode={themeMode} />
+
+          <div className="relative z-10 mx-auto w-[88%] md:w-10/12 max-w-width-mx">
             <div className="flex flex-col items-center mx-auto max-w-[920px] text-center">
               <div className="hero-motif flex justify-center mb-3">
                 <MotifSvg className="w-auto h-7" />
@@ -183,7 +187,7 @@ export default function App() {
                 <HeroAnnouncement />
               </div>
 
-              <span className="hero-kicker inline-block mb-4 font-mono font-semibold text-[#A9B4C4] text-xs uppercase tracking-[2px]">
+              <span className="hero-kicker inline-block mb-4 font-mono font-semibold text-tx-secondary text-xs uppercase tracking-[2px]">
                 {BRAND_IDENTITY.heroKicker}
               </span>
 
@@ -206,7 +210,7 @@ export default function App() {
                 <span className="hero-heading-chunk">with better code</span>
               </h1>
 
-              <p className="hero-subheading mt-5 max-w-[620px] font-normal text-[#D9DEE5] text-base md:text-lg leading-relaxed">
+              <p className="hero-subheading mt-5 max-w-[620px] font-normal text-tx-secondary text-base md:text-lg leading-relaxed">
                 {BRAND_IDENTITY.heroSubheading}
               </p>
 
@@ -226,13 +230,13 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setModalMode('talk')}
-                  className="hero-cta-btn h-12 px-6 bg-transparent hover:border-[#D9DEE5] border border-[#1E2A40] rounded font-mono font-semibold text-tx text-base tracking-tight transition-all duration-120 cursor-pointer select-none inline-flex items-center justify-center gap-2"
+                  className="hero-cta-btn h-12 px-6 bg-transparent hover:border-tx-secondary border border-st rounded font-mono font-semibold text-tx text-base tracking-tight transition-all duration-120 cursor-pointer select-none inline-flex items-center justify-center gap-2"
                 >
                   <span>Talk to us</span>
                 </button>
 
-                <div className="h-12 px-4 bg-sf-secondary/80 border border-[#1E2A40] rounded font-mono text-sm inline-flex items-center gap-2.5 text-tx select-none">
-                  <span className="text-[#8D99AB]">$</span>
+                <div className="h-12 px-4 bg-sf-secondary/80 border border-st rounded font-mono text-sm inline-flex items-center gap-2.5 text-tx select-none">
+                  <span className="text-tx-tertiary font-bold">$</span>
                   <span className="font-semibold text-tx">uvx maxcode</span>
                   <button
                     type="button"
@@ -241,7 +245,7 @@ export default function App() {
                       setCopiedInstall(true);
                       setTimeout(() => setCopiedInstall(false), 2000);
                     }}
-                    className="ml-1 text-xs text-[#8D99AB] hover:text-[#FFFFFF] transition-colors p-1 cursor-pointer"
+                    className="ml-1 text-xs text-tx-tertiary hover:text-tx transition-colors p-1 cursor-pointer"
                     title="Copy to clipboard"
                   >
                     {copiedInstall ? '✓' : 'Copy'}
@@ -292,7 +296,7 @@ export default function App() {
                   A visible plan for work across the codebase.
                 </h2>
               </div>
-              <p className="lg:col-span-6 lg:col-start-7 text-[#A9B4C4] text-base md:text-lg leading-relaxed">
+              <p className="lg:col-span-6 lg:col-start-7 text-tx-secondary text-base md:text-lg leading-relaxed">
                 maxcode breaks the job into steps, writes and tests each change, and saves checkpoints as it goes. The plan stays visible throughout the run.
               </p>
             </div>
@@ -331,19 +335,19 @@ export default function App() {
               ].map((item) => (
                 <div
                   key={item.name}
-                  className="flex flex-col justify-between p-5 md:p-6 bg-(--color-card-surface,white) border border-[#1E2A40] rounded-xl hover:border-[#8D99AB] transition-colors duration-150"
+                  className="flex flex-col justify-between p-5 md:p-6 bg-(--color-card-surface,white) border border-st rounded-xl hover:border-tx-tertiary transition-colors duration-150"
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <span className="font-mono text-xs text-[#8D99AB] font-semibold">
+                    <span className="font-mono text-xs text-tx-tertiary font-semibold">
                       STEP {item.step} · {item.name.toUpperCase()}
                     </span>
                     <span
                       className={cx(
                         'font-mono text-[11px] px-2 py-0.5 rounded border',
-                        item.pose === 'pass' && 'text-[#FFFFFF] border-[#FFFFFF]/40 bg-[#FFFFFF]/10',
-                        item.pose === 'working' && 'text-[#94A3B8] border-[#94A3B8]/40 bg-[#94A3B8]/10',
-                        item.pose === 'fail' && 'text-[#F87171] border-[#F87171]/40 bg-[#F87171]/10',
-                        item.pose === 'idle' && 'text-[#8D99AB] border-[#8D99AB]/40 bg-[#8D99AB]/10'
+                        item.pose === 'pass' && 'text-emerald-800 dark:text-[#FFFFFF] border-emerald-600/30 dark:border-[#FFFFFF]/40 bg-emerald-500/10 dark:bg-[#FFFFFF]/10 font-semibold',
+                        item.pose === 'working' && 'text-slate-700 dark:text-[#94A3B8] border-slate-600/30 dark:border-[#94A3B8]/40 bg-slate-500/10 dark:bg-[#94A3B8]/10 font-medium',
+                        item.pose === 'fail' && 'text-rose-700 dark:text-[#F87171] border-rose-600/30 dark:border-[#F87171]/40 bg-rose-500/10 dark:bg-[#F87171]/10 font-medium',
+                        item.pose === 'idle' && 'text-tx-tertiary border-st bg-sf-secondary font-medium'
                       )}
                     >
                       {item.tag}
@@ -356,7 +360,7 @@ export default function App() {
                       onDarkTile={themeMode === 'light'}
                     />
                   </div>
-                  <p className="mt-3 font-mono text-xs md:text-sm text-[#A9B4C4] leading-relaxed">
+                  <p className="mt-3 font-mono text-xs md:text-sm text-tx-secondary leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
@@ -373,7 +377,7 @@ export default function App() {
                     <h3 className="font-season text-tx text-xl md:text-2xl leading-[125%] tracking-[-0.4px]">
                       {card.title}
                     </h3>
-                    <p className="mt-2.5 text-[#A9B4C4] text-sm md:text-base leading-relaxed">
+                    <p className="mt-2.5 text-tx-secondary text-sm md:text-base leading-relaxed">
                       {card.description}
                     </p>
                   </div>

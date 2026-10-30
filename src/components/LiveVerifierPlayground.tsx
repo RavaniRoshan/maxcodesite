@@ -236,7 +236,7 @@ export const LiveVerifierPlayground: React.FC = () => {
           <div className="flex flex-wrap items-center justify-between gap-4 p-5 md:px-8 border-b border-st-secondary bg-sf-secondary/40 backdrop-blur-md">
             {/* Scenario Pills */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-mono text-[#A9B4C4] uppercase mr-1">Scenario:</span>
+              <span className="text-xs font-mono text-tx-secondary uppercase mr-1">Scenario:</span>
               {SCENARIOS.map((s, idx) => (
                 <button
                   key={s.id}
@@ -262,7 +262,7 @@ export const LiveVerifierPlayground: React.FC = () => {
 
             {/* Thinking Variant Switcher (BoardUI AgentThinking showcase) */}
             <div className="flex items-center gap-2 text-xs">
-              <span className="text-[#A9B4C4] font-mono">Loader:</span>
+              <span className="text-tx-secondary font-mono">Loader:</span>
               {(['wave', 'spin', 'stars', 'infinity'] as AgentThinkingVariant[]).map((v) => (
                 <button
                   key={v}
@@ -288,7 +288,7 @@ export const LiveVerifierPlayground: React.FC = () => {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <StatusDot color={isVerifying ? 'yellow' : 'green'} />
-                    <span className="text-xs font-mono font-medium text-[#A9B4C4]">
+                    <span className="text-xs font-mono font-medium text-tx-secondary">
                       {isVerifying ? 'AGENT VERIFYING RUN' : 'CHECKPOINT VERIFIED'}
                     </span>
                   </div>
@@ -300,7 +300,7 @@ export const LiveVerifierPlayground: React.FC = () => {
                 <h3 className="font-season text-tx text-xl font-medium mb-1">
                   {currentStep.label}
                 </h3>
-                <p className="text-[#A9B4C4] text-sm mb-6 leading-relaxed">
+                <p className="text-tx-secondary text-sm mb-6 leading-relaxed">
                   {currentStep.action}
                 </p>
 
@@ -337,7 +337,7 @@ export const LiveVerifierPlayground: React.FC = () => {
                               <RiCheckLine className="size-3" />
                             </span>
                           ) : (
-                            <span className="size-4 rounded-full border border-[#8D99AB] inline-flex items-center justify-center text-[10px] text-[#A9B4C4] font-medium">
+                            <span className="size-4 rounded-full border border-st inline-flex items-center justify-center text-[10px] text-tx-secondary font-medium">
                               {i + 1}
                             </span>
                           )}
@@ -345,7 +345,7 @@ export const LiveVerifierPlayground: React.FC = () => {
                         <div className="flex-1 min-w-0">
                           <p className="text-xs font-semibold text-tx truncate">{st.label}</p>
                           <div className="flex items-center gap-2 mt-1">
-                            <span className="font-mono text-[10px] text-[#A9B4C4] flex items-center gap-1">
+                            <span className="font-mono text-[10px] text-tx-secondary flex items-center gap-1">
                               <RiGitCommitLine className="size-3" /> {st.commitHash}
                             </span>
                             <span className="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">

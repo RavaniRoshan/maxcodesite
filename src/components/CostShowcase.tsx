@@ -94,14 +94,14 @@ export const CostShowcase: React.FC = () => {
                 className={`font-season text-lg md:text-2xl tracking-[-0.3px] leading-[125%] transition-colors duration-200 ${
                   isSelected
                     ? 'text-tx font-bold'
-                    : 'text-[#A9B4C4] group-hover:text-tx'
+                    : 'text-tx-secondary group-hover:text-tx'
                 }`}
               >
                 {tab.title}
               </h3>
               <p
                 className={`hidden md:block mt-1.5 text-sm md:text-base leading-relaxed transition-colors duration-200 ${
-                  isSelected ? 'text-tx-secondary' : 'text-[#8D99AB] group-hover:text-[#A9B4C4]'
+                  isSelected ? 'text-tx-secondary' : 'text-tx-tertiary group-hover:text-tx-secondary'
                 }`}
               >
                 {tab.description}
@@ -112,7 +112,7 @@ export const CostShowcase: React.FC = () => {
       </div>
 
       {/* Mobile Active Tab Description */}
-      <p className="md:hidden -mt-4 mb-6 text-[#A9B4C4] text-sm leading-relaxed">
+      <p className="md:hidden -mt-4 mb-6 text-tx-secondary text-sm leading-relaxed">
         {COST_TABS[activeIndex].description}
       </p>
 

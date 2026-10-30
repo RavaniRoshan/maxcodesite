@@ -156,12 +156,12 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
   const renderTerminalLines = (isGhost: boolean) => (
     <>
       {transcript.shellPrompt && (
-        <div className="mb-3 text-[#8D99AB]">
-          <span className="font-medium text-[#D9DEE5]">{transcript.shellPrompt.userHost}</span>
-          <span className="text-[#8D99AB]">:</span>
-          <span className="font-medium text-[#BEE6FF]">{transcript.shellPrompt.path}</span>
-          <span className="text-[#8D99AB]"> $ </span>
-          <span className="text-[#F5F7FA] font-medium">{transcript.shellPrompt.cmd}</span>
+        <div className="mb-3 text-tx-tertiary">
+          <span className="font-medium text-tx-secondary">{transcript.shellPrompt.userHost}</span>
+          <span className="text-tx-tertiary">:</span>
+          <span className="font-medium text-accent-500 dark:text-[#BEE6FF]">{transcript.shellPrompt.path}</span>
+          <span className="text-tx-tertiary"> $ </span>
+          <span className="text-tx font-medium">{transcript.shellPrompt.cmd}</span>
         </div>
       )}
 
@@ -170,20 +170,20 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
           <MaxFaviconSvg className="w-5 h-5 shrink-0" />
           <div className="min-w-0">
             <div className="truncate">
-              <span className="text-[#8D99AB]">&gt;_ </span>
+              <span className="text-tx-tertiary">&gt;_ </span>
               <span className="font-semibold text-tx">{transcript.agentHeader.name}</span>
-              <span className="text-[#8D99AB]"> {transcript.agentHeader.version}</span>
+              <span className="text-tx-tertiary"> {transcript.agentHeader.version}</span>
             </div>
-            <div className="mt-0.5 text-[11px] text-[#8D99AB] truncate">
-              directory: <span className="text-[#D9DEE5]">{transcript.agentHeader.directory}</span>
+            <div className="mt-0.5 text-[11px] text-tx-tertiary truncate">
+              directory: <span className="text-tx-secondary">{transcript.agentHeader.directory}</span>
             </div>
           </div>
         </div>
       )}
 
       {/* Highlighted Prompt Box */}
-      <div className="bg-(--sc-highlight) mb-3.5 px-2.5 py-1.5 rounded-md text-[#F5F7FA]">
-        <span className="text-[#8D99AB]">&gt; </span>
+      <div className="bg-(--sc-highlight) mb-3.5 px-2.5 py-1.5 rounded-md text-tx">
+        <span className="text-tx-tertiary">&gt; </span>
         <span data-at-prompt={isGhost ? undefined : ''}>
           {isGhost ? transcript.prompt : typedPrompt}
         </span>
@@ -200,7 +200,7 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
               <div
                 key={index}
                 data-at-step={isGhost ? undefined : ''}
-                className={`flex items-baseline gap-2 min-w-0 text-[#A9B4C4] ${rowStateClass}`}
+                className={`flex items-baseline gap-2 min-w-0 text-tx-secondary ${rowStateClass}`}
               >
                 <span
                   data-at-bullet={!isGhost && step.thinking ? '' : undefined}
@@ -222,9 +222,9 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
               <div
                 key={index}
                 data-at-step={isGhost ? undefined : ''}
-                className={`flex items-baseline gap-2 pt-1 text-[#F5F7FA] ${rowStateClass}`}
+                className={`flex items-baseline gap-2 pt-1 text-tx ${rowStateClass}`}
               >
-                <span className="text-[#8D99AB] shrink-0">•</span>
+                <span className="text-tx-tertiary shrink-0">•</span>
                 <span data-at-reply={isGhost ? undefined : ''}>
                   {isGhost ? step.text : typedReplies[index] ?? step.text}
                 </span>
@@ -252,10 +252,10 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
                 data-at-step={isGhost ? undefined : ''}
                 className={`flex items-baseline gap-2 pl-4 min-w-0 text-[11.5px] ${rowStateClass}`}
               >
-                <span className="text-[#8D99AB] shrink-0">⎿</span>
-                <span className="font-medium text-[#F5F7FA] truncate">{step.file}</span>
+                <span className="text-tx-tertiary shrink-0">⎿</span>
+                <span className="font-medium text-tx truncate">{step.file}</span>
                 {step.note && (
-                  <span className="hidden sm:inline text-[#A9B4C4] truncate">{step.note}</span>
+                  <span className="hidden sm:inline text-tx-secondary truncate">{step.note}</span>
                 )}
                 {(addCount !== undefined || delCount !== undefined) && (
                   <span className="ml-auto shrink-0 tabular-nums">
@@ -324,21 +324,21 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
       {/* Pinned Flow Footer */}
       {transcript.flowFooter && (
         <div className="mt-auto px-4 md:px-6 pt-1 pb-3.5 shrink-0">
-          <div className="flex items-center gap-2 text-[11px] text-[#8D99AB]">
+          <div className="flex items-center gap-2 text-[11px] text-tx-tertiary">
             <span>─</span>
-            <span className="font-mono font-medium text-[#D9DEE5]">Flow</span>
+            <span className="font-mono font-medium text-tx-secondary">Flow</span>
             <span className="flex-1 border-st-tertiary/70 border-t" />
           </div>
-          <div className="mt-1.5 px-2.5 py-1.5 border border-st-tertiary/70 rounded-md text-[#A9B4C4] truncate">
-            <span className="mr-1.5 text-[#8D99AB]">›</span>
+          <div className="mt-1.5 px-2.5 py-1.5 border border-st-tertiary/70 rounded-md text-tx-secondary truncate">
+            <span className="mr-1.5 text-tx-tertiary">›</span>
             <span className="bg-tx text-sf">{transcript.flowFooter.cursorChar}</span>
             <span>{transcript.flowFooter.restText}</span>
           </div>
-          <div className="mt-1.5 text-[11px] text-[#8D99AB] truncate">
+          <div className="mt-1.5 text-[11px] text-tx-tertiary truncate">
             {transcript.flowFooter.directory}
             {transcript.flowFooter.contextUsed ? ` · ${transcript.flowFooter.contextUsed}` : ''}
             {' · '}
-            <span className="font-medium text-[#D9DEE5]">{transcript.flowFooter.modelName}</span>
+            <span className="font-medium text-tx-secondary">{transcript.flowFooter.modelName}</span>
           </div>
         </div>
       )}

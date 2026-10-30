@@ -412,7 +412,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
                 alt="ISO 27001 Certified"
                 className="w-8 h-8 object-contain"
               />
-              <span className="font-mono text-xs text-[#A9B4C4] font-medium">ISO 27001</span>
+              <span className="font-mono text-xs text-tx-secondary font-medium">ISO 27001</span>
             </div>
             <div className="flex items-center gap-2 bg-sf-secondary/80 px-2.5 py-1.5 border border-st rounded-xl">
               <img
@@ -420,7 +420,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
                 alt="AICPA SOC 2 Type II Certified"
                 className="w-8 h-8 object-contain"
               />
-              <span className="font-mono text-xs text-[#A9B4C4] font-medium">SOC 2 Type II</span>
+              <span className="font-mono text-xs text-tx-secondary font-medium">SOC 2 Type II</span>
             </div>
           </div>
         }

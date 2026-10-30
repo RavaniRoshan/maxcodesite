@@ -55,30 +55,13 @@ const BASE_BENCHMARK_STATS: Stat[] = [
 
 export const TelemetryStatsSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [stats, setStats] = useState<Stat[]>(() =>
-    BASE_BENCHMARK_STATS.map((s, idx) => ({
-      ...s,
-      value: idx === 0 ? '0.0%' : idx === 1 ? '$0.00' : idx === 2 ? '0%' : '1.0x',
-    }))
-  );
+  const [stats] = useState<Stat[]>(BASE_BENCHMARK_STATS);
 
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
 
-      mm.add('(prefers-reduced-motion: reduce)', () => {
-        // Reduced motion: show target values directly
-        setStats(BASE_BENCHMARK_STATS);
-      });
-
       mm.add('(prefers-reduced-motion: no-preference)', () => {
-        const counters = {
-          passRate: 0,
-          cost: 0,
-          restores: 0,
-          speed: 1,
-        };
-
         // Header entrance
         gsap.from('.telemetry-header', {
           scrollTrigger: {
@@ -91,50 +74,24 @@ export const TelemetryStatsSection: React.FC = () => {
           ease: 'power3.out',
         });
 
-        // Cards stagger & numerical count-up
-        ScrollTrigger.create({
-          trigger: containerRef.current,
-          start: 'top 80%',
-          once: true,
-          onEnter: () => {
-            gsap.from('.telemetry-cards-wrap section', {
-              y: 35,
-              autoAlpha: 0,
-              duration: 0.8,
-              stagger: 0.12,
-              ease: 'power3.out',
-            });
-
-            gsap.to(counters, {
-              passRate: 98.4,
-              cost: 0.18,
-              restores: 100,
-              speed: 1.8,
-              duration: 2.0,
-              ease: 'power2.out',
-              onUpdate: () => {
-                setStats([
-                  {
-                    ...BASE_BENCHMARK_STATS[0],
-                    value: `${counters.passRate.toFixed(1)}%`,
-                  },
-                  {
-                    ...BASE_BENCHMARK_STATS[1],
-                    value: `$${counters.cost.toFixed(2)}`,
-                  },
-                  {
-                    ...BASE_BENCHMARK_STATS[2],
-                    value: `${Math.round(counters.restores)}%`,
-                  },
-                  {
-                    ...BASE_BENCHMARK_STATS[3],
-                    value: `${counters.speed.toFixed(1)}x`,
-                  },
-                ]);
-              },
-            });
-          },
-        });
+        // Cards entrance with clearProps: 'all' so cards are always crisp
+        gsap.fromTo(
+          '.telemetry-cards-wrap section',
+          { y: 30, opacity: 0 },
+          {
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top 80%',
+              once: true,
+            },
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+            stagger: 0.1,
+            ease: 'power3.out',
+            clearProps: 'all',
+          }
+        );
       });
     },
     { scope: containerRef }

@@ -131,7 +131,7 @@ const DELTA_STYLES: Record<
   },
   neutral: {
     icon: RiIndeterminateCircleFill,
-    className: "text-[#A9B4C4]",
+    className: "text-text-secondary",
     pill: "bg-sf dark:bg-[#141C2E] border border-st-secondary/60 dark:border-[#1E2A40]",
   },
 };
@@ -187,7 +187,7 @@ function PlainStatCard({ stat }: { stat: Stat }) {
         <stat.icon className="size-5 shrink-0 text-tx" aria-hidden />
       </span>
       <div className="flex w-full flex-col gap-0.5">
-        <p className="w-full text-body-medium text-[#A9B4C4] font-medium">{stat.label}</p>
+        <p className="w-full text-body-medium text-text-secondary font-medium">{stat.label}</p>
         <div className="flex w-full flex-wrap items-center gap-2">
           <p className="text-title-1-medium whitespace-nowrap text-tx font-bold">{stat.value}</p>
           <Chip variant="bold" color={stat.deltaColor}>
@@ -218,7 +218,7 @@ function FooterStatCard({ stat }: { stat: Stat }) {
 
       {/* Label sits directly over the number, as on the plain cards */}
       <div className="flex flex-col gap-1 px-1.5 pt-3 pb-4">
-        <p className="truncate text-sm font-medium text-[#A9B4C4]">{stat.label}</p>
+        <p className="truncate text-sm font-medium text-text-secondary">{stat.label}</p>
         <p className="text-3xl font-season font-bold whitespace-nowrap text-tx tabular-nums tracking-tight">
           {stat.value}
         </p>
@@ -226,7 +226,7 @@ function FooterStatCard({ stat }: { stat: Stat }) {
 
       {/* Footer band: comparison caption + delta pill on an inner tile */}
       <div className="mt-auto flex w-full items-center justify-between gap-2 rounded-xl bg-sf dark:bg-[#141C2E] border border-st-secondary/60 dark:border-[#1E2A40] py-2 pe-2 ps-2.5 shadow-xs">
-        <p className="truncate text-xs text-[#A9B4C4] font-medium">
+        <p className="truncate text-xs text-text-secondary font-medium">
           {stat.caption ?? "From last month"}
         </p>
         <DeltaPill delta={stat.delta} deltaColor={stat.deltaColor} />
