@@ -10,7 +10,7 @@
     "build:docs": "npm --prefix docs run build",
     "build": "npm run build:site && npm run build:docs && node scripts/merge-dist.js",
     "preview": "vite preview",
-    "test": "tsx --test src/data/brandConfig.test.ts",
+    "test": "tsx --test src/data/brandConfig.test.ts src/lib/utils.test.ts",
     "clean": "rm -rf dist docs/out docs/.next",
     "lint": "tsc --noEmit && npm --prefix docs run types:check"
   },

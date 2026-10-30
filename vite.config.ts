@@ -4,7 +4,8 @@ import path from 'path';
 import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
-  const basePath = process.env.BASE_PATH;
+  const rawBasePath = process.env.BASE_PATH;
+  const basePath = rawBasePath ? rawBasePath.replace(/\/+$/, '') : '';
   return {
     base: basePath ? `${basePath}/` : './',
     plugins: [react(), tailwindcss()],

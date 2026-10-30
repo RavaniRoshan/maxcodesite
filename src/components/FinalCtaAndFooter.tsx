@@ -3,7 +3,7 @@ import RidgelineDitherFooter from './ui/ridgeline-dither-footer';
 import { MaxMascotSvg } from './BrandSvgs';
 import { ThemeMode } from '../data/brandConfig';
 import { gsap, useGSAP } from '@/lib/gsap';
-import { docUrl } from '@/lib/utils';
+import { assetUrl, docUrl } from '@/lib/utils';
 
 interface FinalCtaAndFooterProps {
   onOpenModal: (mode: 'try' | 'talk' | 'login') => void;
@@ -402,7 +402,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
           <div className="flex items-center gap-4 pt-1">
             <div className="flex items-center gap-2 bg-sf-secondary/80 px-2.5 py-1.5 border border-st rounded-xl">
               <img
-                src="/assets/iso-27001.svg"
+                src={assetUrl('/assets/iso-27001.svg')}
                 alt="ISO 27001 Certified"
                 className="w-8 h-8 object-contain"
               />
@@ -410,7 +410,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
             </div>
             <div className="flex items-center gap-2 bg-sf-secondary/80 px-2.5 py-1.5 border border-st rounded-xl">
               <img
-                src="/assets/soc2-type2.svg"
+                src={assetUrl('/assets/soc2-type2.svg')}
                 alt="AICPA SOC 2 Type II Certified"
                 className="w-8 h-8 object-contain"
               />
