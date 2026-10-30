@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TerminalTranscript, interpolateDiffCount } from '../data/brandConfig';
-import { MaxMascotSvg } from './BrandSvgs';
+import { MaxMascotSvg, MaxFaviconSvg } from './BrandSvgs';
 
 interface AgentTerminalProps {
   transcript: TerminalTranscript;
@@ -166,7 +166,7 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
 
       {transcript.agentHeader && (
         <div className="flex items-center gap-3 mb-4 px-3.5 py-2.5 border border-st-tertiary/70 rounded-lg max-w-full">
-          <MaxMascotSvg className="w-6 h-6 shrink-0 -translate-y-0.5" />
+          <MaxFaviconSvg className="w-5 h-5 shrink-0" />
           <div className="min-w-0">
             <div className="truncate">
               <span className="text-tx-tertiary">&gt;_ </span>

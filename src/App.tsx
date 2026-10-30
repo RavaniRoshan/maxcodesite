@@ -195,7 +195,10 @@ export default function App() {
                   title="Max — your maxcode coding buddy"
                 >
                   <span className="hero-mascot-idle inline-block">
-                    <MaxMascotSvg className="w-11 h-12 md:w-14 md:h-[60px] drop-shadow-[0_6px_14px_rgba(226,106,44,0.20)]" />
+                    <MaxMascotSvg
+                      className="w-11 h-12 md:w-14 md:h-[60px] drop-shadow-[0_6px_14px_rgba(190,230,255,0.30)]"
+                      onDarkTile={themeMode === 'light'}
+                    />
                   </span>
                 </span>
                 <span className="hero-heading-chunk">with better code</span>

@@ -57,6 +57,24 @@
     --brand-name: "maxcode";
     --brand-model: "maxm1";
 
+    /* DESIGN.md Color Tokens */
+    --bg: #070B14;
+    --surface: #0E1422;
+    --surface-2: #141C2E;
+    --border: #1E2A40;
+    --text: #F5F7FA;
+    --text-2: #A9B4C4;
+    --muted: #8D99AB;
+    --silver: #D9DEE5;
+    --silver-hi: #FFFFFF;
+    --silver-mid: #AEB6C2;
+    --silver-lo: #8D99AB;
+    --aura: #BEE6FF;
+    --red: #F87171;
+    --blue: #7DD3FC;
+    --slate: #94A3B8;
+    --ink: #0A0F1E;
+
     --sc-blue: #e26a2c;
     --sc-green: #4fa876;
     --sc-orange: #d94e1f;

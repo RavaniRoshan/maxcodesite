@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { RiSunLine, RiMoonLine } from '@remixicon/react';
 import { ThemeMode } from '../data/brandConfig';
-import { MaxMascotSvg } from './BrandSvgs';
+import { MaxMascotSvg, MaxFaviconSvg } from './BrandSvgs';
 import { cx } from '@/utils/cx';
 import { docUrl } from '@/lib/utils';
 
@@ -208,7 +208,7 @@ export const Header: React.FC<HeaderProps> = ({
               aria-label="maxcode home"
               className="flex items-center justify-center size-7 rounded-md hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
             >
-              <MaxMascotSvg className="size-5 shrink-0" />
+              <MaxFaviconSvg className="size-4.5 shrink-0" />
             </a>
           </div>
 

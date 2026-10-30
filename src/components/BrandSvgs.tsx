@@ -1,71 +1,204 @@
 import React from 'react';
 
-export const MaxMascotSvg: React.FC<{ className?: string }> = ({ className = 'w-12 h-12' }) => (
+export type MaxPose = 'idle' | 'working' | 'pass' | 'fail';
+
+export interface MaxMascotProps {
+  className?: string;
+  pose?: MaxPose;
+  glow?: boolean;
+  onDarkTile?: boolean;
+}
+
+export const MaxMascotSvg: React.FC<MaxMascotProps> = ({
+  className = 'w-12 h-12',
+  pose = 'idle',
+  glow = true,
+  onDarkTile = false,
+}) => {
+  const showTick = pose === 'idle' || pose === 'pass';
+  const showGlow = glow && (pose === 'idle' || pose === 'pass');
+
+  const svgContent = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="-2 -2 16 18"
+      role="img"
+      aria-label={`Max, the maxcode mascot (${pose})`}
+      className={className}
+    >
+      <style>{`
+        .max-eye { transform-box: fill-box; transform-origin: center; animation: maxBlink 4s infinite; }
+        @keyframes maxBlink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+        .max-tick { animation: maxBob 1.6s ease-in-out infinite; }
+        @keyframes maxBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-0.4px); } }
+        .max-glow { animation: maxPulse 3s ease-in-out infinite; }
+        @keyframes maxPulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+        @media (prefers-reduced-motion: reduce) {
+          .max-eye, .max-tick, .max-glow { animation: none; }
+        }
+      `}</style>
+
+      <defs>
+        <radialGradient id="max-aura-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#BEE6FF" stopOpacity="0.5" />
+          <stop offset="60%" stopColor="#BEE6FF" stopOpacity="0.16" />
+          <stop offset="100%" stopColor="#BEE6FF" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+
+      {/* Aura Glow — Verified only (idle & pass) */}
+      {showGlow && (
+        <g>
+          <circle className="max-glow" cx="6" cy="8" r="8" fill="url(#max-aura-glow)" />
+          {pose === 'pass' && (
+            <circle cx="6" cy="8" r="6" fill="url(#max-aura-glow)" opacity="0.8" />
+          )}
+        </g>
+      )}
+
+      {/* Silver & White Body Silhouette */}
+      <g shapeRendering="crispEdges">
+        {/* Body main (#D9DEE5) */}
+        <rect x="1" y="3" width="10" height="9" fill="#D9DEE5" />
+        {/* Top highlight row (#FFFFFF) */}
+        <rect x="1" y="3" width="10" height="1" fill="#FFFFFF" />
+        {/* Right and bottom shade edges (#AEB6C2) */}
+        <rect x="10" y="4" width="1" height="8" fill="#AEB6C2" />
+        <rect x="1" y="11" width="10" height="1" fill="#AEB6C2" />
+        {/* Stubby feet (#8D99AB) */}
+        <rect x="2" y="12" width="2" height="1" fill="#8D99AB" />
+        <rect x="8" y="12" width="2" height="1" fill="#8D99AB" />
+      </g>
+
+      {/* Pose Faces & Indicators */}
+      {pose === 'idle' && (
+        <g shapeRendering="crispEdges" fill="#0A0F1E">
+          <rect className="max-eye" x="3" y="5" width="1" height="2" />
+          <rect className="max-eye" x="8" y="5" width="1" height="2" />
+          <rect x="4" y="8" width="1" height="1" />
+          <rect x="7" y="8" width="1" height="1" />
+          <rect x="5" y="9" width="2" height="1" />
+        </g>
+      )}
+
+      {pose === 'working' && (
+        <>
+          <g shapeRendering="crispEdges" fill="#0A0F1E">
+            <rect x="4" y="5" width="1" height="2" />
+            <rect x="9" y="5" width="1" height="2" />
+            <rect x="5" y="9" width="2" height="1" />
+          </g>
+          <g shapeRendering="crispEdges" fill="#94A3B8">
+            <rect x="4" y="1" width="1" height="1">
+              <animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" begin="0s" repeatCount="indefinite" />
+            </rect>
+            <rect x="6" y="1" width="1" height="1">
+              <animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" begin="0.2s" repeatCount="indefinite" />
+            </rect>
+            <rect x="8" y="1" width="1" height="1">
+              <animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" begin="0.4s" repeatCount="indefinite" />
+            </rect>
+          </g>
+        </>
+      )}
+
+      {pose === 'pass' && (
+        <>
+          <g shapeRendering="crispEdges" fill="#0A0F1E">
+            <rect x="2" y="6" width="1" height="1" />
+            <rect x="3" y="5" width="1" height="1" />
+            <rect x="4" y="6" width="1" height="1" />
+            <rect x="7" y="6" width="1" height="1" />
+            <rect x="8" y="5" width="1" height="1" />
+            <rect x="9" y="6" width="1" height="1" />
+            <rect x="4" y="8" width="4" height="1" />
+            <rect x="5" y="9" width="2" height="1" />
+          </g>
+          <g shapeRendering="crispEdges" fill="#FFFFFF">
+            <rect x="0" y="1" width="1" height="1" />
+            <rect x="-1" y="2" width="1" height="1" />
+            <rect x="1" y="2" width="1" height="1" />
+            <rect x="0" y="3" width="1" height="1" />
+          </g>
+        </>
+      )}
+
+      {pose === 'fail' && (
+        <>
+          <g shapeRendering="crispEdges" fill="#0A0F1E">
+            <rect x="3" y="5" width="1" height="1" />
+            <rect x="4" y="6" width="1" height="1" />
+            <rect x="3" y="7" width="1" height="1" />
+            <rect x="8" y="5" width="1" height="1" />
+            <rect x="7" y="6" width="1" height="1" />
+            <rect x="8" y="7" width="1" height="1" />
+            <rect x="4" y="9" width="4" height="1" />
+          </g>
+          <g shapeRendering="crispEdges" fill="#F87171">
+            <rect x="5" y="-1" width="1" height="1" />
+            <rect x="7" y="-1" width="1" height="1" />
+            <rect x="6" y="0" width="1" height="1" />
+            <rect x="5" y="1" width="1" height="1" />
+            <rect x="7" y="1" width="1" height="1" />
+          </g>
+          <g shapeRendering="crispEdges" fill="#7DD3FC">
+            <rect x="11" y="5" width="1" height="1" />
+            <rect x="11" y="6" width="1" height="1" />
+          </g>
+        </>
+      )}
+
+      {/* Floating Verified Tick Crown — Silver Hi (#FFFFFF) */}
+      {showTick && (
+        <g className="max-tick" shapeRendering="crispEdges" fill="#FFFFFF">
+          <rect x="8" y="-1" width="1" height="1" />
+          <rect x="9" y="-1" width="1" height="1" />
+          <rect x="3" y="0" width="1" height="1" />
+          <rect x="7" y="0" width="1" height="1" />
+          <rect x="8" y="0" width="1" height="1" />
+          <rect x="3" y="1" width="1" height="1" />
+          <rect x="4" y="1" width="1" height="1" />
+          <rect x="6" y="1" width="1" height="1" />
+          <rect x="7" y="1" width="1" height="1" />
+          <rect x="4" y="2" width="1" height="1" />
+          <rect x="5" y="2" width="1" height="1" />
+          <rect x="6" y="2" width="1" height="1" />
+        </g>
+      )}
+    </svg>
+  );
+
+  if (onDarkTile) {
+    return (
+      <span className="inline-flex items-center justify-center bg-[#070B14] p-2 rounded-[6px] border border-[#1E2A40]/60 shrink-0">
+        {svgContent}
+      </span>
+    );
+  }
+
+  return svgContent;
+};
+
+export const MaxFaviconSvg: React.FC<{ className?: string }> = ({ className = 'w-6 h-6' }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="-1 -1 14 15"
-    role="img"
-    aria-label="Max, the maxcode mascot"
+    viewBox="1 3 10 10"
     shapeRendering="crispEdges"
     className={className}
+    role="img"
+    aria-label="maxcode favicon mark"
   >
-    <style>{`
-      .max-mascot-eye {
-        transform-box: fill-box;
-        transform-origin: center;
-        animation: maxMascotBlink 4.2s infinite;
-      }
-      .max-mascot-tick {
-        animation: maxMascotBob 1.9s steps(2, end) infinite;
-      }
-      @keyframes maxMascotBlink {
-        0%, 92%, 100% { transform: scaleY(1); }
-        95% { transform: scaleY(0.12); }
-      }
-      @keyframes maxMascotBob {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-0.45px); }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        .max-mascot-eye, .max-mascot-tick { animation: none; }
-      }
-    `}</style>
-
-    {/* Ground shadow */}
-    <rect x="2" y="12.3" width="8" height="0.5" fill="#181310" opacity="0.22" />
-
-    {/* Floating pass-gate tick crown (bobbing) - Warm Golden Amber */}
-    <g className="max-mascot-tick">
-      <rect x="4" y="2" width="1" height="1" fill="#F59E0B" />
-      <rect x="5" y="2" width="1" height="1" fill="#D97706" />
-      <rect x="6" y="1" width="1" height="1" fill="#F59E0B" />
-      <rect x="7" y="0" width="1" height="1" fill="#FBBF24" />
-    </g>
-
-    {/* Body top highlight (Warm Apricot / Terracotta highlight) */}
-    <rect x="3" y="4" width="6" height="1" fill="#FDBA74" />
-
-    {/* Body main — chunky block cursor silhouette (Maxcode Terracotta / Red-Orange) */}
-    <rect x="2" y="5" width="8" height="5" fill="#E26A2C" />
-    <rect x="3" y="10" width="6" height="1" fill="#E26A2C" />
-
-    {/* Right-side & bottom bevel shading (Deep Burnt Sienna) */}
-    <rect x="9" y="5" width="1" height="5" fill="#B84318" />
-    <rect x="8" y="10" width="1" height="1" fill="#B84318" />
-
-    {/* Left-edge warm highlight */}
-    <rect x="2" y="5" width="1" height="4" fill="#FB923C" />
-
-    {/* Eyes — dark obsidian terminal cells that blink */}
-    <rect className="max-mascot-eye" x="4" y="6" width="1" height="2" fill="#181310" />
-    <rect className="max-mascot-eye" x="7" y="6" width="1" height="2" fill="#181310" />
-
-    {/* Subtle confident pixel smile */}
-    <rect x="5" y="9" width="2" height="0.75" fill="#181310" />
-
-    {/* Little stubby feet */}
-    <rect x="3" y="11" width="2" height="1" fill="#9A3412" />
-    <rect x="7" y="11" width="2" height="1" fill="#9A3412" />
+    <rect x="1" y="3" width="10" height="9" fill="#D9DEE5" />
+    <rect x="1" y="3" width="10" height="1" fill="#FFFFFF" />
+    <rect x="10" y="4" width="1" height="8" fill="#AEB6C2" />
+    <rect x="1" y="11" width="10" height="1" fill="#AEB6C2" />
+    <rect x="2" y="12" width="2" height="1" fill="#8D99AB" />
+    <rect x="8" y="12" width="2" height="1" fill="#8D99AB" />
+    <rect x="3" y="5" width="1" height="2" fill="#0A0F1E" />
+    <rect x="8" y="5" width="1" height="2" fill="#0A0F1E" />
+    <rect x="4" y="8" width="1" height="1" fill="#0A0F1E" />
+    <rect x="7" y="8" width="1" height="1" fill="#0A0F1E" />
+    <rect x="5" y="9" width="2" height="1" fill="#0A0F1E" />
   </svg>
 );
 

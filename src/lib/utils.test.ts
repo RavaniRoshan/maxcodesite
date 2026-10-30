@@ -43,4 +43,28 @@ describe('Asset and Doc URL Resolution for GitHub Pages & Root Deployments', () 
       `Found hardcoded un-prefixed /assets/ in components which 404s on GitHub Pages:\n${violatingFiles.join('\n')}`
     );
   });
+
+  it('validates DESIGN.md and pixel-crisp silver & white mascot assets exist and follow the spec', () => {
+    const rootDir = process.cwd();
+    const designMdPath = path.join(rootDir, 'DESIGN.md');
+    assert.ok(fs.existsSync(designMdPath), 'DESIGN.md must exist in root');
+
+    const expectedAssets = [
+      'public/assets/max.svg',
+      'public/assets/max-sheet.svg',
+      'public/assets/max-favicon.svg',
+      'public/max.svg',
+      'public/max-sheet.svg',
+      'public/max-favicon.svg',
+    ];
+
+    for (const assetRel of expectedAssets) {
+      const fullPath = path.join(rootDir, assetRel);
+      assert.ok(fs.existsSync(fullPath), `Asset ${assetRel} must exist`);
+      const svg = fs.readFileSync(fullPath, 'utf8');
+      assert.ok(svg.includes('#D9DEE5'), `${assetRel} must contain silver body #D9DEE5`);
+      assert.ok(svg.includes('#FFFFFF'), `${assetRel} must contain white highlight/tick #FFFFFF`);
+      assert.ok(svg.includes('#0A0F1E'), `${assetRel} must contain ink eyes #0A0F1E`);
+    }
+  });
 });
