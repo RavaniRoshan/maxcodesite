@@ -698,7 +698,7 @@ function InsightsCard({ copy, uid, reduced }: { copy: InkFeatures["insights"]; u
 
 const IB_CSS = `
 .ib-root{--ib-page:#f4f6f9;--ib-hatch:rgba(10,15,30,.035);--ib-paper:#ffffff;--ib-card:#eaeef4;--ib-raise:#ffffff;--ib-ink:#0a0f1e;--ib-soft:#3d4a60;--ib-muted:#56637a;--ib-faint:#8d99ab;--ib-accent:#0a0f1e;--ib-line:#d5dce6;--ib-line-strong:#aeb6c2;--ib-bracket:#8d99ab;--ib-inv:#0a0f1e;--ib-inv-ink:#f5f7fa;--ib-shadow:0 1px 2px rgba(10,15,30,.05),0 12px 28px -12px rgba(190,230,255,.18);--ib-sans:var(--font-sans,"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif);--ib-mono:var(--font-mono,"JetBrains Mono",ui-monospace,monospace);position:relative;width:100%;box-sizing:border-box;background-color:var(--ib-page);background-image:repeating-linear-gradient(135deg,var(--ib-hatch) 0 1px,transparent 1px 10px);color:var(--ib-ink);font-family:var(--ib-sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;padding:clamp(18px,2.5vw,32px);border-radius:28px;border:1px solid var(--ib-line);transition:background-color .45s ease,color .45s ease,border-color .45s ease}
-.ib-root[data-theme="dark"]{--ib-page:#070b14;--ib-hatch:rgba(190,230,255,.03);--ib-paper:#0e1422;--ib-card:#141c2e;--ib-raise:#1e2a40;--ib-ink:#f5f7fa;--ib-soft:#a9b4c4;--ib-muted:#8d99ab;--ib-faint:#56637a;--ib-accent:#d9dee5;--ib-line:#1e2a40;--ib-line-strong:#2a3b59;--ib-bracket:#3d4a60;--ib-inv:#f5f7fa;--ib-inv-ink:#0a0f1e;--ib-shadow:0 1px 2px rgba(0,0,0,.6),0 12px 32px -14px rgba(190,230,255,.1)}
+.ib-root[data-theme="dark"]{--ib-page:#070b14;--ib-hatch:rgba(190,230,255,.03);--ib-paper:#0e1422;--ib-card:#141c2e;--ib-raise:#1e2a40;--ib-ink:#f5f7fa;--ib-soft:#a9b4c4;--ib-muted:#a9b4c4;--ib-faint:#8d99ab;--ib-accent:#d9dee5;--ib-line:#1e2a40;--ib-line-strong:#2a3b59;--ib-bracket:#3d4a60;--ib-inv:#f5f7fa;--ib-inv-ink:#0a0f1e;--ib-shadow:0 1px 2px rgba(0,0,0,.6),0 12px 32px -14px rgba(190,230,255,.1)}
 .ib-root :where(*){box-sizing:border-box}
 .ib-root :focus-visible{outline:2px solid var(--ib-accent);outline-offset:2px}
 .ib-root :where(svg){display:block;max-width:none;flex:none}
@@ -728,7 +728,7 @@ const IB_CSS = `
 .ib-card{background:linear-gradient(180deg,var(--ib-raise),var(--ib-card));border:1px solid var(--ib-line);border-radius:14px;padding:clamp(16px,2.2cqw,24px);display:flex;flex-direction:column;gap:14px;transition:border-color .3s,box-shadow .35s,background-color .45s}
 .ib-card:hover{border-color:var(--ib-line-strong);box-shadow:var(--ib-shadow)}
 .ib-card h3{font-size:15px;font-weight:600;letter-spacing:-.015em;color:var(--ib-ink)}
-.ib-card p{font-size:13.5px;line-height:1.58;color:var(--ib-muted);max-width:42ch;margin-top:4px}
+.ib-card p{font-size:14px;line-height:1.58;color:var(--ib-soft);max-width:42ch;margin-top:4px}
 .ib-diagram{width:100%;height:auto;overflow:visible}
 .ib-wide-copy{display:grid;grid-template-columns:1fr;gap:16px}
 @container (min-width:560px){.ib-wide-copy{grid-template-columns:1fr 1fr}.ib-wide-copy>div:last-child{justify-self:end;text-align:left}}

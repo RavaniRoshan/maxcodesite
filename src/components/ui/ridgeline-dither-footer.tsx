@@ -154,9 +154,9 @@ const PRESETS: RidgelinePresetMap = {
   silver: {
     paper: "#070B14",
     ink: "#F5F7FA",
-    muted: "#8D99AB",
+    muted: "#A9B4C4",
     line: "#1E2A40",
-    heart: "#D9DEE5",
+    heart: "#FFFFFF",
     tones: ["#070B14", "#0E1422", "#141C2E", "#1E2A40", "#3D4A60", "#8D99AB", "#D9DEE5"],
   },
 }
@@ -352,19 +352,19 @@ const RDF_CSS = `
 .rdf-social svg { width: 15px; height: 15px; display: block; }
 
 .rdf-col h3 {
-  margin: 4px 0 18px; font: 500 10.5px/1 var(--rdf-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--rdf-muted);
+  margin: 4px 0 18px; font: 600 12px/1 var(--rdf-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--rdf-ink);
 }
 .rdf-col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; }
 .rdf-link {
   position: relative; display: inline-flex; align-items: center; gap: 8px;
-  color: var(--rdf-ink); text-decoration: none; font-size: 14px; line-height: 1.35; letter-spacing: -.005em;
+  color: #A9B4C4; text-decoration: none; font-size: 14px; line-height: 1.35; letter-spacing: -.005em;
   transition: color .3s ease, transform .5s cubic-bezier(.2,.7,.1,1);
 }
 .rdf-link::before {
   content: ""; position: absolute; left: -12px; top: 50%; width: 7px; height: 1px; background: var(--rdf-accent);
   transform: scaleX(0); transform-origin: 0 50%; transition: transform .45s cubic-bezier(.2,.7,.1,1);
 }
-.rdf-link:hover { color: var(--rdf-accent); transform: translateX(7px); }
+.rdf-link:hover { color: #FFFFFF; transform: translateX(7px); }
 .rdf-link:hover::before { transform: scaleX(1); }
 .rdf-badge {
   font: 500 9px/1 var(--rdf-mono); letter-spacing: .1em; text-transform: uppercase; padding: 4px 6px 3px; border-radius: 99px;
@@ -375,8 +375,11 @@ const RDF_CSS = `
 }
 
 .rdf-bar {
-  position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 16px;
-  padding: 0 var(--rdf-pad); font-size: 12px; color: var(--rdf-muted);
+  position: relative; z-index: 5; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 16px var(--rdf-pad); font-size: 12px; color: #A9B4C4;
+  background: color-mix(in srgb, var(--rdf-paper) 85%, transparent);
+  border-top: 1px solid var(--rdf-line);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
 }
 .rdf-bar p { margin: 0; }
 .rdf-credit {

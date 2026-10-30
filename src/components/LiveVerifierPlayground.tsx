@@ -236,7 +236,7 @@ export const LiveVerifierPlayground: React.FC = () => {
           <div className="flex flex-wrap items-center justify-between gap-4 p-5 md:px-8 border-b border-st-secondary bg-sf-secondary/40 backdrop-blur-md">
             {/* Scenario Pills */}
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-mono text-tx-tertiary uppercase mr-1">Scenario:</span>
+              <span className="text-xs font-mono text-[#A9B4C4] uppercase mr-1">Scenario:</span>
               {SCENARIOS.map((s, idx) => (
                 <button
                   key={s.id}
@@ -262,7 +262,7 @@ export const LiveVerifierPlayground: React.FC = () => {
 
             {/* Thinking Variant Switcher (BoardUI AgentThinking showcase) */}
             <div className="flex items-center gap-2 text-xs">
-              <span className="text-tx-tertiary font-mono">Loader:</span>
+              <span className="text-[#A9B4C4] font-mono">Loader:</span>
               {(['wave', 'spin', 'stars', 'infinity'] as AgentThinkingVariant[]).map((v) => (
                 <button
                   key={v}
@@ -288,7 +288,7 @@ export const LiveVerifierPlayground: React.FC = () => {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <StatusDot color={isVerifying ? 'yellow' : 'green'} />
-                    <span className="text-xs font-mono font-medium text-tx-secondary">
+                    <span className="text-xs font-mono font-medium text-[#A9B4C4]">
                       {isVerifying ? 'AGENT VERIFYING RUN' : 'CHECKPOINT VERIFIED'}
                     </span>
                   </div>
@@ -300,7 +300,7 @@ export const LiveVerifierPlayground: React.FC = () => {
                 <h3 className="font-season text-tx text-xl font-medium mb-1">
                   {currentStep.label}
                 </h3>
-                <p className="text-tx-secondary text-sm mb-6 leading-relaxed">
+                <p className="text-[#A9B4C4] text-sm mb-6 leading-relaxed">
                   {currentStep.action}
                 </p>
 
@@ -325,10 +325,10 @@ export const LiveVerifierPlayground: React.FC = () => {
                         key={st.label}
                         className={`flex items-start gap-3 p-3 rounded-xl border transition-all ${
                           isCurrent
-                            ? 'bg-sf border-accent-500/40 shadow-xs'
+                            ? 'bg-sf border-accent-500/50 shadow-xs'
                             : isDone
-                            ? 'bg-sf/50 border-st-secondary opacity-90'
-                            : 'bg-sf/20 border-transparent opacity-50'
+                            ? 'bg-sf/80 border-st-secondary'
+                            : 'bg-sf/30 border-st-secondary/40'
                         }`}
                       >
                         <div className="mt-0.5 shrink-0">
@@ -337,7 +337,7 @@ export const LiveVerifierPlayground: React.FC = () => {
                               <RiCheckLine className="size-3" />
                             </span>
                           ) : (
-                            <span className="size-4 rounded-full border border-tx-tertiary/40 inline-flex items-center justify-center text-[10px] text-tx-tertiary">
+                            <span className="size-4 rounded-full border border-[#8D99AB] inline-flex items-center justify-center text-[10px] text-[#A9B4C4] font-medium">
                               {i + 1}
                             </span>
                           )}
@@ -345,10 +345,10 @@ export const LiveVerifierPlayground: React.FC = () => {
                         <div className="flex-1 min-w-0">
                           <p className="text-xs font-semibold text-tx truncate">{st.label}</p>
                           <div className="flex items-center gap-2 mt-1">
-                            <span className="font-mono text-[10px] text-tx-tertiary flex items-center gap-1">
+                            <span className="font-mono text-[10px] text-[#A9B4C4] flex items-center gap-1">
                               <RiGitCommitLine className="size-3" /> {st.commitHash}
                             </span>
-                            <span className="font-mono text-[10px] text-emerald-600 dark:text-emerald-400">
+                            <span className="font-mono text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">
                               PASS
                             </span>
                           </div>
@@ -420,28 +420,28 @@ export const LiveVerifierPlayground: React.FC = () => {
             </div>
 
             {/* RIGHT COLUMN: Real-Time AST Diff & Live Log Stream (7 Cols) */}
-            <div className="lg:col-span-7 bg-[#151210] text-[#faf6f1] p-6 md:p-8 flex flex-col justify-between min-h-[460px] font-mono text-xs">
+            <div className="lg:col-span-7 bg-[#070B14] text-[#F5F7FA] p-6 md:p-8 flex flex-col justify-between min-h-[460px] font-mono text-xs">
               {/* Terminal Title Bar */}
               <div>
-                <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/10 text-white/50">
+                <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#1E2A40] text-[#A9B4C4]">
                   <div className="flex items-center gap-2">
                     <span className="size-2.5 rounded-full bg-red-500/80" />
                     <span className="size-2.5 rounded-full bg-yellow-500/80" />
                     <span className="size-2.5 rounded-full bg-green-500/80" />
-                    <span className="ml-2 font-mono text-[11px] text-white/70">
+                    <span className="ml-2 font-mono text-[11px] text-[#D9DEE5]">
                       {scenario.file}
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded bg-white/10 text-[10px] text-white/80">
+                    <span className="px-2 py-0.5 rounded bg-[#141C2E] text-[10px] text-[#D9DEE5] border border-[#1E2A40]">
                       git worktree: sandboxed
                     </span>
                   </div>
                 </div>
 
                 {/* Diff Viewer */}
-                <div className="space-y-1 bg-black/40 p-4 rounded-xl border border-white/5 overflow-x-auto max-h-[220px]">
-                  <div className="text-white/40 pb-1">// Diff generated by maxm1 verifier engine</div>
+                <div className="space-y-1 bg-[#0E1422] p-4 rounded-xl border border-[#1E2A40] overflow-x-auto max-h-[220px]">
+                  <div className="text-[#8D99AB] pb-1 font-mono text-[11px]">// Diff generated by maxcode verifier engine</div>
                   {currentStep.diff.map((line, idx) => {
                     const isAdd = line.startsWith('+');
                     const isRemove = line.startsWith('-');
@@ -453,7 +453,7 @@ export const LiveVerifierPlayground: React.FC = () => {
                             ? 'text-emerald-400 bg-emerald-500/10 px-1 rounded-sm'
                             : isRemove
                             ? 'text-rose-400 bg-rose-500/10 px-1 rounded-sm'
-                            : 'text-white/75'
+                            : 'text-[#D9DEE5]'
                         }`}
                       >
                         {line}
@@ -464,10 +464,10 @@ export const LiveVerifierPlayground: React.FC = () => {
               </div>
 
               {/* Bottom Runtime Feed & Test Output */}
-              <div className="mt-6 pt-4 border-t border-white/10">
-                <div className="flex items-center justify-between text-white/50 text-[11px] mb-2">
+              <div className="mt-6 pt-4 border-t border-[#1E2A40]">
+                <div className="flex items-center justify-between text-[#A9B4C4] text-[11px] mb-2">
                   <span className="flex items-center gap-1.5">
-                    <RiTerminalBoxLine className="size-3.5 text-accent-400" />
+                    <RiTerminalBoxLine className="size-3.5 text-[#BEE6FF]" />
                     Runtime Verifier Stream
                   </span>
                   <span className="text-emerald-400 flex items-center gap-1">
@@ -476,7 +476,7 @@ export const LiveVerifierPlayground: React.FC = () => {
                   </span>
                 </div>
 
-                <div className="bg-black/60 p-3 rounded-xl border border-white/5 h-[120px] overflow-y-auto font-mono text-[11px] text-white/80 space-y-1">
+                <div className="bg-[#0E1422] p-3 rounded-xl border border-[#1E2A40] h-[120px] overflow-y-auto font-mono text-[11px] text-[#D9DEE5] space-y-1">
                   {feedLogs.map((log, index) => (
                     <div
                       key={index}
@@ -484,17 +484,17 @@ export const LiveVerifierPlayground: React.FC = () => {
                         log.includes('PASSED') || log.includes('passed')
                           ? 'text-emerald-300'
                           : log.includes('HUMAN')
-                          ? 'text-accent-300'
+                          ? 'text-[#BEE6FF]'
                           : log.includes('checkpoint')
                           ? 'text-sky-300'
-                          : 'text-white/60'
+                          : 'text-[#A9B4C4]'
                       }
                     >
                       &gt; {log}
                     </div>
                   ))}
                   {isVerifying && (
-                    <div className="text-accent-400 animate-pulse">
+                    <div className="text-[#BEE6FF] animate-pulse">
                       &gt; [verifier-hook] executing pytest in isolated worktree...
                     </div>
                   )}

@@ -131,8 +131,8 @@ const DELTA_STYLES: Record<
   },
   neutral: {
     icon: RiIndeterminateCircleFill,
-    className: "text-tx-secondary",
-    pill: "bg-sf dark:bg-white/10 border border-st-secondary/60 dark:border-white/10",
+    className: "text-[#A9B4C4]",
+    pill: "bg-sf dark:bg-[#141C2E] border border-st-secondary/60 dark:border-[#1E2A40]",
   },
 };
 
@@ -182,12 +182,12 @@ function StatHint({ label, hint }: { label: string; hint: string }) {
 function PlainStatCard({ stat }: { stat: Stat }) {
   const localize = useTemplateCopy();
   return localize((
-    <section className="flex h-[132px] min-w-0 flex-col items-start justify-between rounded-2xl bg-sf-secondary dark:bg-[#16110e] border border-st-secondary dark:border-white/10 p-4 transition-colors duration-300">
-      <span className="flex items-center rounded-md bg-sf dark:bg-white/10 border border-st-secondary/60 dark:border-white/10 p-1.5">
+    <section className="flex h-[132px] min-w-0 flex-col items-start justify-between rounded-2xl bg-sf-secondary dark:bg-[#0E1422] border border-st-secondary dark:border-[#1E2A40] p-4 transition-colors duration-300">
+      <span className="flex items-center rounded-md bg-sf dark:bg-[#141C2E] border border-st-secondary/60 dark:border-[#1E2A40] p-1.5">
         <stat.icon className="size-5 shrink-0 text-tx" aria-hidden />
       </span>
       <div className="flex w-full flex-col gap-0.5">
-        <p className="w-full text-body-medium text-tx-secondary">{stat.label}</p>
+        <p className="w-full text-body-medium text-[#A9B4C4] font-medium">{stat.label}</p>
         <div className="flex w-full flex-wrap items-center gap-2">
           <p className="text-title-1-medium whitespace-nowrap text-tx font-bold">{stat.value}</p>
           <Chip variant="bold" color={stat.deltaColor}>
@@ -202,7 +202,7 @@ function PlainStatCard({ stat }: { stat: Stat }) {
 function FooterStatCard({ stat }: { stat: Stat }) {
   const localize = useTemplateCopy();
   return localize((
-    <section className="flex min-w-0 flex-col rounded-2xl bg-sf-secondary dark:bg-[#16110e] border border-st-secondary dark:border-white/10 p-3 shadow-xs hover:border-accent-500/30 transition-all duration-300">
+    <section className="flex min-w-0 flex-col rounded-2xl bg-sf-secondary dark:bg-[#0E1422] border border-st-secondary dark:border-[#1E2A40] p-3 shadow-xs hover:border-[#8D99AB] transition-all duration-300">
       {/* Icon tile + optional info glyph, both hanging from the same top inset */}
       <div className="flex w-full items-start justify-between gap-2.5 p-1.5">
         <span
@@ -218,15 +218,15 @@ function FooterStatCard({ stat }: { stat: Stat }) {
 
       {/* Label sits directly over the number, as on the plain cards */}
       <div className="flex flex-col gap-1 px-1.5 pt-3 pb-4">
-        <p className="truncate text-sm font-medium text-tx-secondary">{stat.label}</p>
+        <p className="truncate text-sm font-medium text-[#A9B4C4]">{stat.label}</p>
         <p className="text-3xl font-season font-bold whitespace-nowrap text-tx tabular-nums tracking-tight">
           {stat.value}
         </p>
       </div>
 
       {/* Footer band: comparison caption + delta pill on an inner tile */}
-      <div className="mt-auto flex w-full items-center justify-between gap-2 rounded-xl bg-sf dark:bg-[#1f1814] border border-st-secondary/60 dark:border-white/5 py-2 pe-2 ps-2.5 shadow-xs">
-        <p className="truncate text-xs text-tx-tertiary">
+      <div className="mt-auto flex w-full items-center justify-between gap-2 rounded-xl bg-sf dark:bg-[#141C2E] border border-st-secondary/60 dark:border-[#1E2A40] py-2 pe-2 ps-2.5 shadow-xs">
+        <p className="truncate text-xs text-[#A9B4C4] font-medium">
           {stat.caption ?? "From last month"}
         </p>
         <DeltaPill delta={stat.delta} deltaColor={stat.deltaColor} />

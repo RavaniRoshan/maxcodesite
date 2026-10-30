@@ -192,6 +192,13 @@ export const DARK_THEME_VARIABLES: Record<string, string> = {
   '--sc-highlight': '#141C2E',
   '--brand-glow-start': '#070B14',
   '--brand-glow-end': '#BEE6FF',
+  '--color-text-primary': '#F5F7FA',
+  '--color-text-secondary': '#A9B4C4',
+  '--color-text-tertiary': '#8D99AB',
+  '--color-text-placeholder': '#8D99AB',
+  '--text': '#F5F7FA',
+  '--text-2': '#A9B4C4',
+  '--muted': '#8D99AB',
 };
 
 export function getBrandCssVariables(

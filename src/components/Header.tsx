@@ -195,7 +195,7 @@ export const Header: React.FC<HeaderProps> = ({
         <div
           className={cx(
             'flex items-center rounded-xl py-1.5 px-2 shadow-md ring-1 backdrop-blur-xl transition-all duration-300',
-            'bg-white/80 dark:bg-[#16110e]/85 ring-black/[0.08] dark:ring-white/10 shadow-black/5 dark:shadow-black/40'
+            'bg-white/80 dark:bg-[#0E1422]/95 ring-black/[0.08] dark:ring-[#1E2A40] shadow-black/5 dark:shadow-black/40 border border-transparent dark:border-[#1E2A40]'
           )}
         >
           {/* Morphing Mini Mascot Mark (smoothly slides out when scrolled) */}
@@ -284,7 +284,7 @@ export const Header: React.FC<HeaderProps> = ({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.98 }}
               transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-              className="hidden lg:block fixed left-1/2 top-14 -translate-x-1/2 z-50 w-[92vw] max-w-5xl rounded-3xl bg-sf/95 dark:bg-[#16110e]/95 border border-st-secondary dark:border-white/10 p-6 md:p-8 shadow-2xl backdrop-blur-2xl overflow-hidden"
+              className="hidden lg:block fixed left-1/2 top-14 -translate-x-1/2 z-50 w-[92vw] max-w-5xl rounded-3xl bg-sf/95 dark:bg-[#0E1422]/98 border border-st-secondary dark:border-[#1E2A40] p-6 md:p-8 shadow-2xl backdrop-blur-2xl overflow-hidden"
               onMouseLeave={() => setOpenMenu(null)}
             >
               {/* Animated Tab Switcher Container */}
@@ -301,7 +301,7 @@ export const Header: React.FC<HeaderProps> = ({
               <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
                 <div className="flex flex-col gap-6">
                   <div>
-                    <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                    <p className="mb-1.5 font-mono text-[#8D99AB] text-xs font-semibold uppercase tracking-widest">
                       Core Architecture
                     </p>
                     <div className="flex flex-col -mx-3">
@@ -316,7 +316,7 @@ export const Header: React.FC<HeaderProps> = ({
                           </span>
                           <CardArrowIcon />
                         </div>
-                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                        <p className="mt-1 font-normal text-[#A9B4C4] text-sm leading-snug">
                           Open-source terminal coding agent that verifies work with real checks
                         </p>
                       </a>
@@ -331,7 +331,7 @@ export const Header: React.FC<HeaderProps> = ({
                           </span>
                           <CardArrowIcon />
                         </div>
-                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                        <p className="mt-1 font-normal text-[#A9B4C4] text-sm leading-snug">
                           Automated test, build, and lint gates with a 3-try retry loop
                         </p>
                       </a>
@@ -346,7 +346,7 @@ export const Header: React.FC<HeaderProps> = ({
                           </span>
                           <CardArrowIcon />
                         </div>
-                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                        <p className="mt-1 font-normal text-[#A9B4C4] text-sm leading-snug">
                           Isolated refs under refs/maxcode/ for zero-risk rollback on failure
                         </p>
                       </a>
@@ -354,7 +354,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
 
                   <div>
-                    <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                    <p className="mb-1.5 font-mono text-[#8D99AB] text-xs font-semibold uppercase tracking-widest">
                       Cost &amp; Multi-Model Routing
                     </p>
                     <div className="flex flex-col -mx-3">
@@ -369,7 +369,7 @@ export const Header: React.FC<HeaderProps> = ({
                           </span>
                           <CardArrowIcon />
                         </div>
-                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                        <p className="mt-1 font-normal text-[#A9B4C4] text-sm leading-snug">
                           Route scaffolding to fast models and reasoning to maxm1; retries are never billed
                         </p>
                       </a>
@@ -377,7 +377,7 @@ export const Header: React.FC<HeaderProps> = ({
                   </div>
 
                   <div>
-                    <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                    <p className="mb-1.5 font-mono text-[#8D99AB] text-xs font-semibold uppercase tracking-widest">
                       Empirical Evidence
                     </p>
                     <div className="flex flex-col -mx-3">
@@ -392,7 +392,7 @@ export const Header: React.FC<HeaderProps> = ({
                           </span>
                           <CardArrowIcon />
                         </div>
-                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                        <p className="mt-1 font-normal text-[#A9B4C4] text-sm leading-snug">
                           Public reproducible benchmark measuring verifier-on vs verifier-off pass rates
                         </p>
                       </a>
@@ -402,10 +402,10 @@ export const Header: React.FC<HeaderProps> = ({
 
                 {/* Right Preview Card */}
                 <div className="flex flex-col bg-sf-secondary border border-st-secondary p-6 rounded-2xl">
-                  <p className="mb-4 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                  <p className="mb-4 font-mono text-[#8D99AB] text-xs font-semibold uppercase tracking-widest">
                     Featured Architecture · maxcode v0.8.2
                   </p>
-                  <div className="relative flex flex-col justify-between bg-neutral-950 dark:bg-[#140f0c] border border-neutral-800 dark:border-white/10 p-6 rounded-xl overflow-hidden text-white min-h-[240px] shadow-md">
+                  <div className="relative flex flex-col justify-between bg-neutral-950 dark:bg-[#070B14] border border-neutral-800 dark:border-[#1E2A40] p-6 rounded-xl overflow-hidden text-white min-h-[240px] shadow-md">
                     <div
                       className="absolute inset-0 opacity-40 pointer-events-none"
                       style={{
@@ -442,7 +442,7 @@ export const Header: React.FC<HeaderProps> = ({
             {openMenu === 'developers' && (
               <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
                 <div>
-                  <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                  <p className="mb-1.5 font-mono text-[#8D99AB] text-xs font-semibold uppercase tracking-widest">
                     Diátaxis Documentation
                   </p>
                   <div className="gap-x-6 gap-y-2 grid grid-cols-2 -mx-3">
@@ -490,7 +490,7 @@ export const Header: React.FC<HeaderProps> = ({
                           </span>
                           <CardArrowIcon />
                         </div>
-                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                        <p className="mt-1 font-normal text-[#A9B4C4] text-sm leading-snug">
                           {item.desc}
                         </p>
                       </a>
@@ -500,19 +500,19 @@ export const Header: React.FC<HeaderProps> = ({
 
                 <div className="flex flex-col justify-between bg-sf-secondary border border-st-secondary p-6 rounded-2xl">
                   <div>
-                    <p className="mb-2 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                    <p className="mb-2 font-mono text-[#8D99AB] text-xs font-semibold uppercase tracking-widest">
                       Developer Quickstart
                     </p>
                     <div className="bg-sf p-4 border border-st-secondary rounded-xl font-mono text-xs text-tx space-y-1">
-                      <div className="text-tx-tertiary">$ git clone https://github.com/RavaniRoshan/maxcode.git</div>
-                      <div className="text-tx-tertiary">$ cd maxcode &amp;&amp; uv sync</div>
+                      <div className="text-[#8D99AB]">$ git clone https://github.com/RavaniRoshan/maxcode.git</div>
+                      <div className="text-[#8D99AB]">$ cd maxcode &amp;&amp; uv sync</div>
                       <div className="mt-1 text-tx">
                         <span className="text-emerald-500 font-semibold">user@maxcode</span>:~/repo$ uv run maxcode run "Fix failing tests"
                       </div>
                     </div>
                   </div>
                   <div className="flex justify-between items-center mt-4 pt-3 border-st-secondary border-t">
-                    <span className="text-tx-tertiary text-xs">Fumadocs Documentation</span>
+                    <span className="text-[#A9B4C4] text-xs font-medium">Fumadocs Documentation</span>
                     <a
                       href={docUrl('/docs')}
                       onClick={() => setOpenMenu(null)}
@@ -529,7 +529,7 @@ export const Header: React.FC<HeaderProps> = ({
             {openMenu === 'resources' && (
               <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
                 <div>
-                  <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                  <p className="mb-1.5 font-mono text-[#8D99AB] text-xs font-semibold uppercase tracking-widest">
                     Documentation &amp; Community
                   </p>
                   <div className="flex flex-col -mx-3">
@@ -562,7 +562,7 @@ export const Header: React.FC<HeaderProps> = ({
                           </span>
                           <CardArrowIcon />
                         </div>
-                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                        <p className="mt-1 font-normal text-[#A9B4C4] text-sm leading-snug">
                           {res.desc}
                         </p>
                       </a>
@@ -571,13 +571,13 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
 
                 <div className="bg-sf-secondary border border-st-secondary p-6 rounded-2xl">
-                  <p className="mb-2 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                  <p className="mb-2 font-mono text-[#8D99AB] text-xs font-semibold uppercase tracking-widest">
                     Core Thesis
                   </p>
                   <h4 className="font-season text-tx text-2xl">
                     Why models cannot verify their own output
                   </h4>
-                  <p className="mt-2 text-tx-secondary text-sm leading-relaxed">
+                  <p className="mt-2 text-[#A9B4C4] text-sm leading-relaxed">
                     LLM coding assistants frequently claim tasks are complete when unit tests fail. maxcode treats the model as an unverified contributor and makes the compiler, linter, and test runner the sole arbiters of truth.
                   </p>
                 </div>
@@ -588,7 +588,7 @@ export const Header: React.FC<HeaderProps> = ({
             {openMenu === 'company' && (
               <div className="gap-8 grid grid-cols-1 lg:grid-cols-2">
                 <div>
-                  <p className="mb-1.5 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                  <p className="mb-1.5 font-mono text-[#8D99AB] text-xs font-semibold uppercase tracking-widest">
                     Open Source &amp; Governance
                   </p>
                   <div className="flex flex-col -mx-3">
@@ -628,7 +628,7 @@ export const Header: React.FC<HeaderProps> = ({
                           </span>
                           <CardArrowIcon />
                         </div>
-                        <p className="mt-1 font-normal text-tx-tertiary text-sm leading-snug">
+                        <p className="mt-1 font-normal text-[#A9B4C4] text-sm leading-snug">
                           {item.desc}
                         </p>
                       </a>
@@ -637,13 +637,13 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
 
                 <div className="bg-sf-secondary border border-st-secondary p-6 rounded-2xl">
-                  <p className="mb-2 font-mono text-tx-tertiary text-xs uppercase tracking-widest">
+                  <p className="mb-2 font-mono text-[#8D99AB] text-xs font-semibold uppercase tracking-widest">
                     Privacy &amp; Keys
                   </p>
                   <h4 className="font-season text-tx text-2xl">
                     Bring your own keys. Zero telemetry leaks.
                   </h4>
-                  <p className="mt-2 text-tx-secondary text-sm leading-relaxed">
+                  <p className="mt-2 text-[#A9B4C4] text-sm leading-relaxed">
                     maxcode never hardcodes or transmits API keys. All keys are loaded dynamically from environment variables and excluded from run logs and git commits.
                   </p>
                 </div>
@@ -779,7 +779,7 @@ export const Header: React.FC<HeaderProps> = ({
                             key={link.name}
                             href={docUrl(link.href)}
                             onClick={() => setMobileMenuOpen(false)}
-                            className="text-sm text-tx-secondary hover:text-tx py-1 transition-colors"
+                            className="text-sm text-[#A9B4C4] hover:text-[#FFFFFF] py-1 transition-colors"
                           >
                             {link.name}
                           </a>

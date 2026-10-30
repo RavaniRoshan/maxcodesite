@@ -64,13 +64,13 @@ export const FaqSection: React.FC = () => {
     >
       <div className="w-full">
         <div className="faq-header flex flex-col items-center mx-auto max-w-xl text-center">
-          <p className="font-mono text-tx-tertiary text-xs uppercase tracking-widest mb-2">
+          <p className="font-mono text-[#8D99AB] text-xs font-semibold uppercase tracking-widest mb-2">
             Questions &amp; Answers
           </p>
           <h2 className="font-season font-normal text-tx text-3xl md:text-4xl lg:text-[44px] leading-[120%] tracking-[-1px]">
             Frequently Asked Questions
           </h2>
-          <p className="mt-3 text-tx-secondary text-sm md:text-base max-w-md">
+          <p className="mt-3 text-[#A9B4C4] text-sm md:text-base max-w-md">
             Everything you need to know about the verifier loop, checkpoints, sovereign deployments, and completed-work pricing.
           </p>
         </div>

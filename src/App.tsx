@@ -183,7 +183,7 @@ export default function App() {
                 <HeroAnnouncement />
               </div>
 
-              <span className="hero-kicker inline-block mb-4 font-mono font-normal text-tx-tertiary text-xs uppercase tracking-[1.5px]">
+              <span className="hero-kicker inline-block mb-4 font-mono font-semibold text-[#A9B4C4] text-xs uppercase tracking-[2px]">
                 {BRAND_IDENTITY.heroKicker}
               </span>
 
@@ -206,7 +206,7 @@ export default function App() {
                 <span className="hero-heading-chunk">with better code</span>
               </h1>
 
-              <p className="hero-subheading mt-5 max-w-[600px] font-normal text-tx-secondary text-base md:text-lg leading-relaxed">
+              <p className="hero-subheading mt-5 max-w-[620px] font-normal text-[#D9DEE5] text-base md:text-lg leading-relaxed">
                 {BRAND_IDENTITY.heroSubheading}
               </p>
 
@@ -292,7 +292,7 @@ export default function App() {
                   A visible plan for work across the codebase.
                 </h2>
               </div>
-              <p className="lg:col-span-6 lg:col-start-7 text-tx-secondary text-base md:text-lg leading-relaxed">
+              <p className="lg:col-span-6 lg:col-start-7 text-[#A9B4C4] text-base md:text-lg leading-relaxed">
                 maxcode breaks the job into steps, writes and tests each change, and saves checkpoints as it goes. The plan stays visible throughout the run.
               </p>
             </div>
@@ -356,7 +356,7 @@ export default function App() {
                       onDarkTile={themeMode === 'light'}
                     />
                   </div>
-                  <p className="mt-3 font-mono text-xs md:text-sm text-tx-secondary leading-relaxed">
+                  <p className="mt-3 font-mono text-xs md:text-sm text-[#A9B4C4] leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
@@ -373,7 +373,7 @@ export default function App() {
                     <h3 className="font-season text-tx text-xl md:text-2xl leading-[125%] tracking-[-0.4px]">
                       {card.title}
                     </h3>
-                    <p className="mt-2.5 text-tx-secondary text-sm md:text-base leading-relaxed">
+                    <p className="mt-2.5 text-[#A9B4C4] text-sm md:text-base leading-relaxed">
                       {card.description}
                     </p>
                   </div>
@@ -448,15 +448,15 @@ export default function App() {
         {/* SECTION 4: SPECIALIZED MODEL TRAINING (DARK CARD) */}
         <section>
           <div className="mx-auto w-[88%] md:w-10/12 max-w-width-mx">
-            <div className="training-dark-card relative bg-sr-black border border-st-secondary rounded-[28px] md:rounded-[40px] overflow-hidden">
+            <div className="training-dark-card relative bg-[#0E1422] border border-[#1E2A40] rounded-[28px] md:rounded-[40px] overflow-hidden">
               <TrainingAtmosphericBackdrop />
 
               <div className="relative px-6 sm:px-10 md:px-16 pt-12 md:pt-20 pb-6 sm:pb-10 md:pb-14">
                 <div className="mx-auto max-w-[640px] text-center">
-                  <h2 className="font-season text-[#faf6f1] text-2xl md:text-4xl lg:text-[40px] leading-[120%] tracking-[-0.8px]">
+                  <h2 className="font-season text-[#F5F7FA] text-2xl md:text-4xl lg:text-[40px] leading-[120%] tracking-[-0.8px]">
                     Train a model for a specialised task.
                   </h2>
-                  <p className="mt-4 text-[#faf6f1]/75 text-base md:text-lg leading-relaxed">
+                  <p className="mt-4 text-[#A9B4C4] text-base md:text-lg leading-relaxed">
                     maxcode can train a task-specific maxm1 model during the run using your data and requirements, then apply it to the job. For underwriting, that can mean training on your risk parameters.
                   </p>
                 </div>

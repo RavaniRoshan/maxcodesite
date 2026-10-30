@@ -21,9 +21,21 @@ export const InteractiveModals: React.FC<InteractiveModalsProps> = ({
   modalMode,
   onCloseModal,
 }) => {
-  const [cookieDismissed, setCookieDismissed] = useState<boolean>(false);
+  const [cookieDismissed, setCookieDismissed] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return window.localStorage.getItem('maxcode-cookie-consent') === 'true';
+    }
+    return false;
+  });
   const [cookieManageOpen, setCookieManageOpen] = useState<boolean>(false);
   const [analyticsEnabled, setAnalyticsEnabled] = useState<boolean>(true);
+
+  const handleDismissCookie = () => {
+    setCookieDismissed(true);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('maxcode-cookie-consent', 'true');
+    }
+  };
 
   // Pilot / Try maxcode form state
   const [name, setName] = useState('');
@@ -76,11 +88,11 @@ export const InteractiveModals: React.FC<InteractiveModalsProps> = ({
               Privacy &amp; Telemetry
             </p>
           </div>
-          <p className="mb-4 text-tx-secondary text-xs leading-relaxed">
+          <p className="mb-4 text-[#A9B4C4] text-xs leading-relaxed">
             maxcode collects anonymized benchmark convergence telemetry only when opted in.{' '}
             <a
               href={docUrl('/docs/reference/legal#privacy')}
-              className="text-tx underline hover:text-tx-tertiary transition-colors"
+              className="text-[#F5F7FA] underline hover:text-[#FFFFFF] transition-colors"
             >
               Privacy Policy
             </a>
@@ -90,10 +102,10 @@ export const InteractiveModals: React.FC<InteractiveModalsProps> = ({
             <div className="bg-sf mb-4 p-3 border border-st-secondary rounded-xl text-xs space-y-2">
               <div className="flex justify-between items-center py-1">
                 <span className="font-medium text-tx">Session Storage</span>
-                <span className="font-mono text-[11px] text-tx-tertiary">Always Active</span>
+                <span className="font-mono text-[11px] text-[#A9B4C4]">Always Active</span>
               </div>
               <label className="flex justify-between items-center py-1 cursor-pointer">
-                <span className="text-tx-secondary">Anonymized Checkpoint Benchmarks</span>
+                <span className="text-[#A9B4C4]">Anonymized Checkpoint Benchmarks</span>
                 <input
                   type="checkbox"
                   checked={analyticsEnabled}
@@ -116,7 +128,7 @@ export const InteractiveModals: React.FC<InteractiveModalsProps> = ({
             <Button
               variant="primary"
               size="small"
-              onClick={() => setCookieDismissed(true)}
+              onClick={handleDismissCookie}
               className="flex-1 justify-center"
             >
               Accept All

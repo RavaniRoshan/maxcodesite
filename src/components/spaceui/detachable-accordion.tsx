@@ -96,19 +96,19 @@ export function DetachableAccordion({
               onClick={() => handleToggle(item.value)}
               className={cn(
                 'flex w-full cursor-pointer items-center justify-between gap-3 text-left',
-                'transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/30 rounded-sm',
+                'transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFFFFF]/30 rounded-sm',
                 'disabled:cursor-not-allowed',
               )}
             >
               <div className="flex items-center gap-3.5">
-                {item.icon ? <span className="shrink-0 text-amber-500">{item.icon}</span> : null}
+                {item.icon ? <span className="shrink-0 text-[#D9DEE5]">{item.icon}</span> : null}
                 <span className="text-base sm:text-lg font-medium tracking-tight text-tx leading-snug">{item.title}</span>
               </div>
               <motion.span
                 initial={false}
                 animate={{ rotate: isOpen ? 180 : 0 }}
                 transition={spring}
-                className="shrink-0 text-tx-secondary"
+                className="shrink-0 text-[#A9B4C4]"
               >
                 <ChevronDown className="size-5" />
               </motion.span>
@@ -123,7 +123,7 @@ export function DetachableAccordion({
               transition={spring}
               className="overflow-hidden"
             >
-              <div className="mt-4 text-sm sm:text-base leading-relaxed text-tx-secondary">{item.content}</div>
+              <div className="mt-4 text-sm sm:text-base leading-relaxed text-[#A9B4C4]">{item.content}</div>
             </motion.div>
           </motion.div>
         )

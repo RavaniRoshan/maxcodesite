@@ -85,7 +85,7 @@ export function Tooltip({ children, className, size = "sm", showArrow = true, of
       {...props}
       className={(state) =>
         cx(
-          "pointer-events-none z-120 max-w-[240px] select-none rounded-lg border border-border-button-default dark:border-white/15 bg-background-primary-default dark:bg-[#221a15] text-text-primary dark:text-[#faf6f1] shadow-dropdown",
+          "pointer-events-none z-120 max-w-[240px] select-none rounded-lg border border-border-button-default dark:border-[#1E2A40] bg-background-primary-default dark:bg-[#141C2E] text-text-primary dark:text-[#F5F7FA] shadow-dropdown",
           sizes[size],
           // Blur + scale in/out. react-aria stamps `data-entering` on mount then
           // removes it (transition to base), and holds the element mounted while
