@@ -22,7 +22,7 @@ export interface RidgelinePalette {
   tones: string[]
 }
 
-export type RidgelineTheme = "evergreen" | "glacier" | "dusk" | "sepia" | "night" | "terracotta"
+export type RidgelineTheme = "evergreen" | "glacier" | "dusk" | "sepia" | "night" | "terracotta" | "silver"
 
 export type RidgelinePreset = "auto" | RidgelineTheme
 
@@ -150,6 +150,14 @@ const PRESETS: RidgelinePresetMap = {
     line: "#18271f",
     heart: "#ff6369",
     tones: ["#08100c", "#0c1c14", "#123224", "#1a4b33", "#256a48", "#3a8c63", "#62b388"],
+  },
+  silver: {
+    paper: "#070B14",
+    ink: "#F5F7FA",
+    muted: "#8D99AB",
+    line: "#1E2A40",
+    heart: "#D9DEE5",
+    tones: ["#070B14", "#0E1422", "#141C2E", "#1E2A40", "#3D4A60", "#8D99AB", "#D9DEE5"],
   },
 }
 
@@ -428,8 +436,8 @@ export default function RidgelineDitherFooter({
   columns = DEFAULT_COLUMNS,
   socials = DEFAULT_SOCIALS,
   copyright,
-  credit = { label: "maxm1 engineering", href: "#top" },
-  preset = "terracotta",
+  credit = { label: "maxcode engineering", href: "#top" },
+  preset = "silver",
   palette,
   seed = 7,
   ridges = 6,

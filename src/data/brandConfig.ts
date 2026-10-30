@@ -1,4 +1,4 @@
-export type BrandPaletteKey = 'maxcode-indigo' | 'maxcode-emerald' | 'maxcode-amber';
+export type BrandPaletteKey = 'maxcode-silver' | 'maxcode-indigo' | 'maxcode-emerald' | 'maxcode-amber';
 
 export interface BrandPalette {
   id: BrandPaletteKey;
@@ -19,6 +19,42 @@ export const BRAND_IDENTITY = {
 } as const;
 
 export const BRAND_PALETTES: Record<BrandPaletteKey, BrandPalette> = {
+  'maxcode-silver': {
+    id: 'maxcode-silver',
+    label: 'Terminal Silver',
+    primaryAccent: '#D9DEE5',
+    variables: {
+      '--color-bg': '#F4F6F9',
+      '--color-tx': '#0A0F1E',
+      '--color-tx-secondary': '#3D4A60',
+      '--color-tx-tertiary': '#56637A',
+      '--color-tx-invert': '#F5F7FA',
+      '--color-sf': '#F4F6F9',
+      '--color-sf-secondary': '#FFFFFF',
+      '--color-sf-tertiary': '#EAEEF4',
+      '--color-sf-invert': '#070B14',
+      '--color-st': '#D5DCE6',
+      '--color-st-secondary': '#E2E8F0',
+      '--color-st-tertiary': '#CBD5E1',
+      '--color-sr-indigo-50': '#F4F6F9',
+      '--color-sr-indigo-100': '#EAEEF4',
+      '--color-sr-indigo-200': '#D5DCE6',
+      '--color-sr-indigo-400': '#8D99AB',
+      '--color-sr-indigo-600': '#D9DEE5',
+      '--color-sr-indigo-800': '#3D4A60',
+      '--color-sr-indigo-900': '#0A0F1E',
+      '--color-sr-orange-200': '#E2E8F0',
+      '--color-sr-orange-500': '#AEB6C2',
+      '--color-sr-orange-800': '#56637A',
+      '--sc-blue': '#D9DEE5',
+      '--sc-green': '#FFFFFF',
+      '--sc-orange': '#AEB6C2',
+      '--sc-purple': '#8D99AB',
+      '--sc-highlight': '#EAEEF4',
+      '--brand-glow-start': '#070B14',
+      '--brand-glow-end': '#BEE6FF',
+    },
+  },
   'maxcode-indigo': {
     id: 'maxcode-indigo',
     label: 'Maxcode Indigo',
@@ -129,39 +165,40 @@ export const BRAND_PALETTES: Record<BrandPaletteKey, BrandPalette> = {
 export type ThemeMode = 'light' | 'dark';
 
 export const DARK_THEME_VARIABLES: Record<string, string> = {
-  '--color-tx': '#f7f2ec',
-  '--color-tx-secondary': '#c2b4a8',
-  '--color-tx-tertiary': '#8a7b6f',
-  '--color-tx-invert': '#14100d',
-  '--color-sf': '#0e0b09',
-  '--color-sf-secondary': '#181310',
-  '--color-sf-tertiary': '#241c17',
-  '--color-sf-invert': '#faf6f1',
-  '--color-st': '#2a211b',
-  '--color-st-secondary': '#342821',
-  '--color-st-tertiary': '#47372d',
-  '--color-card-surface': '#16110e',
-  '--color-sr-indigo-50': '#261710',
-  '--color-sr-indigo-100': '#3b2114',
-  '--color-sr-indigo-200': '#7c2d12',
-  '--color-sr-indigo-400': '#fb923c',
-  '--color-sr-indigo-600': '#f97316',
-  '--color-sr-indigo-800': '#fdba74',
-  '--color-sr-indigo-900': '#ffedd5',
-  '--sc-blue': '#fb923c',
-  '--sc-green': '#34d399',
-  '--sc-orange': '#f59e0b',
-  '--sc-purple': '#c084fc',
-  '--sc-highlight': '#241b15',
-  '--brand-glow-start': '#140f0c',
-  '--brand-glow-end': '#ea580c',
+  '--color-bg': '#070B14',
+  '--color-tx': '#F5F7FA',
+  '--color-tx-secondary': '#A9B4C4',
+  '--color-tx-tertiary': '#8D99AB',
+  '--color-tx-invert': '#0A0F1E',
+  '--color-sf': '#070B14',
+  '--color-sf-secondary': '#0E1422',
+  '--color-sf-tertiary': '#141C2E',
+  '--color-sf-invert': '#F5F7FA',
+  '--color-st': '#1E2A40',
+  '--color-st-secondary': '#24334E',
+  '--color-st-tertiary': '#2F4366',
+  '--color-card-surface': '#0E1422',
+  '--color-sr-indigo-50': '#0E1422',
+  '--color-sr-indigo-100': '#141C2E',
+  '--color-sr-indigo-200': '#1E2A40',
+  '--color-sr-indigo-400': '#8D99AB',
+  '--color-sr-indigo-600': '#D9DEE5',
+  '--color-sr-indigo-800': '#FFFFFF',
+  '--color-sr-indigo-900': '#F5F7FA',
+  '--sc-blue': '#D9DEE5',
+  '--sc-green': '#FFFFFF',
+  '--sc-orange': '#AEB6C2',
+  '--sc-purple': '#8D99AB',
+  '--sc-highlight': '#141C2E',
+  '--brand-glow-start': '#070B14',
+  '--brand-glow-end': '#BEE6FF',
 };
 
 export function getBrandCssVariables(
-  paletteKey: BrandPaletteKey = 'maxcode-amber',
-  mode: ThemeMode = 'light'
+  paletteKey: BrandPaletteKey = 'maxcode-silver',
+  mode: ThemeMode = 'dark'
 ): Record<string, string> {
-  const palette = BRAND_PALETTES[paletteKey] ?? BRAND_PALETTES['maxcode-amber'];
+  const palette = BRAND_PALETTES[paletteKey] ?? BRAND_PALETTES['maxcode-silver'];
   if (mode === 'dark') {
     return {
       ...palette.variables,
@@ -175,9 +212,9 @@ export function getBrandCssVariables(
 }
 
 export function applyBrandCssVariables(
-  paletteKey: BrandPaletteKey = 'maxcode-amber',
+  paletteKey: BrandPaletteKey = 'maxcode-silver',
   target?: { setProperty: (name: string, value: string) => void } | null,
-  mode: ThemeMode = 'light'
+  mode: ThemeMode = 'dark'
 ): Record<string, string> {
   const vars = getBrandCssVariables(paletteKey, mode);
   const styleTarget =

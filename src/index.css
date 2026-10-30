@@ -5,40 +5,40 @@
   --font-mono: "JetBrains Mono", "SF Mono", Consolas, ui-monospace, monospace;
   --font-season: "Inter", -apple-system, system-ui, BlinkMacSystemFont, Helvetica, Arial, "Segoe UI", Roboto, sans-serif;
 
-  --color-tx: #181310;
-  --color-tx-secondary: #42362f;
-  --color-tx-tertiary: #786960;
-  --color-tx-invert: #faf6f1;
-  --color-tx-brand: #7c2d12;
-  --color-tx-accent: #e26a2c;
+  --color-tx: #F5F7FA;
+  --color-tx-secondary: #A9B4C4;
+  --color-tx-tertiary: #8D99AB;
+  --color-tx-invert: #0A0F1E;
+  --color-tx-brand: #D9DEE5;
+  --color-tx-accent: #D9DEE5;
 
-  --color-sf: #f7f3ee;
-  --color-sf-secondary: #f0e8df;
-  --color-sf-tertiary: #e5dad0;
-  --color-sf-invert: #181310;
+  --color-sf: #070B14;
+  --color-sf-secondary: #0E1422;
+  --color-sf-tertiary: #141C2E;
+  --color-sf-invert: #F5F7FA;
 
-  --color-st: #e5dad0;
-  --color-st-secondary: #ede3da;
-  --color-st-tertiary: #cbbcb0;
+  --color-st: #1E2A40;
+  --color-st-secondary: #24334E;
+  --color-st-tertiary: #2F4366;
 
-  --color-sr-indigo-50: #fff7ed;
-  --color-sr-indigo-100: #ffedd5;
-  --color-sr-indigo-200: #fed7aa;
-  --color-sr-indigo-300: #fdba74;
-  --color-sr-indigo-400: #fb923c;
-  --color-sr-indigo-500: #f97316;
-  --color-sr-indigo-600: #e26a2c;
-  --color-sr-indigo-700: #c2410c;
-  --color-sr-indigo-800: #9a3412;
-  --color-sr-indigo-900: #7c2d12;
+  --color-sr-indigo-50: #0E1422;
+  --color-sr-indigo-100: #141C2E;
+  --color-sr-indigo-200: #1E2A40;
+  --color-sr-indigo-300: #24334E;
+  --color-sr-indigo-400: #8D99AB;
+  --color-sr-indigo-500: #AEB6C2;
+  --color-sr-indigo-600: #D9DEE5;
+  --color-sr-indigo-700: #D9DEE5;
+  --color-sr-indigo-800: #FFFFFF;
+  --color-sr-indigo-900: #F5F7FA;
 
-  --color-sr-orange-50: #fff7ed;
-  --color-sr-orange-100: #ffedd5;
-  --color-sr-orange-200: #fed7aa;
-  --color-sr-orange-400: #fb923c;
-  --color-sr-orange-500: #e26a2c;
-  --color-sr-orange-600: #ea580c;
-  --color-sr-orange-800: #9a3412;
+  --color-sr-orange-50: #0E1422;
+  --color-sr-orange-100: #141C2E;
+  --color-sr-orange-200: #1E2A40;
+  --color-sr-orange-400: #8D99AB;
+  --color-sr-orange-500: #AEB6C2;
+  --color-sr-orange-600: #D9DEE5;
+  --color-sr-orange-800: #56637A;
 
   --color-sr-red-500: #ef4444;
   --color-sr-red-600: #dc2626;
@@ -75,13 +75,13 @@
     --slate: #94A3B8;
     --ink: #0A0F1E;
 
-    --sc-blue: #e26a2c;
-    --sc-green: #4fa876;
-    --sc-orange: #d94e1f;
-    --sc-purple: #c2410c;
-    --sc-highlight: #efe6dc;
-    --brand-glow-start: #181310;
-    --brand-glow-end: #f97316;
+    --sc-blue: #7DD3FC;
+    --sc-green: #FFFFFF;
+    --sc-orange: #AEB6C2;
+    --sc-purple: #D9DEE5;
+    --sc-highlight: #141C2E;
+    --brand-glow-start: #070B14;
+    --brand-glow-end: #BEE6FF;
   }
 
   html {

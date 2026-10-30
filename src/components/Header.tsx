@@ -16,15 +16,19 @@ type NavMenuKey = 'products' | 'developers' | 'resources' | 'company' | null;
 
 export const MaxcodeWordmark: React.FC<{ className?: string }> = ({ className = '' }) => (
   <span
-    className={cx('inline-flex items-center gap-2.5 select-none', className)}
+    className={cx('inline-flex items-center gap-2 select-none', className)}
     aria-label="maxcode"
   >
     <MaxMascotSvg className="w-7 h-[30px] shrink-0 -translate-y-0.5" />
     <span
-      className="font-semibold text-[22px] text-current leading-none tracking-[-0.035em]"
-      style={{ fontFamily: 'var(--font-sans)' }}
+      className="font-semibold text-[22px] text-current leading-none tracking-[-0.035em] inline-flex items-center"
+      style={{ fontFamily: 'var(--font-mono, monospace)' }}
     >
       maxcode
+      <span
+        aria-hidden="true"
+        className="inline-block w-2.5 h-5 bg-[#FFFFFF] ml-1.5 animate-[pulse_1.1s_steps(1)_infinite]"
+      />
     </span>
   </span>
 );

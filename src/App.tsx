@@ -28,16 +28,18 @@ import { FinalCtaAndFooter } from './components/FinalCtaAndFooter';
 import { InteractiveModals } from './components/InteractiveModals';
 import InkOrbitFeatures from './components/ui/ink-orbit-features';
 import { gsap, useGSAP } from './lib/gsap';
+import { cx } from '@/utils/cx';
 
 export default function App() {
   const mainRef = useRef<HTMLDivElement>(null);
   const [modalMode, setModalMode] = useState<'try' | 'talk' | 'login' | null>(null);
+  const [copiedInstall, setCopiedInstall] = useState(false);
   const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
     if (typeof window !== 'undefined') {
       const saved = window.localStorage.getItem('maxcode-theme');
       if (saved === 'dark' || saved === 'light') return saved;
     }
-    return 'light';
+    return 'dark';
   });
 
   useGSAP(
@@ -145,9 +147,9 @@ export default function App() {
     { scope: mainRef }
   );
 
-  // Apply the warm red-orange ('maxcode-amber') brand CSS variables and Light/Dark mode across the entire design system
+  // Apply the terminal silver ('maxcode-silver') brand CSS variables and Light/Dark mode across the entire design system
   useEffect(() => {
-    applyBrandCssVariables('maxcode-amber', undefined, themeMode);
+    applyBrandCssVariables('maxcode-silver', undefined, themeMode);
     if (typeof window !== 'undefined') {
       window.localStorage.setItem('maxcode-theme', themeMode);
       document.documentElement.classList.toggle('dark', themeMode === 'dark');
@@ -208,53 +210,49 @@ export default function App() {
                 {BRAND_IDENTITY.heroSubheading}
               </p>
 
-              {/* Hero CTA Buttons */}
-              <div className="flex flex-wrap justify-center items-center gap-3 mt-8">
+              {/* Hero CTA Buttons & Install Command per DESIGN.md */}
+              <div className="flex flex-wrap justify-center items-center gap-3.5 mt-8">
                 <button
                   type="button"
                   onClick={() => setModalMode('try')}
-                  className="hero-cta-btn group inline-flex relative justify-center items-center gap-1 bg-sf-invert hover:bg-sf-invert/90 active:bg-sf-invert/80 px-5 py-3 rounded-full overflow-hidden font-semibold text-tx-invert text-base tracking-tight transition-all duration-300 cursor-pointer select-none"
+                  className="hero-cta-btn h-12 px-6 bg-[#FFFFFF] hover:bg-[#D9DEE5] active:translate-x-1 active:translate-y-1 rounded font-mono font-semibold text-[#0A0F1E] text-base tracking-tight transition-all duration-120 cursor-pointer select-none inline-flex items-center justify-center gap-2"
                   style={{
-                    boxShadow:
-                      '0 6px 12px 0 rgba(0, 0, 0, 0.10), 0 2px 6px 0 rgba(255, 255, 255, 0.40) inset, 0 -2px 6px 0 rgba(255, 255, 255, 0.40) inset',
+                    boxShadow: '4px 4px 0 #8D99AB',
                   }}
                 >
-                  <span
-                    className="inline-block top-1/2 left-1/2 absolute opacity-0 group-hover:opacity-80 rounded-full w-3/4 aspect-square transition-all -translate-x-1/2 -translate-y-1/2 duration-500 ease-out pointer-events-none"
-                    style={{
-                      background:
-                        'radial-gradient(50% 50% at 50% 50%, #E1E7FE 0%, var(--sc-blue) 48.08%, rgba(251, 146, 60, 0.60) 100%)',
-                      filter: 'blur(15px)',
-                    }}
-                  />
-                  <span className="z-10 flex items-center gap-2">Try maxcode</span>
+                  <span>Try maxcode</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setModalMode('talk')}
-                  className="hero-cta-btn group inline-flex relative justify-center items-center gap-1 bg-sf-secondary hover:bg-sf-tertiary active:bg-sf-tertiary/80 px-5 py-3 rounded-full overflow-hidden font-semibold text-tx text-base tracking-tight transition-all duration-300 cursor-pointer select-none"
-                  style={{
-                    boxShadow:
-                      '0 6px 12px 0 rgba(0, 0, 0, 0.01), 0 2px 6px 0 rgba(255, 255, 255, 0.60) inset, 0 -2px 6px 0 rgba(255, 255, 255, 0.60) inset',
-                  }}
+                  className="hero-cta-btn h-12 px-6 bg-transparent hover:border-[#D9DEE5] border border-[#1E2A40] rounded font-mono font-semibold text-tx text-base tracking-tight transition-all duration-120 cursor-pointer select-none inline-flex items-center justify-center gap-2"
                 >
-                  <span
-                    className="inline-block top-1/2 left-1/2 absolute opacity-0 group-hover:opacity-60 rounded-full w-3/4 aspect-square transition-all -translate-x-1/2 -translate-y-1/2 duration-500 ease-out pointer-events-none"
-                    style={{
-                      background:
-                        'radial-gradient(50% 50% at 50% 50%, #E1E7FE 0%, var(--sc-blue) 48.08%, rgba(251, 146, 60, 0.60) 100%)',
-                      filter: 'blur(25px)',
-                    }}
-                  />
-                  <span className="z-10 flex items-center gap-2">Talk to us</span>
+                  <span>Talk to us</span>
                 </button>
+
+                <div className="h-12 px-4 bg-sf-secondary/80 border border-[#1E2A40] rounded font-mono text-sm inline-flex items-center gap-2.5 text-tx select-none">
+                  <span className="text-[#8D99AB]">$</span>
+                  <span className="font-semibold text-tx">uvx maxcode</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigator.clipboard.writeText('uvx maxcode');
+                      setCopiedInstall(true);
+                      setTimeout(() => setCopiedInstall(false), 2000);
+                    }}
+                    className="ml-1 text-xs text-[#8D99AB] hover:text-[#FFFFFF] transition-colors p-1 cursor-pointer"
+                    title="Copy to clipboard"
+                  >
+                    {copiedInstall ? '✓' : 'Copy'}
+                  </button>
+                </div>
               </div>
             </div>
 
             {/* Hero Visual Container with Live Looping Agent Terminal */}
             <div className="hero-terminal-container mt-10 md:mt-12">
-              <div className="group relative rounded-[28px] lg:rounded-[40px] w-full overflow-hidden">
+              <div className="group relative rounded-[28px] lg:rounded-[40px] w-full overflow-hidden border border-[#1E2A40]">
                 <HeroAtmosphericBackdrop />
 
                 <div className="relative flex justify-center items-center p-4 sm:p-8 md:p-10 lg:p-12">
@@ -262,7 +260,7 @@ export default function App() {
                     <AgentTerminal
                       transcript={HERO_TRANSCRIPT}
                       fadeMode="mobile"
-                      className="shadow-[0_24px_60px_-20px_rgba(19,18,30,0.22)] w-full h-[380px] md:h-auto"
+                      className="shadow-[0_24px_60px_-20px_rgba(7,11,20,0.65)] w-full h-[380px] md:h-auto"
                       bodyClassName="flex-1 md:flex-initial min-h-0 overflow-hidden"
                     />
                   </div>
@@ -273,10 +271,10 @@ export default function App() {
                   type="button"
                   onClick={() => setModalMode('try')}
                   aria-label="Try maxcode"
-                  className="right-5 bottom-5 z-10 absolute flex items-center gap-2 bg-sf/90 hover:bg-sf shadow-md backdrop-blur-md px-4 py-2 border border-st-secondary rounded-full font-medium text-tx text-xs tracking-wide transition-all duration-200 cursor-pointer"
+                  className="right-5 bottom-5 z-10 absolute flex items-center gap-2 bg-[#0E1422]/90 hover:bg-[#141C2E] shadow-md backdrop-blur-md px-4 py-2 border border-[#1E2A40] rounded font-mono font-medium text-[#F5F7FA] text-xs tracking-wide transition-all duration-120 cursor-pointer"
                 >
                   <span>Try maxcode</span>
-                  <span aria-hidden="true" className="text-tx-secondary">
+                  <span aria-hidden="true" className="text-[#8D99AB]">
                     ↗
                   </span>
                 </button>
@@ -297,6 +295,72 @@ export default function App() {
               <p className="lg:col-span-6 lg:col-start-7 text-tx-secondary text-base md:text-lg leading-relaxed">
                 maxcode breaks the job into steps, writes and tests each change, and saves checkpoints as it goes. The plan stays visible throughout the run.
               </p>
+            </div>
+
+            {/* The Loop: Plan, Work, Verify, Done (4 Max Poses per DESIGN.md) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mb-10 md:mb-12">
+              {[
+                {
+                  step: '01',
+                  name: 'Plan',
+                  pose: 'idle' as const,
+                  tag: 'idle',
+                  desc: 'Breaks the task into verifiable steps and keeps the plan visible throughout the run.',
+                },
+                {
+                  step: '02',
+                  name: 'Work',
+                  pose: 'working' as const,
+                  tag: 'working',
+                  desc: 'Applies targeted code edits, updates dependencies, and generates atomic diffs.',
+                },
+                {
+                  step: '03',
+                  name: 'Verify',
+                  pose: 'fail' as const,
+                  tag: 'rolled back',
+                  desc: 'Executes tests outside the model. If a check fails, rolls back cleanly.',
+                },
+                {
+                  step: '04',
+                  name: 'Done',
+                  pose: 'pass' as const,
+                  tag: 'verified',
+                  desc: 'All checks passed and contracts verified with a crisp git commit ready to push.',
+                },
+              ].map((item) => (
+                <div
+                  key={item.name}
+                  className="flex flex-col justify-between p-5 md:p-6 bg-(--color-card-surface,white) border border-[#1E2A40] rounded-xl hover:border-[#8D99AB] transition-colors duration-150"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="font-mono text-xs text-[#8D99AB] font-semibold">
+                      STEP {item.step} · {item.name.toUpperCase()}
+                    </span>
+                    <span
+                      className={cx(
+                        'font-mono text-[11px] px-2 py-0.5 rounded border',
+                        item.pose === 'pass' && 'text-[#FFFFFF] border-[#FFFFFF]/40 bg-[#FFFFFF]/10',
+                        item.pose === 'working' && 'text-[#94A3B8] border-[#94A3B8]/40 bg-[#94A3B8]/10',
+                        item.pose === 'fail' && 'text-[#F87171] border-[#F87171]/40 bg-[#F87171]/10',
+                        item.pose === 'idle' && 'text-[#8D99AB] border-[#8D99AB]/40 bg-[#8D99AB]/10'
+                      )}
+                    >
+                      {item.tag}
+                    </span>
+                  </div>
+                  <div className="flex justify-center items-center py-4 my-2">
+                    <MaxMascotSvg
+                      pose={item.pose}
+                      className="w-14 h-16"
+                      onDarkTile={themeMode === 'light'}
+                    />
+                  </div>
+                  <p className="mt-3 font-mono text-xs md:text-sm text-tx-secondary leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
             </div>
 
             <div className="gap-4 md:gap-6 grid grid-cols-1 lg:grid-cols-3">

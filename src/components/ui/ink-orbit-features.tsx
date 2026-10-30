@@ -245,29 +245,36 @@ function Title({ text, className = "ib-h2", as = "h2" }: { text: string; classNa
   )
 }
 
-/** Max pixel-art mascot glyph inside the hub nodes */
+/** Max pixel-crisp silver mascot glyph inside the hub nodes */
 function Mark({ size = 18 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="-1 -1 14 15" shapeRendering="crispEdges" aria-hidden="true">
-      <rect x="4" y="2" width="1" height="1" fill="#F59E0B" />
-      <rect x="5" y="2" width="1" height="1" fill="#D97706" />
-      <rect x="6" y="1" width="1" height="1" fill="#F59E0B" />
-      <rect x="7" y="0" width="1" height="1" fill="#FBBF24" />
-      <rect x="3" y="4" width="6" height="1" fill="#FDBA74" />
-      <rect x="2" y="5" width="8" height="5" fill="#E26A2C" />
-      <rect x="3" y="10" width="6" height="1" fill="#E26A2C" />
-      <rect x="9" y="5" width="1" height="5" fill="#B84318" />
-      <rect x="8" y="10" width="1" height="1" fill="#B84318" />
-      <rect x="4" y="6" width="1" height="2" fill="#181310" />
-      <rect x="7" y="6" width="1" height="2" fill="#181310" />
-      <rect x="5" y="9" width="2" height="0.75" fill="#181310" />
-      <rect x="3" y="11" width="2" height="1" fill="#9A3412" />
-      <rect x="7" y="11" width="2" height="1" fill="#9A3412" />
+      {/* Verified tick */}
+      <rect x="7" y="0" width="1" height="1" fill="#FFFFFF" />
+      <rect x="6" y="1" width="1" height="1" fill="#FFFFFF" />
+      <rect x="5" y="2" width="1" height="1" fill="#AEB6C2" />
+      <rect x="4" y="2" width="1" height="1" fill="#AEB6C2" />
+      {/* Body top highlight */}
+      <rect x="1" y="3" width="10" height="1" fill="#FFFFFF" />
+      {/* Body main */}
+      <rect x="1" y="3" width="10" height="9" fill="#D9DEE5" />
+      {/* Right & bottom bevel */}
+      <rect x="10" y="4" width="1" height="8" fill="#AEB6C2" />
+      <rect x="1" y="11" width="10" height="1" fill="#AEB6C2" />
+      {/* Eyes & mouth */}
+      <rect x="3" y="5" width="1" height="2" fill="#0A0F1E" />
+      <rect x="8" y="5" width="1" height="2" fill="#0A0F1E" />
+      <rect x="4" y="8" width="1" height="1" fill="#0A0F1E" />
+      <rect x="7" y="8" width="1" height="1" fill="#0A0F1E" />
+      <rect x="5" y="9" width="2" height="1" fill="#0A0F1E" />
+      {/* Stubby feet */}
+      <rect x="2" y="12" width="2" height="1" fill="#8D99AB" />
+      <rect x="8" y="12" width="2" height="1" fill="#8D99AB" />
     </svg>
   )
 }
 
-/* drawn portraits — warm greyscale, so they sit naturally in the terracotta/obsidian palette */
+/* drawn portraits — silver & slate greyscale, so they sit naturally in the ink-navy/silver palette */
 const PORTRAITS = [
   { hair: "short", beard: true, glasses: false, skin: "#b9b4ae", hairC: "#2b2a29", shirt: "#3a3a3a", bg: "#d9d6d2" },
   { hair: "long", beard: false, glasses: false, skin: "#d6d0c9", hairC: "#8d7f6c", shirt: "#7b7b7b", bg: "#e6e3df" },
@@ -690,8 +697,8 @@ function InsightsCard({ copy, uid, reduced }: { copy: InkFeatures["insights"]; u
 }
 
 const IB_CSS = `
-.ib-root{--ib-page:#f0e8df;--ib-hatch:rgba(24,19,16,.055);--ib-paper:#faf6f1;--ib-card:#f3ece3;--ib-raise:#ffffff;--ib-ink:#181310;--ib-soft:#42362f;--ib-muted:#786960;--ib-faint:#a8988c;--ib-accent:#e26a2c;--ib-line:#e5dad0;--ib-line-strong:#d4c5b8;--ib-bracket:#c6b4a5;--ib-inv:#181310;--ib-inv-ink:#faf6f1;--ib-shadow:0 1px 2px rgba(24,19,16,.05),0 12px 28px -12px rgba(226,106,44,.14);--ib-sans:var(--font-sans,"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif);--ib-mono:var(--font-mono,"JetBrains Mono",ui-monospace,monospace);position:relative;width:100%;box-sizing:border-box;background-color:var(--ib-page);background-image:repeating-linear-gradient(135deg,var(--ib-hatch) 0 1px,transparent 1px 10px);color:var(--ib-ink);font-family:var(--ib-sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;padding:clamp(18px,2.5vw,32px);border-radius:28px;border:1px solid var(--ib-line);transition:background-color .45s ease,color .45s ease,border-color .45s ease}
-.ib-root[data-theme="dark"]{--ib-page:#120e0c;--ib-hatch:rgba(255,237,213,.045);--ib-paper:#17120f;--ib-card:#1e1814;--ib-raise:#251d18;--ib-ink:#f7f2ec;--ib-soft:#d6c8bc;--ib-muted:#9c8d82;--ib-faint:#6e6056;--ib-accent:#fb923c;--ib-line:#2c231d;--ib-line-strong:#3f3229;--ib-bracket:#544236;--ib-inv:#f7f2ec;--ib-inv-ink:#14100d;--ib-shadow:0 1px 2px rgba(0,0,0,.45),0 12px 32px -14px rgba(0,0,0,.75)}
+.ib-root{--ib-page:#f4f6f9;--ib-hatch:rgba(10,15,30,.035);--ib-paper:#ffffff;--ib-card:#eaeef4;--ib-raise:#ffffff;--ib-ink:#0a0f1e;--ib-soft:#3d4a60;--ib-muted:#56637a;--ib-faint:#8d99ab;--ib-accent:#0a0f1e;--ib-line:#d5dce6;--ib-line-strong:#aeb6c2;--ib-bracket:#8d99ab;--ib-inv:#0a0f1e;--ib-inv-ink:#f5f7fa;--ib-shadow:0 1px 2px rgba(10,15,30,.05),0 12px 28px -12px rgba(190,230,255,.18);--ib-sans:var(--font-sans,"Inter",ui-sans-serif,system-ui,-apple-system,sans-serif);--ib-mono:var(--font-mono,"JetBrains Mono",ui-monospace,monospace);position:relative;width:100%;box-sizing:border-box;background-color:var(--ib-page);background-image:repeating-linear-gradient(135deg,var(--ib-hatch) 0 1px,transparent 1px 10px);color:var(--ib-ink);font-family:var(--ib-sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;padding:clamp(18px,2.5vw,32px);border-radius:28px;border:1px solid var(--ib-line);transition:background-color .45s ease,color .45s ease,border-color .45s ease}
+.ib-root[data-theme="dark"]{--ib-page:#070b14;--ib-hatch:rgba(190,230,255,.03);--ib-paper:#0e1422;--ib-card:#141c2e;--ib-raise:#1e2a40;--ib-ink:#f5f7fa;--ib-soft:#a9b4c4;--ib-muted:#8d99ab;--ib-faint:#56637a;--ib-accent:#d9dee5;--ib-line:#1e2a40;--ib-line-strong:#2a3b59;--ib-bracket:#3d4a60;--ib-inv:#f5f7fa;--ib-inv-ink:#0a0f1e;--ib-shadow:0 1px 2px rgba(0,0,0,.6),0 12px 32px -14px rgba(190,230,255,.1)}
 .ib-root :where(*){box-sizing:border-box}
 .ib-root :focus-visible{outline:2px solid var(--ib-accent);outline-offset:2px}
 .ib-root :where(svg){display:block;max-width:none;flex:none}

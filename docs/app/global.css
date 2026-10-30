@@ -3,13 +3,13 @@
 @import 'fumadocs-ui/css/preset.css';
 
 :root {
-  --color-fd-primary: #e26a2c;
-  --color-fd-primary-foreground: #faf6f1;
+  --color-fd-primary: #0A0F1E;
+  --color-fd-primary-foreground: #FFFFFF;
 }
 
 .dark {
-  --color-fd-primary: #fb923c;
-  --color-fd-primary-foreground: #181310;
+  --color-fd-primary: #D9DEE5;
+  --color-fd-primary-foreground: #0A0F1E;
 }
 
 html {

@@ -325,7 +325,7 @@ export const AgentTerminal: React.FC<AgentTerminalProps> = ({
         <div className="mt-auto px-4 md:px-6 pt-1 pb-3.5 shrink-0">
           <div className="flex items-center gap-2 text-[11px] text-tx-tertiary">
             <span>─</span>
-            <span className="font-medium text-(--sc-orange)">Flow</span>
+            <span className="font-mono font-medium text-tx-secondary">Flow</span>
             <span className="flex-1 border-st-tertiary/70 border-t" />
           </div>
           <div className="mt-1.5 px-2.5 py-1.5 border border-st-tertiary/70 rounded-md text-tx-secondary truncate">

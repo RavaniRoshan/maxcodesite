@@ -27,7 +27,7 @@ const BASE_BENCHMARK_STATS: Stat[] = [
     value: '$0.18',
     delta: '-73.2%',
     deltaColor: 'lime',
-    tone: 'orange',
+    tone: 'sky',
     caption: 'vs frontier-only routing',
     hint: 'Fast local/lightweight verifiers inspect syntax, types, and lints, reserving expensive reasoning models only for high-entropy architectural planning.',
   },

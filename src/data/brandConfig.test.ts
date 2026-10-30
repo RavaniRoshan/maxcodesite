@@ -71,12 +71,16 @@ describe('maxcode & maxm1 Brand Configuration & Pure Logic', () => {
       },
     };
 
-    const indigoVars = applyBrandCssVariables('maxcode-indigo', mockStyleTarget);
+    const indigoVars = applyBrandCssVariables('maxcode-indigo', mockStyleTarget, 'light');
     assert.equal(indigoVars['--sc-blue'], '#556adc');
     assert.equal(applied['--color-sf'], '#f6f3ee');
 
-    const emeraldVars = getBrandCssVariables('maxcode-emerald');
+    const emeraldVars = getBrandCssVariables('maxcode-emerald', 'light');
     assert.equal(emeraldVars['--sc-green'], '#10b981');
+
+    const silverDarkVars = getBrandCssVariables('maxcode-silver', 'dark');
+    assert.equal(silverDarkVars['--color-sf'], '#070B14');
+    assert.equal(silverDarkVars['--color-tx'], '#F5F7FA');
   });
 
   it('interpolates terminal diff counts accurately at boundaries and midpoint', () => {
@@ -135,9 +139,9 @@ describe('maxcode & maxm1 Brand Configuration & Pure Logic', () => {
     assert.equal(paths.points.length, 4);
     assert.equal(mod.nearestIndex([10, 50, 90], 48), 1);
 
-    const darkVars = getBrandCssVariables('maxcode-amber', 'dark');
-    assert.equal(darkVars['--color-sf'], '#0e0b09');
-    assert.equal(darkVars['--color-tx'], '#f7f2ec');
+    const darkVars = getBrandCssVariables('maxcode-silver', 'dark');
+    assert.equal(darkVars['--color-sf'], '#070B14');
+    assert.equal(darkVars['--color-tx'], '#F5F7FA');
   });
 });
 

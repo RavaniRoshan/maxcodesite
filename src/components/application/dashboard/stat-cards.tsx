@@ -108,7 +108,7 @@ const DEFAULT_FOOTER_STATS: Stat[] = [
 /** Gradient stops for the footer variant's icon tile, keyed by tone. */
 const TILE_TONES: Record<StatTone, string> = {
   blue: "from-blue-500 to-blue-600",
-  orange: "from-orange-400 to-orange-500",
+  orange: "from-slate-400 to-slate-500",
   purple: "from-purple-500 to-purple-600",
   pink: "from-pink-500 to-pink-600",
   sky: "from-sky-400 to-sky-500",

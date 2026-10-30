@@ -26,16 +26,16 @@ const MaxcodeCheckpointCoreSvg: React.FC = () => (
   >
     <defs>
       <linearGradient id="prismTop" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#ffffff" />
-        <stop offset="100%" stopColor="#fed7aa" />
+        <stop offset="0%" stopColor="#FFFFFF" />
+        <stop offset="100%" stopColor="#D9DEE5" />
       </linearGradient>
       <linearGradient id="prismLeft" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#fdba74" />
-        <stop offset="100%" stopColor="#ea580c" />
+        <stop offset="0%" stopColor="#D9DEE5" />
+        <stop offset="100%" stopColor="#8D99AB" />
       </linearGradient>
       <linearGradient id="prismRight" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#fb923c" />
-        <stop offset="100%" stopColor="#9a3412" />
+        <stop offset="0%" stopColor="#AEB6C2" />
+        <stop offset="100%" stopColor="#3D4A60" />
       </linearGradient>
     </defs>
 
@@ -44,14 +44,14 @@ const MaxcodeCheckpointCoreSvg: React.FC = () => (
       cx="34"
       cy="34"
       r="30"
-      stroke="rgba(255, 237, 213, 0.35)"
+      stroke="rgba(190, 230, 255, 0.35)"
       strokeWidth="1"
       strokeDasharray="3 3"
     />
-    <circle cx="34" cy="4" r="2.2" fill="#fed7aa" />
-    <circle cx="64" cy="34" r="2.2" fill="#fed7aa" />
-    <circle cx="34" cy="64" r="2.2" fill="#fed7aa" />
-    <circle cx="4" cy="34" r="2.2" fill="#fed7aa" />
+    <circle cx="34" cy="4" r="2.2" fill="#BEE6FF" />
+    <circle cx="64" cy="34" r="2.2" fill="#BEE6FF" />
+    <circle cx="34" cy="64" r="2.2" fill="#BEE6FF" />
+    <circle cx="4" cy="34" r="2.2" fill="#BEE6FF" />
 
     {/* Rotated diamond checkpoint frame */}
     <rect
@@ -61,9 +61,9 @@ const MaxcodeCheckpointCoreSvg: React.FC = () => (
       height="33.94"
       rx="4"
       transform="rotate(45 34 10)"
-      stroke="rgba(255, 255, 255, 0.45)"
+      stroke="rgba(190, 230, 255, 0.55)"
       strokeWidth="1.2"
-      fill="rgba(24, 19, 16, 0.35)"
+      fill="rgba(14, 20, 34, 0.65)"
     />
 
     {/* Isometric 3D Hexagonal Prism Core */}
@@ -83,7 +83,7 @@ const MaxcodeCheckpointCoreSvg: React.FC = () => (
       fill="url(#prismRight)"
     />
     {/* Inner glowing core node */}
-    <circle cx="34" cy="34" r="3.5" fill="#ffffff" />
+    <circle cx="34" cy="34" r="3.5" fill="#FFFFFF" />
   </svg>
 );
 
@@ -104,23 +104,23 @@ const MaxcodeExecutionHorizonSvg: React.FC<{ className?: string }> = ({
   >
     <defs>
       <radialGradient id="horizonCoreGlow" cx="50%" cy="62%" r="55%">
-        <stop offset="0%" stopColor="#ffedd5" stopOpacity="0.42" />
-        <stop offset="45%" stopColor="#fb923c" stopOpacity="0.18" />
-        <stop offset="100%" stopColor="#181310" stopOpacity="0" />
+        <stop offset="0%" stopColor="#BEE6FF" stopOpacity="0.45" />
+        <stop offset="45%" stopColor="#7DD3FC" stopOpacity="0.15" />
+        <stop offset="100%" stopColor="#070B14" stopOpacity="0" />
       </radialGradient>
 
       <linearGradient id="branchBeam" x1="50%" y1="0%" x2="50%" y2="100%">
-        <stop offset="0%" stopColor="#ffffff" stopOpacity="0.45" />
-        <stop offset="65%" stopColor="#fed7aa" stopOpacity="0.22" />
-        <stop offset="100%" stopColor="#fed7aa" stopOpacity="0.02" />
+        <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.55" />
+        <stop offset="65%" stopColor="#D9DEE5" stopOpacity="0.25" />
+        <stop offset="100%" stopColor="#D9DEE5" stopOpacity="0.02" />
       </linearGradient>
 
       <linearGradient id="ringStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="#fed7aa" stopOpacity="0.05" />
-        <stop offset="25%" stopColor="#ffedd5" stopOpacity="0.32" />
-        <stop offset="50%" stopColor="#ffffff" stopOpacity="0.55" />
-        <stop offset="75%" stopColor="#ffedd5" stopOpacity="0.32" />
-        <stop offset="100%" stopColor="#fed7aa" stopOpacity="0.05" />
+        <stop offset="0%" stopColor="#D9DEE5" stopOpacity="0.05" />
+        <stop offset="25%" stopColor="#BEE6FF" stopOpacity="0.32" />
+        <stop offset="50%" stopColor="#FFFFFF" stopOpacity="0.55" />
+        <stop offset="75%" stopColor="#BEE6FF" stopOpacity="0.32" />
+        <stop offset="100%" stopColor="#D9DEE5" stopOpacity="0.05" />
       </linearGradient>
     </defs>
 
@@ -150,7 +150,7 @@ const MaxcodeExecutionHorizonSvg: React.FC<{ className?: string }> = ({
       cy="380"
       rx="285"
       ry="125"
-      stroke="rgba(255, 237, 213, 0.28)"
+      stroke="rgba(190, 230, 255, 0.28)"
       strokeWidth="3"
       strokeDasharray="1.5 10"
     />
@@ -171,7 +171,7 @@ const MaxcodeExecutionHorizonSvg: React.FC<{ className?: string }> = ({
     </g>
 
     {/* Isometric hexagonal grid overlay in the foreground plane */}
-    <g stroke="rgba(255, 237, 213, 0.18)" strokeWidth="1">
+    <g stroke="rgba(217, 222, 229, 0.18)" strokeWidth="1">
       <polygon points="550,245 645,295 645,395 550,445 455,395 455,295" />
       <polygon points="550,195 725,285 725,465 550,555 375,465 375,285" strokeDasharray="4 4" />
     </g>
@@ -189,15 +189,15 @@ const MaxcodeExecutionHorizonSvg: React.FC<{ className?: string }> = ({
       { x: 550, y: 445 },
     ].map((pt, i) => (
       <g key={i} transform={`translate(${pt.x}, ${pt.y})`}>
-        <circle r="6" fill="rgba(251, 146, 60, 0.25)" />
+        <circle r="6" fill="rgba(190, 230, 255, 0.25)" />
         <rect
           x="-3"
           y="-3"
           width="6"
           height="6"
           transform="rotate(45)"
-          fill="#ffedd5"
-          stroke="#ea580c"
+          fill="#FFFFFF"
+          stroke="#D9DEE5"
           strokeWidth="1"
         />
       </g>
@@ -221,22 +221,22 @@ const GiantForegroundMaxcodeLogo: React.FC<{ isDark?: boolean }> = ({ isDark = f
         <linearGradient id="maxcodeFgFill" x1="0%" y1="0%" x2="0%" y2="100%">
           {isDark ? (
             <>
-              <stop offset="0%" stopColor="#fff7ed" stopOpacity="0.16" />
-              <stop offset="45%" stopColor="#fb923c" stopOpacity="0.32" />
-              <stop offset="100%" stopColor="#140f0c" stopOpacity="0.78" />
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.2" />
+              <stop offset="45%" stopColor="#D9DEE5" stopOpacity="0.35" />
+              <stop offset="100%" stopColor="#070B14" stopOpacity="0.85" />
             </>
           ) : (
             <>
-              <stop offset="0%" stopColor="#181310" stopOpacity="0.22" />
-              <stop offset="45%" stopColor="#9a3412" stopOpacity="0.42" />
-              <stop offset="100%" stopColor="#181310" stopOpacity="0.72" />
+              <stop offset="0%" stopColor="#0A0F1E" stopOpacity="0.22" />
+              <stop offset="45%" stopColor="#3D4A60" stopOpacity="0.42" />
+              <stop offset="100%" stopColor="#0A0F1E" stopOpacity="0.72" />
             </>
           )}
         </linearGradient>
         <linearGradient id="maxcodeFgStroke" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#faf6f1" stopOpacity={isDark ? '0.45' : '0.65'} />
-          <stop offset="50%" stopColor="#fed7aa" stopOpacity={isDark ? '0.75' : '0.85'} />
-          <stop offset="100%" stopColor="#faf6f1" stopOpacity={isDark ? '0.45' : '0.65'} />
+          <stop offset="0%" stopColor="#D9DEE5" stopOpacity={isDark ? '0.45' : '0.65'} />
+          <stop offset="50%" stopColor="#FFFFFF" stopOpacity={isDark ? '0.75' : '0.85'} />
+          <stop offset="100%" stopColor="#D9DEE5" stopOpacity={isDark ? '0.45' : '0.65'} />
         </linearGradient>
       </defs>
       {/* Giant Foreground Mascot Emblem on the left of maxcode */}
@@ -244,22 +244,29 @@ const GiantForegroundMaxcodeLogo: React.FC<{ isDark?: boolean }> = ({ isDark = f
         transform="translate(52, 24) scale(17.5)"
         shapeRendering="crispEdges"
         style={{ mixBlendMode: isDark ? 'normal' : 'multiply' }}
-        opacity={isDark ? '0.82' : '0.72'}
+        opacity={isDark ? '0.85' : '0.75'}
       >
-        <rect x="4" y="2" width="1" height="1" fill="#F59E0B" />
-        <rect x="5" y="2" width="1" height="1" fill="#D97706" />
-        <rect x="6" y="1" width="1" height="1" fill="#F59E0B" />
-        <rect x="7" y="0" width="1" height="1" fill="#FBBF24" />
-        <rect x="3" y="4" width="6" height="1" fill="#FDBA74" />
-        <rect x="2" y="5" width="8" height="5" fill="#E26A2C" />
-        <rect x="3" y="10" width="6" height="1" fill="#E26A2C" />
-        <rect x="9" y="5" width="1" height="5" fill="#B84318" />
-        <rect x="8" y="10" width="1" height="1" fill="#B84318" />
-        <rect x="4" y="6" width="1" height="2" fill="#181310" />
-        <rect x="7" y="6" width="1" height="2" fill="#181310" />
-        <rect x="5" y="9" width="2" height="0.75" fill="#181310" />
-        <rect x="3" y="11" width="2" height="1" fill="#9A3412" />
-        <rect x="7" y="11" width="2" height="1" fill="#9A3412" />
+        {/* Floating Verified Tick */}
+        <rect x="7" y="0" width="1" height="1" fill="#FFFFFF" />
+        <rect x="6" y="1" width="1" height="1" fill="#FFFFFF" />
+        <rect x="5" y="2" width="1" height="1" fill="#AEB6C2" />
+        <rect x="4" y="2" width="1" height="1" fill="#AEB6C2" />
+        {/* Body Main (#D9DEE5) */}
+        <rect x="1" y="3" width="10" height="9" fill="#D9DEE5" />
+        {/* Top Highlight (#FFFFFF) */}
+        <rect x="1" y="3" width="10" height="1" fill="#FFFFFF" />
+        {/* Right and Bottom Shading (#AEB6C2) */}
+        <rect x="10" y="4" width="1" height="8" fill="#AEB6C2" />
+        <rect x="1" y="11" width="10" height="1" fill="#AEB6C2" />
+        {/* Terminal Eyes & Smile (#0A0F1E) */}
+        <rect x="3" y="5" width="1" height="2" fill="#0A0F1E" />
+        <rect x="8" y="5" width="1" height="2" fill="#0A0F1E" />
+        <rect x="4" y="8" width="1" height="1" fill="#0A0F1E" />
+        <rect x="7" y="8" width="1" height="1" fill="#0A0F1E" />
+        <rect x="5" y="9" width="2" height="1" fill="#0A0F1E" />
+        {/* Stubby Feet (#8D99AB) */}
+        <rect x="2" y="12" width="2" height="1" fill="#8D99AB" />
+        <rect x="8" y="12" width="2" height="1" fill="#8D99AB" />
       </g>
       <text
         x="930"
@@ -320,16 +327,17 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
   return (
     <div ref={containerRef}>
       {/* Section 5: Final CTA Card with Bespoke Maxcode Checkpoint Astrolabe & Prism Core */}
-      <section className="final-cta-section rounded-2xl md:rounded-[24px] outline outline-2 outline-st outline-offset-2 md:outline-offset-4 mx-auto w-[88%] md:w-10/12 max-w-width-mx overflow-hidden">
+      <section className="final-cta-section rounded-2xl md:rounded-[24px] outline outline-1 outline-[#1E2A40] outline-offset-2 md:outline-offset-4 mx-auto w-[88%] md:w-10/12 max-w-width-mx overflow-hidden">
         <div
           className="relative flex flex-col justify-center items-center rounded-xl md:rounded-[24px] w-full min-h-[450px] overflow-hidden"
           style={{
             background:
-              'linear-gradient(to bottom, var(--brand-glow-start, #181310) 0%, #3b170c 52%, var(--brand-glow-end, #f97316) 116.55%)',
+              'linear-gradient(to bottom, #070B14 0%, #0E1422 55%, #141C2E 100%)',
+            border: '1px solid #1E2A40',
           }}
         >
           <div className="top-12 md:top-20 z-10 absolute flex flex-col items-center gap-6 px-4 text-center">
-            <h2 className="max-w-2xl font-season font-semibold text-[#faf6f1] text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight tracking-tight">
+            <h2 className="max-w-2xl font-mono font-bold text-[#F5F7FA] text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight tracking-tight">
               Put maxcode to work on a real codebase.
             </h2>
           </div>
@@ -342,7 +350,7 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
           {/* Center Isometric Checkpoint Prism Core & CTA */}
           <div className="bottom-12 md:bottom-16 left-1/2 z-10 absolute flex flex-col items-center gap-10 -translate-x-1/2">
             <div className="final-prism-core relative flex justify-center items-center">
-              <div className="bg-amber-300/40 blur-[22px] rounded-full w-20 h-20" />
+              <div className="bg-[#BEE6FF]/25 blur-[28px] rounded-full w-24 h-24" />
               <div className="absolute inset-0 flex justify-center items-center">
                 <MaxcodeCheckpointCoreSvg />
               </div>
@@ -351,20 +359,11 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
             <button
               type="button"
               onClick={() => onOpenModal('talk')}
-              className="group inline-flex relative justify-center items-center gap-1 bg-[#181310] hover:bg-[#181310]/90 active:bg-[#181310]/80 px-5 py-3 rounded-full overflow-hidden font-semibold text-[#faf6f1] text-base tracking-tight transition-all duration-300 cursor-pointer select-none"
+              className="group inline-flex relative justify-center items-center gap-2 bg-[#FFFFFF] hover:bg-[#D9DEE5] active:translate-x-1 active:translate-y-1 px-6 py-3 rounded font-mono font-semibold text-[#0A0F1E] text-base tracking-tight transition-all duration-120 cursor-pointer select-none"
               style={{
-                boxShadow:
-                  '0 6px 12px 0 rgba(0, 0, 0, 0.18), 0 2px 6px 0 rgba(255, 255, 255, 0.35) inset, 0 -2px 6px 0 rgba(255, 255, 255, 0.35) inset',
+                boxShadow: '4px 4px 0 #8D99AB',
               }}
             >
-              <span
-                className="inline-block top-1/2 left-1/2 absolute opacity-0 group-hover:opacity-80 rounded-full w-3/4 aspect-square transition-all -translate-x-1/2 -translate-y-1/2 duration-500 ease-out pointer-events-none"
-                style={{
-                  background:
-                    'radial-gradient(50% 50% at 50% 50%, #ffedd5 0%, var(--sc-blue) 48.08%, rgba(220, 38, 38, 0.60) 100%)',
-                  filter: 'blur(15px)',
-                }}
-              />
               <span className="z-10 flex items-center gap-2">Talk to us</span>
             </button>
           </div>
@@ -377,27 +376,34 @@ export const FinalCtaAndFooter: React.FC<FinalCtaAndFooterProps> = ({
       {/* Ridgeline Dither Footer with Giant Foreground maxcode Logo */}
       <RidgelineDitherFooter
         name="maxcode"
-        logo={<MaxMascotSvg className="w-7 h-[30px] shrink-0 -translate-y-0.5" />}
+        logo={<MaxMascotSvg pose="idle" className="w-10 h-11 shrink-0 -translate-y-0.5" />}
         brandHref="#top"
-        preset="terracotta"
+        preset="silver"
         palette={
           isDark
             ? {
-                paper: '#0e0b09',
-                ink: '#f7f2ec',
-                muted: '#a8998c',
-                line: 'rgba(247, 242, 236, 0.13)',
-                heart: '#fb923c',
-                tones: ['#29130a', '#451d0d', '#6b2a11', '#943a16', '#bd4d1d', '#e26a2c', '#fb923c'],
+                paper: '#070B14',
+                ink: '#F5F7FA',
+                muted: '#8D99AB',
+                line: '#1E2A40',
+                heart: '#D9DEE5',
+                tones: ['#070B14', '#0E1422', '#141C2E', '#1E2A40', '#3D4A60', '#8D99AB', '#D9DEE5'],
               }
-            : undefined
+            : {
+                paper: '#F4F6F9',
+                ink: '#0A0F1E',
+                muted: '#56637A',
+                line: '#D5DCE6',
+                heart: '#0A0F1E',
+                tones: ['#F4F6F9', '#EAEEF4', '#D5DCE6', '#AEB6C2', '#8D99AB', '#3D4A60', '#0A0F1E'],
+              }
         }
         seed={23}
         ridges={7}
         height="760px"
         sceneMinHeight="320px"
         maxWidth="1400px"
-        tagline="AI for all from India · Long-horizon coding agents powered by maxm1 for real codebases."
+        tagline="Built on the Apache-2.0 Codex CLI · maxcode runs tests before it says done."
         brandExtra={
           <div className="flex items-center gap-4 pt-1">
             <div className="flex items-center gap-2 bg-sf-secondary/80 px-2.5 py-1.5 border border-st rounded-xl">

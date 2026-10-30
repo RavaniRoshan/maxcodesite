@@ -32,17 +32,17 @@
    * primitives above. Content/data blues (charts, status chips, calendar
    * events, info notifications) deliberately keep referencing blue-*.
    * --------------------------------------------------------------------------*/
-  --color-accent-50:  var(--color-orange-50);
-  --color-accent-100: var(--color-orange-100);
-  --color-accent-200: var(--color-orange-200);
-  --color-accent-300: var(--color-orange-300);
-  --color-accent-400: var(--color-orange-400);
-  --color-accent-500: var(--color-orange-500);
-  --color-accent-600: var(--color-orange-600);
-  --color-accent-700: var(--color-orange-700);
-  --color-accent-800: var(--color-orange-800);
-  --color-accent-900: var(--color-orange-900);
-  --color-accent-950: var(--color-orange-950);
+  --color-accent-50:  var(--color-slate-50);
+  --color-accent-100: var(--color-slate-100);
+  --color-accent-200: var(--color-slate-200);
+  --color-accent-300: var(--color-slate-300);
+  --color-accent-400: var(--color-slate-400);
+  --color-accent-500: var(--color-slate-500);
+  --color-accent-600: var(--color-slate-600);
+  --color-accent-700: var(--color-slate-700);
+  --color-accent-800: var(--color-slate-800);
+  --color-accent-900: var(--color-slate-900);
+  --color-accent-950: var(--color-slate-950);
 
   /* ----- Typography ----------------------------------------------------------
    * Font sizes, weights, line-heights, and tracking all match Tailwind v4
