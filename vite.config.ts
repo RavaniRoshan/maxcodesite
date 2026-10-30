@@ -41,5 +41,11 @@ export default defineConfig(() => {
         },
       },
     },
+    preview: {
+      port: 3000,
+      host: '0.0.0.0',
+      // In preview, serve the merged dist/docs directly without proxying
+      proxy: {},
+    },
   };
 });
