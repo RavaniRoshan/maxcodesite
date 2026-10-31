@@ -1,6 +1,6 @@
 {
-  "name": "maxcode — Coding Agents Powered by maxm1",
-  "description": "maxcode works across the codebase and saves checkpoints as it goes. Powered by the maxm1 model for long-running software engineering.",
+  "name": "maxcode site (archived)",
+  "description": "Archived historical site. Use https://ravaniroshan.github.io/maxcode/ for the canonical maxcode site.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

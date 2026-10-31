@@ -34,7 +34,7 @@ describe('maxcode & maxm1 Brand Configuration & Pure Logic', () => {
 
     assert.ok(TRAINING_TRANSCRIPT.prompt.includes('maxm1'));
     assert.ok(FAQ_ITEMS[0].question.includes('maxcode'));
-    assert.ok(FAQ_ITEMS[0].answer.includes('maxm1'));
+    assert.ok(FAQ_ITEMS[0].answer.includes('open-source'));
   });
 
   it('contains zero external sarvam.ai asset links or redirects in any source or public file', () => {

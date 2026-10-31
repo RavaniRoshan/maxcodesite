@@ -1,3 +1,5 @@
+# DISABLED: this repository is archived. See ../ARCHIVED.md.
+# The canonical site deploys from RavaniRoshan/maxcode/site.
 name: Deploy Marketing Site and Documentation to GitHub Pages
 
 on:

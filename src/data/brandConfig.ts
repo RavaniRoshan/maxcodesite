@@ -683,7 +683,7 @@ export const FAQ_ITEMS: FaqItem[] = [
   {
     question: 'What is maxcode?',
     answer:
-      'maxcode is a coding agent powered by maxm1 for work that spans a codebase and runs over an extended session. It keeps a visible plan, writes and tests changes incrementally, and saves checkpoints as it goes.',
+      'maxcode is an open-source coding agent for work that spans a codebase and runs over an extended session. It keeps a visible plan, writes and tests changes incrementally, and saves checkpoints as it goes.',
   },
   {
     question: 'How does maxcode handle a long run?',

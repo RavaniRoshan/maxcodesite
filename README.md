@@ -1,6 +1,8 @@
-# maxcode
+# maxcode (archived)
 
-> Coding agent for long-running work powered by **maxm1**.
+> **Archived.** This is not the canonical maxcode site. Use
+> <https://ravaniroshan.github.io/maxcode/> instead. Historical source only;
+> the deploy workflow is disabled. See [`ARCHIVED.md`](ARCHIVED.md).
 
 maxcode is an autonomous coding agent designed for long-horizon software engineering tasks. It plans multi-step modifications across codebases, runs deterministic verification suites after each step, and maintains a linear checkpoint graph enabling instant rollbacks whenever a test fails or requirements diverge.
 

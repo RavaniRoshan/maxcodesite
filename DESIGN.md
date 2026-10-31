@@ -208,7 +208,7 @@ Terminal demo coloring: `$` muted, step labels slate, `pass` white, `fail` red, 
 ## 10. Copy and claims rules
 
 1. **Original copy only.** Write every sentence yourself. Do not reuse wording from the Sarvam Code site or press pages.
-2. **No false model claims.** The current page title says "powered by maxm1". maxcode has no model of its own (PRD non-goal). Remove that phrase, or define maxm1 as an actual default model preset.
+2. **No false model claims.** The archived page title claimed a model that maxcode does not have (a PRD non-goal). The canonical site makes no model claim.
 3. **No numbers without logs.** Pass rates and cost figures appear only after the benchmark logs are public.
 4. **Attribution.** Footer line: `Built on the Apache-2.0 Codex CLI. Not affiliated with OpenAI or Sarvam AI.` Use the name only in this line, never as branding. Never use their logos.
 5. **No "clone".** Say "open-source alternative" or "open-source coding CLI".
