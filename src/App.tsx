@@ -162,7 +162,10 @@ export default function App() {
   };
 
   return (
-    <div id="top" ref={mainRef} className="min-h-screen bg-sf text-tx antialiased transition-colors duration-300">
+    <div id="top" ref={mainRef} className="min-h-screen bg-sf text-tx antialiased transition-colors duration-300 relative">
+      {/* Halftone CMYK Shader Backdrop: Starts at top=0 behind header, wordmark, and nav buttons */}
+      <HeroHalftoneBackdrop themeMode={themeMode} />
+
       {/* Fixed Site Header with Mega-Menus & Dark Mode Toggle */}
       <Header
         onOpenModal={(mode) => setModalMode(mode)}
@@ -171,12 +174,9 @@ export default function App() {
       />
 
       {/* Main Content Container matching exact reference spacing */}
-      <main className="flex flex-col gap-24 md:gap-32 pt-24 md:pt-32">
+      <main className="flex flex-col gap-24 md:gap-32 pt-24 md:pt-32 relative z-10">
         {/* SECTION 1: HERO */}
-        <section className="relative overflow-hidden">
-          {/* Halftone CMYK Shader Backdrop with Progressive Bottom Fade */}
-          <HeroHalftoneBackdrop themeMode={themeMode} />
-
+        <section className="relative">
           <div className="relative z-10 mx-auto w-[88%] md:w-10/12 max-w-width-mx">
             <div className="flex flex-col items-center mx-auto max-w-[920px] text-center">
               <div className="hero-motif flex justify-center mb-3">
@@ -193,7 +193,7 @@ export default function App() {
 
               <h1
                 aria-label={BRAND_IDENTITY.heroHeading}
-                className="inline-flex flex-wrap justify-center items-center gap-x-3 md:gap-x-3.5 gap-y-2 font-season text-tx text-4xl md:text-[52px] leading-[120%] tracking-[-1px]"
+                className="inline-flex flex-wrap justify-center items-center gap-x-3 md:gap-x-3.5 gap-y-2 font-season text-tx text-4xl md:text-[52px] leading-[120%] tracking-[-1px] [text-shadow:0_1px_12px_rgba(255,250,240,0.9)] dark:[text-shadow:0_2px_18px_rgba(7,11,20,0.95),0_0_24px_rgba(7,11,20,0.85)]"
               >
                 <span className="hero-heading-chunk">Longer sessions</span>
                 <span
@@ -210,7 +210,7 @@ export default function App() {
                 <span className="hero-heading-chunk">with better code</span>
               </h1>
 
-              <p className="hero-subheading mt-5 max-w-[620px] font-normal text-tx-secondary text-base md:text-lg leading-relaxed">
+              <p className="hero-subheading mt-5 max-w-[620px] font-normal text-tx-secondary text-base md:text-lg leading-relaxed [text-shadow:0_1px_10px_rgba(255,250,240,0.8)] dark:[text-shadow:0_2px_14px_rgba(7,11,20,0.9)]">
                 {BRAND_IDENTITY.heroSubheading}
               </p>
 
