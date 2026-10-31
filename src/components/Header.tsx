@@ -150,31 +150,29 @@ export const Header: React.FC<HeaderProps> = ({
             <MaxcodeWordmark />
           </a>
 
-          {/* Right: Actions (Theme Toggle, Log In, Try maxcode) */}
-          <div className="flex items-center gap-3">
+          {/* Right: Actions (Theme Toggle & Try maxcode) */}
+          <div className="flex items-center gap-2.5">
             {onToggleTheme && (
               <button
                 type="button"
                 onClick={onToggleTheme}
                 aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
                 title={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-                className="size-8 rounded-lg flex items-center justify-center text-tx-secondary hover:text-tx hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer select-none"
+                className="h-8 px-2.5 rounded-lg border border-st bg-sf-secondary hover:bg-sf-tertiary text-tx shadow-xs transition-all flex items-center gap-1.5 cursor-pointer select-none font-mono text-xs font-medium"
               >
                 {themeMode === 'dark' ? (
-                  <RiSunLine className="size-4 text-amber-400" />
+                  <>
+                    <RiSunLine className="size-4 text-amber-400 shrink-0" />
+                    <span className="text-tx-secondary text-[11px] font-mono tracking-wide">Light</span>
+                  </>
                 ) : (
-                  <RiMoonLine className="size-4" />
+                  <>
+                    <RiMoonLine className="size-4 text-indigo-600 shrink-0" />
+                    <span className="text-tx-secondary text-[11px] font-mono tracking-wide">Dark</span>
+                  </>
                 )}
               </button>
             )}
-
-            <button
-              type="button"
-              onClick={() => onOpenModal('login')}
-              className="h-8 px-3 text-sm font-medium text-tx/85 hover:text-tx hover:bg-black/5 dark:hover:bg-white/10 rounded-lg transition-colors cursor-pointer select-none"
-            >
-              Log in
-            </button>
 
             <button
               type="button"
@@ -257,6 +255,25 @@ export const Header: React.FC<HeaderProps> = ({
                 Docs
               </a>
             </li>
+
+            {/* Prominent Theme Toggle in Floating Island */}
+            {onToggleTheme && (
+              <li className="pl-1 border-l border-st-secondary/40">
+                <button
+                  type="button"
+                  onClick={onToggleTheme}
+                  aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                  title={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                  className="size-7 rounded-md flex items-center justify-center text-tx hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
+                >
+                  {themeMode === 'dark' ? (
+                    <RiSunLine className="size-4 text-amber-400" />
+                  ) : (
+                    <RiMoonLine className="size-4 text-indigo-600" />
+                  )}
+                </button>
+              </li>
+            )}
           </ul>
         </div>
       </div>
@@ -671,12 +688,19 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
               onClick={onToggleTheme}
               aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="size-9 flex items-center justify-center rounded-lg bg-sf-secondary border border-st-secondary text-tx cursor-pointer"
+              title={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              className="h-9 px-2.5 flex items-center gap-1.5 rounded-lg bg-sf-secondary border border-st text-tx shadow-xs transition-all cursor-pointer select-none font-mono text-xs font-medium"
             >
               {themeMode === 'dark' ? (
-                <RiSunLine className="size-4 text-amber-400" />
+                <>
+                  <RiSunLine className="size-4 text-amber-400 shrink-0" />
+                  <span className="text-[11px] font-mono text-tx-secondary">Light</span>
+                </>
               ) : (
-                <RiMoonLine className="size-4" />
+                <>
+                  <RiMoonLine className="size-4 text-indigo-600 shrink-0" />
+                  <span className="text-[11px] font-mono text-tx-secondary">Dark</span>
+                </>
               )}
             </button>
           )}
@@ -791,18 +815,8 @@ export const Header: React.FC<HeaderProps> = ({
               })}
             </div>
 
-            {/* Mobile Bottom Action Buttons */}
-            <div className="pt-8 pb-4 space-y-3">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenModal('login');
-                }}
-                className="w-full h-11 rounded-xl bg-sf-secondary border border-st-secondary text-tx font-medium text-sm flex items-center justify-center cursor-pointer"
-              >
-                Log In
-              </button>
+            {/* Mobile Bottom Action Button */}
+            <div className="pt-8 pb-4">
               <button
                 type="button"
                 onClick={() => {

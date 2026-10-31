@@ -136,6 +136,9 @@
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   body {
@@ -143,6 +146,20 @@
     color: var(--color-tx);
     overflow-x: hidden;
     margin: 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  /* Completely hide horizontal and vertical scrollbars across the entire page */
+  ::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  * {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
   }
 }
 
