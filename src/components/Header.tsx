@@ -150,34 +150,12 @@ export const Header: React.FC<HeaderProps> = ({
             <MaxcodeWordmark />
           </a>
 
-          {/* Right: Actions (Theme Toggle & Try maxcode) */}
-          <div className="flex items-center gap-2.5">
-            {onToggleTheme && (
-              <button
-                type="button"
-                onClick={onToggleTheme}
-                aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-                title={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-                className="h-8 px-2.5 rounded-lg border border-st bg-sf-secondary hover:bg-sf-tertiary text-tx shadow-xs transition-all flex items-center gap-1.5 cursor-pointer select-none font-mono text-xs font-medium"
-              >
-                {themeMode === 'dark' ? (
-                  <>
-                    <RiSunLine className="size-4 text-amber-400 shrink-0" />
-                    <span className="text-tx-secondary text-[11px] font-mono tracking-wide">Light</span>
-                  </>
-                ) : (
-                  <>
-                    <RiMoonLine className="size-4 text-indigo-600 shrink-0" />
-                    <span className="text-tx-secondary text-[11px] font-mono tracking-wide">Dark</span>
-                  </>
-                )}
-              </button>
-            )}
-
+          {/* Right: Primary Action */}
+          <div className="flex items-center gap-3">
             <button
               type="button"
               onClick={() => onOpenModal('try')}
-              className="inline-flex cursor-pointer items-center justify-center whitespace-nowrap font-medium transition-all active:scale-[0.98] bg-sf-invert text-tx-invert shadow-[inset_0_-2px_0_0_rgba(0,0,0,0.2)] hover:bg-sf-invert/90 h-8 px-3.5 text-xs sm:text-sm gap-1.5 rounded-[8px]"
+              className="inline-flex cursor-pointer items-center justify-center whitespace-nowrap font-medium transition-all active:scale-[0.98] bg-sf-invert text-tx-invert shadow-[0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.15)] hover:bg-sf-invert/90 h-8 px-3.5 text-xs sm:text-sm gap-1.5 rounded-[8px]"
             >
               <span>Try maxcode</span>
             </button>
@@ -256,20 +234,20 @@ export const Header: React.FC<HeaderProps> = ({
               </a>
             </li>
 
-            {/* Prominent Theme Toggle in Floating Island */}
+            {/* High-end theme toggle on the navigation bar */}
             {onToggleTheme && (
-              <li className="pl-1 border-l border-st-secondary/40">
+              <li className="flex items-center pl-1.5 ml-1 border-l border-st-secondary/60 dark:border-white/10">
                 <button
                   type="button"
                   onClick={onToggleTheme}
                   aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-                  title={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-                  className="size-7 rounded-md flex items-center justify-center text-tx hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
+                  title={themeMode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+                  className="size-7 rounded-md flex items-center justify-center text-tx/80 hover:text-tx hover:bg-black/5 dark:hover:bg-white/10 active:scale-90 transition-all cursor-pointer group"
                 >
                   {themeMode === 'dark' ? (
-                    <RiSunLine className="size-4 text-amber-400" />
+                    <RiSunLine className="size-4 text-amber-400 group-hover:rotate-45 transition-transform duration-300" />
                   ) : (
-                    <RiMoonLine className="size-4 text-indigo-600" />
+                    <RiMoonLine className="size-4 text-indigo-600 group-hover:-rotate-12 transition-transform duration-300" />
                   )}
                 </button>
               </li>
@@ -688,19 +666,13 @@ export const Header: React.FC<HeaderProps> = ({
               type="button"
               onClick={onToggleTheme}
               aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              title={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="h-9 px-2.5 flex items-center gap-1.5 rounded-lg bg-sf-secondary border border-st text-tx shadow-xs transition-all cursor-pointer select-none font-mono text-xs font-medium"
+              title={themeMode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+              className="size-9 flex items-center justify-center rounded-xl bg-sf-secondary/80 border border-st/80 text-tx hover:bg-sf-tertiary active:scale-90 transition-all cursor-pointer select-none"
             >
               {themeMode === 'dark' ? (
-                <>
-                  <RiSunLine className="size-4 text-amber-400 shrink-0" />
-                  <span className="text-[11px] font-mono text-tx-secondary">Light</span>
-                </>
+                <RiSunLine className="size-4.5 text-amber-400" />
               ) : (
-                <>
-                  <RiMoonLine className="size-4 text-indigo-600 shrink-0" />
-                  <span className="text-[11px] font-mono text-tx-secondary">Dark</span>
-                </>
+                <RiMoonLine className="size-4.5 text-indigo-600" />
               )}
             </button>
           )}
