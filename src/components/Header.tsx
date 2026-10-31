@@ -207,7 +207,7 @@ export const Header: React.FC<HeaderProps> = ({
                       'relative z-10 h-7 px-3 text-sm font-medium rounded-md transition-colors flex items-center gap-1 cursor-pointer select-none',
                       isOpen
                         ? 'text-tx font-semibold'
-                        : 'text-tx/80 hover:text-tx hover:bg-black/5 dark:hover:bg-white/5'
+                        : 'text-tx hover:text-tx-secondary hover:bg-black/5 dark:text-tx/90 dark:hover:text-tx dark:hover:bg-white/5'
                     )}
                   >
                     {isOpen && (
@@ -228,7 +228,7 @@ export const Header: React.FC<HeaderProps> = ({
             <li>
               <a
                 href={docUrl('/docs')}
-                className="h-7 px-3 text-sm font-medium text-tx/80 hover:text-tx hover:bg-black/5 dark:hover:bg-white/5 rounded-md transition-colors flex items-center cursor-pointer"
+                className="h-7 px-3 text-sm font-medium text-tx hover:text-tx-secondary hover:bg-black/5 dark:text-tx/90 dark:hover:text-tx dark:hover:bg-white/5 rounded-md transition-colors flex items-center cursor-pointer"
               >
                 Docs
               </a>
@@ -242,7 +242,7 @@ export const Header: React.FC<HeaderProps> = ({
                   onClick={onToggleTheme}
                   aria-label={themeMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
                   title={themeMode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-                  className="size-7 rounded-md flex items-center justify-center text-tx/80 hover:text-tx hover:bg-black/5 dark:hover:bg-white/10 active:scale-90 transition-all cursor-pointer group"
+                  className="size-7 rounded-md flex items-center justify-center text-tx hover:text-tx-secondary hover:bg-black/5 dark:text-tx/90 dark:hover:text-tx dark:hover:bg-white/10 active:scale-90 transition-all cursor-pointer group"
                 >
                   {themeMode === 'dark' ? (
                     <RiSunLine className="size-4 text-amber-400 group-hover:rotate-45 transition-transform duration-300" />

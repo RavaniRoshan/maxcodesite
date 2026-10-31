@@ -17,7 +17,7 @@ import {
   HeroAtmosphericBackdrop,
   TrainingAtmosphericBackdrop,
 } from './components/AtmosphericBackdrops';
-import { HeroPixelCascadeBackdrop } from './components/HeroPixelCascadeBackdrop';
+import { HeroTidalStippleBackdrop } from './components/HeroTidalStippleBackdrop';
 import { Header } from './components/Header';
 import { HeroAnnouncement } from './components/HeroAnnouncement';
 import { AgentTerminal } from './components/AgentTerminal';
@@ -163,8 +163,8 @@ export default function App() {
 
   return (
     <div id="top" ref={mainRef} className="min-h-screen bg-sf text-tx antialiased transition-colors duration-300 relative">
-      {/* Originkit Pixelcascade Backdrop: Starts at top=0 behind header, wordmark, and nav */}
-      <HeroPixelCascadeBackdrop themeMode={themeMode} />
+      {/* Originkit Tidal Stipple (OrchidFlurry) Backdrop: Starts at top=0 behind header, wordmark, and nav */}
+      <HeroTidalStippleBackdrop themeMode={themeMode} />
 
       {/* Fixed Site Header with Mega-Menus & Dark Mode Toggle */}
       <Header
